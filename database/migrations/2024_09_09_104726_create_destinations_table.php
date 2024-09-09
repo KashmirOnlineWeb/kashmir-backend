@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('destinations', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('slug');
+            $table->string('name')->nullable();
+            $table->string('slug')->nullable();
             $table->string('title');
             $table->text('short_description');
             $table->text('description');
             $table->text('highlights_content');
-            $table->string('image');
-            $table->string('image_alt');
+            $table->string('image')->nullable();
+            $table->string('image_alt')->nullable();
             $table->text('image_gallery');
             $table->tinyInteger('destination_type')->comment('1=top,2=religious')->default(1);
             $table->bigInteger('city_id')->nullable()->unsigned();

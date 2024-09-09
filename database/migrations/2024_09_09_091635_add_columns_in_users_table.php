@@ -12,14 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('first_name')->after('id');
-            $table->string('middle_name')->after('first_name');
-            $table->string('last_name')->after('middle_name');
-            $table->string('slug')->after('last_name');
-            $table->string('dob')->after('slug');
+            $table->string('first_name')->after('id')->nullable();
+            $table->string('middle_name')->after('first_name')->nullable();
+            $table->string('last_name')->after('middle_name')->nullable();
+            $table->string('slug')->after('last_name')->nullable();
+            $table->string('dob')->after('slug')->nullable();
             $table->bigInteger('role_id')->after('name')->unsigned()->nullable();
-            $table->string('profile_image')->after('role_id');
-            $table->string('mobile')->after('profile_image');
+            $table->string('profile_image')->after('role_id')->nullable();
+            $table->string('mobile')->after('profile_image')->nullable();
 
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
         });
