@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Validation\Rule;
@@ -75,7 +76,36 @@ class DestinationController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view('destination.edit');
+        //$destination = Destination::find($request->id);
+        $meta = (object) [
+            'meta_title' => 'Sample Meta Title',
+            'meta_description' => 'Sample Meta Description',
+            'keywords' => 'sample, meta, keywords'
+        ];
+
+        return view('Destination.edit', compact( 'meta'));
+    }
+
+    /**
+     * Create the destination information.
+     */
+    public function create(Request $request): View
+    {
+        $meta = (object) [
+            'meta_title' => 'Sample Meta Title',
+            'meta_description' => 'Sample Meta Description',
+            'keywords' => 'sample, meta, keywords'
+        ];
+
+        return view('Destination.edit', compact('meta'));
+    }
+
+     /**
+     * Store the destination information.
+     */
+    public function store(Request $request): View
+    {
+        return view('destination.store');
     }
 
     /**
