@@ -5,7 +5,12 @@
  */
 
 import './bootstrap';
-import { createApp } from 'vue';
+import { createApp, ref, onMounted, onUnmounted } from 'vue';
+import DropdownMenu from './components/DropdownMenu.vue';
+import SeoFields from './components/SeoFields.vue';
+import Tabs from './components/Tabs.vue';
+import Tab from './components/Tab.vue';
+import SliderComponent from './components/SliderComponent.vue';
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -13,9 +18,65 @@ import { createApp } from 'vue';
  * to use in your application's views. An example is included for you.
  */
 
-const app = createApp({});
+const app = createApp({
+    setup() {
+        const mobileMenuOpen = ref(false);
+        const userMenuOpen = ref(false);
+        const isDesktop = ref(window.innerWidth >= 768);
 
-import ExampleComponent from './components/ExampleComponent.vue';
+        const toggleMobileMenu = () => {
+            mobileMenuOpen.value = !mobileMenuOpen.value;
+        };
+
+        const toggleUserMenu = () => {
+            userMenuOpen.value = !userMenuOpen.value;
+        };
+
+        const handleResize = () => {
+            const wasDesktop = isDesktop.value;
+            isDesktop.value = window.innerWidth >= 768;
+            if (!wasDesktop && isDesktop.value) {
+                // Transitioning from mobile to desktop
+                mobileMenuOpen.value = true;
+            } else if (wasDesktop && !isDesktop.value) {
+                // Transitioning from desktop to mobile
+                mobileMenuOpen.value = false;
+            }
+        };
+
+        const handleClickOutside = (event) => {
+            if (!event.target.closest('#app')) {
+                userMenuOpen.value = false;
+                mobileMenuOpen.value = false;
+            }
+        };
+
+        onMounted(() => {
+            window.addEventListener('resize', handleResize);
+            document.addEventListener('click', handleClickOutside);
+            handleResize(); // Call on initial load
+        });
+
+        onUnmounted(() => {
+            window.removeEventListener('resize', handleResize);
+            document.removeEventListener('click', handleClickOutside);
+        });
+
+        return {
+            mobileMenuOpen,
+            userMenuOpen,
+            isDesktop,
+            toggleMobileMenu,
+            toggleUserMenu
+        };
+    }
+});
+
+app.component('dropdown-menu', DropdownMenu);
+app.component('seo-fields', SeoFields);
+app.component('tabs', Tabs);
+app.component('tab', Tab);
+app.component('slider-component', SliderComponent);
 
 /**
  * The following block of code may be used to automatically register your
