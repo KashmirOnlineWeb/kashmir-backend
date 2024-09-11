@@ -89,9 +89,9 @@ class DestinationController extends Controller
     public function create(Request $request): View
     {
         $meta = (object) [
-            'meta_title' => 'Sample Meta Title',
-            'meta_description' => 'Sample Meta Description',
-            'keywords' => 'sample, meta, keywords'
+            'meta_title' => '',
+            'meta_description' => '',
+            'keywords' => ''
         ];
 
         return view('Destination.edit', compact('meta'));

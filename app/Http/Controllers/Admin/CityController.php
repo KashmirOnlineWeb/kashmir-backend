@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Log;
 use App\Models\City;
+use App\Models\Meta;
 
 class CityController extends Controller
 {
@@ -31,7 +32,13 @@ class CityController extends Controller
      */
     public function create(Request $request): View
     {
-        return view('city.edit');
+        $meta = (object) [
+            'meta_title' => '',
+            'meta_description' => '',
+            'keywords' => ''
+        ];
+
+        return view('city.edit', compact('meta'));
     }
 
     /**
@@ -46,6 +53,12 @@ class CityController extends Controller
                             'slug'      => 'required|string',
                             'zip_code'  => 'required|string'
                         ]);
+            
+            $meta = Meta::create([
+                'meta_title' => $data['meta_title'],
+                'meta_description' => $data['meta_description'],
+                'keywords' => $data['keywords'],
+            ]);
 
             $response = City::create([
                                     'name'               => $data['name'],
@@ -53,8 +66,9 @@ class CityController extends Controller
                                     'description'        => $data['description'],
                                     'highlights_content' => $data['highlights_content'],
                                     'zip_code'           => $data['zip_code'],
-                                    'image'              => $data['image'],
+                                    //'image'              => $data['image'],
                                     'image_alt'          => $data['image_alt'],
+                                    'meta_id'            => $meta->id,
                                     //'time_to_visit'      => $data['time_to_visit'],
                                 ]);
 
@@ -67,9 +81,11 @@ class CityController extends Controller
     /**
      * Display the city form.
      */
-    public function edit(Request $request): View
+    public function edit(Request $request, $id): View
     {
-        return view('city.edit');
+        $city = City::findOrFail($id);
+        $meta = Meta::findOrFail($city->meta_id);
+        return view('city.edit', compact('city', 'meta'));
     }
 
     /**
