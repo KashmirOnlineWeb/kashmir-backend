@@ -44,10 +44,11 @@
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm font-medium text-gray-900">{{ $destination->name }}</div>
+                            <div class="text-sm font-medium text-gray-500">/{{ $destination->slug }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-500">
-                                {{ $destination->type == 1 ? 'Religious' : 'Non-Religious' }}</div>
+                                {{ $destination->destination_type == 2 ? 'Religious' : 'Non-Religious' }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-500">{{ $destination->city }}</div>

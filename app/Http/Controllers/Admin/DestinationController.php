@@ -28,14 +28,6 @@ class DestinationController extends Controller
     }
 
     /**
-     * Create the destination form.
-     */
-    public function create(Request $request): View
-    {
-        return view('destination.edit');
-    }
-
-    /**
      * Store the destination form.
      */
     public function store(Request $request): RedirectResponse
@@ -45,7 +37,9 @@ class DestinationController extends Controller
             $request->validate([
                             'name' => 'required|string',
                             'slug' => 'required|string',
-                            'title' => 'required|string',
+                            'description' => 'required',
+                            'highlights_content' => 'required',
+                            //'title' => 'required|string',
                             'destination_type' => 'required|integer|min:1|digits_between:1,2',
                             //'city_id' => 'required|string',
                             //'meta_id' => 'required|string',
@@ -54,8 +48,8 @@ class DestinationController extends Controller
             $result = Destination::create([
                             'name'              => $data['name'],
                             'slug'              => $data['slug'],
-                            'title'             => $data['title'],
-                            'short_description' => $data['short_description'],
+                            //'title'             => $data['title'],
+                            //'short_description' => $data['short_description'],
                             'description'       => $data['description'],
                             'highlights_content' => $data['highlights_content'],
                             //'image'           => $data['image'],
@@ -100,14 +94,7 @@ class DestinationController extends Controller
         return view('Destination.edit', compact('meta'));
     }
 
-     /**
-     * Store the destination information.
-     */
-    public function store(Request $request): View
-    {
-        return view('destination.store');
-    }
-
+    
     /**
      * Update the destination information.
      */
