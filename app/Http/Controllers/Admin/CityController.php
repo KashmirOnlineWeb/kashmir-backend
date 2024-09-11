@@ -18,7 +18,12 @@ class CityController extends Controller
      */
     public function index()
     {
-        return view('city.index');
+        try {
+            $cities = City::orderBy('id','desc')->paginate(12);
+            return view('city.index')->with(['cities' => $cities]);
+        } catch (Exception $e) {
+            Log::error('Somethinng went wrong in city index.');
+        }
     }
 
     /**

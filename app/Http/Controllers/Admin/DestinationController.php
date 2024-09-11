@@ -18,9 +18,12 @@ class DestinationController extends Controller
      */
     public function index()
     {
-        $destinations = Destination::orderBy('id','desc')->paginate(12);
-        
-        return view('destination.index')->with(['destinations' => $destinations]);
+        try {
+            $destinations = Destination::orderBy('id','desc')->paginate(12);
+            return view('destination.index')->with(['destinations' => $destinations]);
+        } catch (Exception $e) {
+            Log::error('Somethinng went wrong in destination index.');
+        }
     }
 
     /**
