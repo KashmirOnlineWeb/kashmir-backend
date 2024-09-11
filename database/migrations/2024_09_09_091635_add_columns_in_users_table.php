@@ -36,7 +36,7 @@ return new class extends Migration
             $table->dropColumn('last_name');
             $table->dropColumn('slug');
             $table->dropColumn('dob');
-            $table->dropColumn('role_id');
+            $table->dropForeign('role_id');
             $table->dropColumn('profile_image');
             $table->dropColumn('mobile');
         });

@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->string('slug')->nullable();
-            $table->text('description');
-            $table->text('highlights_content');
-            $table->string('zip_code');
+            $table->text('description')->nullable();
+            $table->text('highlights_content')->nullable();
+            $table->string('zip_code')->nullable();
             $table->string('image')->nullable();
             $table->string('image_alt')->nullable();
             $table->bigInteger('meta_id')->nullable()->unsigned();
