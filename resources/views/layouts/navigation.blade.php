@@ -12,7 +12,7 @@
         Pages
     </x-nav-link>
 
-    <span class="text-gray-500 text-xs font-semibold mt-10">In Progress</span>
+    <span class="text-gray-500 text-xs font-semibold mt-10">Planned for future</span>
     <a href="#"
         class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 font-semibold hover:bg-gray-200 transition-all hover:text-primary">Users
     </a>
