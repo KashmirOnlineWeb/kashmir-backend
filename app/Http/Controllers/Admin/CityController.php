@@ -21,7 +21,7 @@ class CityController extends Controller
     {
         try {
             $cities = City::orderBy('id','desc')->paginate(12);
-            return view('city.index')->with(['cities' => $cities]);
+            return view('City.index')->with(['cities' => $cities]);
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in city index.');
         }
@@ -38,7 +38,7 @@ class CityController extends Controller
             'keywords' => ''
         ];
 
-        return view('city.edit', compact('meta'));
+        return view('City.edit', compact('meta'));
     }
 
     /**
@@ -72,7 +72,7 @@ class CityController extends Controller
                                     //'time_to_visit'      => $data['time_to_visit'],
                                 ]);
 
-            return Redirect::route('city.edit',$response->id);
+            return Redirect::route('City.edit',$response->id);
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in city store.');
         }
@@ -85,7 +85,7 @@ class CityController extends Controller
     {
         $city = City::findOrFail($id);
         $meta = Meta::findOrFail($city->meta_id);
-        return view('city.edit', compact('city', 'meta'));
+        return view('City.edit', compact('city', 'meta'));
     }
 
     /**
@@ -97,7 +97,7 @@ class CityController extends Controller
     }
 
     /**
-     * Delete the city.
+     * Delete the City.
      */
     public function destroy(Request $request): RedirectResponse
     {

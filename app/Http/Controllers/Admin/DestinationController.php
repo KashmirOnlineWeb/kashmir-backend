@@ -21,7 +21,7 @@ class DestinationController extends Controller
     {
         try {
             $destinations = Destination::orderBy('id','desc')->paginate(12);
-            return view('destination.index')->with(['destinations' => $destinations]);
+            return view('Destination.index')->with(['destinations' => $destinations]);
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in destination index.');
         }
@@ -65,7 +65,7 @@ class DestinationController extends Controller
                             'meta_id'           => $meta->id,
                         ]);
 
-            return Redirect::route('destination.edit',$result->id);
+            return Redirect::route('Destination.edit',$result->id);
 
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in destination store.');
@@ -107,7 +107,7 @@ class DestinationController extends Controller
     }
 
     /**
-     * Delete the destination.
+     * Delete the Destination.
      */
     public function destroy(Request $request): RedirectResponse
     {
