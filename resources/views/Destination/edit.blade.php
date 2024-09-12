@@ -12,7 +12,6 @@
         @if (isset($destination))
             @method('PUT')
         @endif
-
         <!-- Section 1 and Section 3 -->
         <div class="flex flex-wrap -mx-2 mb-4 border-b border-gray-200">
             <div class="w-full md:w-1/2 px-2 mb-4">
@@ -21,7 +20,8 @@
                     <p class="text-sm text-gray-600 mb-4">Provide the basic details of the destination.</p>
                     <div class="mb-4">
                         <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                        <input type="text" name="name" id="name" value="{{ $destination->name ?? '' }}"
+                        <input type="text" name="name" id="name"
+                            value="{{ old('name', $destination->name ?? '') }}"
                             class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
                         @error('name')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -29,7 +29,8 @@
                     </div>
                     <div class="mb-4">
                         <label for="slug" class="block text-sm font-medium text-gray-700">Slug</label>
-                        <input type="text" name="slug" id="slug" value="{{ $destination->slug ?? '' }}"
+                        <input type="text" name="slug" id="slug"
+                            value="{{ old('slug', $destination->slug ?? '') }}"
                             class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
                         @error('slug')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -51,7 +52,7 @@
                         <label for="image_alt" class="block text-sm font-medium text-gray-700">Featured Image Alt
                             Text</label>
                         <input type="text" name="image_alt" id="image_alt"
-                            value="{{ $destination->image_alt ?? '' }}"
+                            value="{{ old('image_alt', $destination->image_alt ?? '') }}"
                             class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
                     </div>
                 </div>
@@ -68,7 +69,7 @@
                         <div class="mb-4">
                             <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
                             <textarea name="description" id="description"
-                                class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1 tinymce">{{ $destination->description ?? '' }}</textarea>
+                                class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1 tinymce">{{ old('description', $destination->description ?? '') }}</textarea>
                         </div>
                     </div>
                 </tab>
@@ -78,7 +79,7 @@
                             <label for="highlights_content" class="block text-sm font-medium text-gray-700">Highlights
                                 Content</label>
                             <textarea name="highlights_content" id="highlights_content"
-                                class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1 tinymce">{{ $destination->highlights_content ?? '' }}</textarea>
+                                class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1 tinymce">{{ old('highlights_content', $destination->highlights_content ?? '') }}</textarea>
                         </div>
                     </div>
                 </tab>
@@ -134,7 +135,8 @@
 
         <!-- SEO Fields Section -->
         <div id="seo-fields">
-            <seo-fields :meta='@json($meta)'></seo-fields>
+            <seo-fields :meta='@json($meta)' v-model:meta-title="metaTitle"
+                v-model:meta-description="metaDescription" v-model:keywords="keywords"></seo-fields>
         </div>
 
         <div class="mb-4">
@@ -155,5 +157,16 @@
         height: 500,
         branding: false, // Disable TinyMCE branding
         promotion: false // Disable TinyMCE promotion
+    });
+</script>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            metaTitle: '{{ old('meta_title', $meta->meta_title ?? '') }}',
+            metaDescription: '{{ old('meta_description', $meta->meta_description ?? '') }}',
+            keywords: '{{ old('keywords', $meta->keywords ?? '') }}'
+        }
     });
 </script>

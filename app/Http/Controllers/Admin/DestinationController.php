@@ -11,7 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Log;
 use App\Models\Destination;
-
+use App\Models\Meta;
 class DestinationController extends Controller
 {
     /**
@@ -21,7 +21,7 @@ class DestinationController extends Controller
     {
         try {
             $destinations = Destination::orderBy('id','desc')->paginate(12);
-            return view('destination.index')->with(['destinations' => $destinations]);
+            return view('Destination.index')->with(['destinations' => $destinations]);
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in destination index.');
         }
@@ -41,9 +41,15 @@ class DestinationController extends Controller
                             'highlights_content' => 'required',
                             //'title' => 'required|string',
                             'destination_type' => 'required|integer|min:1|digits_between:1,2',
-                            //'city_id' => 'required|string',
                             //'meta_id' => 'required|string',
                         ]);
+            
+                        // save meta data
+            $meta = Meta::create([
+                'meta_title' => $data['meta_title'],
+                'meta_description' => $data['meta_description'],
+                'keywords' => $data['keywords'],
+            ]);
 
             $result = Destination::create([
                             'name'              => $data['name'],
@@ -56,9 +62,10 @@ class DestinationController extends Controller
                             'image_alt'         => $data['image_alt'],
                             //'image_gallery'   => $data['image_gallery'],
                             'destination_type'  => $data['destination_type'],
+                            'meta_id'           => $meta->id,
                         ]);
 
-            return Redirect::route('destination.edit',$result->id);
+            return Redirect::route('Destination.edit',$result->id);
 
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in destination store.');
@@ -68,16 +75,12 @@ class DestinationController extends Controller
     /**
      * Display the destination form.
      */
-    public function edit(Request $request): View
-    {
-        //$destination = Destination::find($request->id);
-        $meta = (object) [
-            'meta_title' => 'Sample Meta Title',
-            'meta_description' => 'Sample Meta Description',
-            'keywords' => 'sample, meta, keywords'
-        ];
+    public function edit(Request $request, $id): View
+    {   
+        $destination = Destination::findOrFail($id);
+        $meta = Meta::findOrFail($destination->meta_id);
 
-        return view('Destination.edit', compact( 'meta'));
+        return view('Destination.edit', compact('destination', 'meta'));
     }
 
     /**
@@ -86,9 +89,9 @@ class DestinationController extends Controller
     public function create(Request $request): View
     {
         $meta = (object) [
-            'meta_title' => 'Sample Meta Title',
-            'meta_description' => 'Sample Meta Description',
-            'keywords' => 'sample, meta, keywords'
+            'meta_title' => '',
+            'meta_description' => '',
+            'keywords' => ''
         ];
 
         return view('Destination.edit', compact('meta'));
@@ -104,7 +107,7 @@ class DestinationController extends Controller
     }
 
     /**
-     * Delete the destination.
+     * Delete the Destination.
      */
     public function destroy(Request $request): RedirectResponse
     {
