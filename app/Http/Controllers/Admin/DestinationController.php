@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Log;
 use App\Models\Destination;
 use App\Models\Meta;
+
 class DestinationController extends Controller
 {
     /**
