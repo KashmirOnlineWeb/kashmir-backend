@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\HospitalController;
 use App\Http\Controllers\Admin\PharmacyController;
 use App\Http\Controllers\Admin\CollageAndSchoolController;
 use App\Http\Controllers\Admin\HelperController;
+use App\Http\Controllers\Admin\RestourantController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -28,16 +29,17 @@ Route::middleware(['auth'])->group(function () {
     /* Hotel */
     Route::resource('/hotel', HotelController::class)->names('hotel');
 
-    /* Destination */
+    /* Hospital */
     Route::resource('/hospital', HospitalController::class)->names('hospital');
 
-    /* Destination */
+    /* Pharmacy */
     Route::resource('/pharmacy', PharmacyController::class)->names('pharmacy');
 
-    /* Destination */
+    /* Collage and school */
     Route::resource('/collageandschool', CollageAndSchoolController::class)->names('collageandschool');
 
-    //Route::post('books/store', [HelperController::class, 'store'])->name('books.store');
+    /* Restourant */
+    Route::resource('/restourant', RestourantController::class)->names('restourant');
 });
 
 Route::prefix('api')->middleware(['auth'])->group(function () {
