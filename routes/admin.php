@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\HotelController;
 use App\Http\Controllers\Admin\HospitalController;
 use App\Http\Controllers\Admin\PharmacyController;
 use App\Http\Controllers\Admin\CollageAndSchoolController;
+use App\Http\Controllers\Admin\HelperController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -35,4 +36,11 @@ Route::middleware(['auth'])->group(function () {
 
     /* Destination */
     Route::resource('/collageandschool', CollageAndSchoolController::class)->names('collageandschool');
+
+    //Route::post('books/store', [HelperController::class, 'store'])->name('books.store');
+});
+
+Route::prefix('api')->middleware(['auth'])->group(function () {
+    /* Helper */
+    Route::post('image', [HelperController::class, 'uploadImage'])->name('image');
 });
