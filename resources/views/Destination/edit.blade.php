@@ -135,8 +135,10 @@
 
         <!-- SEO Fields Section -->
         <div id="seo-fields">
-            <seo-fields :meta='@json($meta)' v-model:meta-title="metaTitle"
-                v-model:meta-description="metaDescription" v-model:keywords="keywords"></seo-fields>
+            <seo-fields :meta-title="'{{ old('meta_title', $meta->meta_title ?? '') }}'"
+                :meta-description="'{{ old('meta_description', $meta->meta_description ?? '') }}'"
+                :keywords="'{{ old('keywords', $meta->keywords ?? '') }}'">
+            </seo-fields>
         </div>
 
         <div class="mb-4">
@@ -157,16 +159,5 @@
         height: 500,
         branding: false, // Disable TinyMCE branding
         promotion: false // Disable TinyMCE promotion
-    });
-</script>
-
-<script>
-    new Vue({
-        el: '#app',
-        data: {
-            metaTitle: '{{ old('meta_title', $meta->meta_title ?? '') }}',
-            metaDescription: '{{ old('meta_description', $meta->meta_description ?? '') }}',
-            keywords: '{{ old('keywords', $meta->keywords ?? '') }}'
-        }
     });
 </script>

@@ -46,19 +46,19 @@ class HotelController extends Controller
                             'name'      => 'required|string',
                             'status'    => 'required|integer|digits_between:0,1',
                             'slug'      => 'required|string',
-                            'min_price' => 'numeric',
+                            'price' => 'numeric',
                         ]);
 
             $response = Hotel::create([
                                         'name'      => $data['name'],
-                                        'image'     => $data['image'],
+                                        //'image'     => $data['image'],
                                         'image_alt' => $data['image_alt'],
                                         'status'    => $data['status'],
                                         'slug'      => $data['slug'],
-                                        'min_price' => $data['min_price']
+                                        'price' => $data['price']
                                     ]);
 
-            return Redirect::route('Hotel.edit',$response->id);
+            return Redirect::route('hotel.index',$response->id);
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in hotel store.');
         }

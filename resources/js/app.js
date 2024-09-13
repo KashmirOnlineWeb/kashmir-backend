@@ -11,6 +11,7 @@ import SeoFields from './components/SeoFields.vue';
 import Tabs from './components/Tabs.vue';
 import Tab from './components/Tab.vue';
 import SliderComponent from './components/SliderComponent.vue';
+import Pharmacies from './components/Pharmacies.vue';
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -23,6 +24,10 @@ const app = createApp({
         const mobileMenuOpen = ref(false);
         const userMenuOpen = ref(false);
         const isDesktop = ref(window.innerWidth >= 768);
+
+        const metaTitle = ref('');
+        const metaDescription = ref('');
+        const keywords = ref('');
 
         const toggleMobileMenu = () => {
             mobileMenuOpen.value = !mobileMenuOpen.value;
@@ -67,7 +72,10 @@ const app = createApp({
             userMenuOpen,
             isDesktop,
             toggleMobileMenu,
-            toggleUserMenu
+            toggleUserMenu,
+            metaTitle,
+            metaDescription,
+            keywords
         };
     }
 });
@@ -77,6 +85,7 @@ app.component('seo-fields', SeoFields);
 app.component('tabs', Tabs);
 app.component('tab', Tab);
 app.component('slider-component', SliderComponent);
+app.component('pharmacies', Pharmacies);
 
 /**
  * The following block of code may be used to automatically register your

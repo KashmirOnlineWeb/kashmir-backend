@@ -25,22 +25,26 @@
 import { ref, defineProps, defineEmits, watch } from 'vue';
 
 const props = defineProps({
-  meta: {
-    type: Object,
-    default: () => ({
-      meta_title: '',
-      meta_description: '',
-      keywords: ''
-    })
+  metaTitle: {
+    type: String,
+    default: ''
+  },
+  metaDescription: {
+    type: String,
+    default: ''
+  },
+  keywords: {
+    type: String,
+    default: ''
   }
 });
 
 const emit = defineEmits(['update:meta-title', 'update:meta-description', 'update:keywords']);
 
 const open = ref(true);
-const metaTitle = ref(props.meta.meta_title);
-const metaDescription = ref(props.meta.meta_description);
-const keywords = ref(props.meta.keywords);
+const metaTitle = ref(props.metaTitle);
+const metaDescription = ref(props.metaDescription);
+const keywords = ref(props.keywords);
 
 watch(metaTitle, (newValue) => emit('update:meta-title', newValue));
 watch(metaDescription, (newValue) => emit('update:meta-description', newValue));
