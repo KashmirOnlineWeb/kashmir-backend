@@ -9,10 +9,10 @@
         Destinations
     </x-nav-link>
     <nav class="grid items-start px-2 text-sm font-normal lg:pl-2">
-        <x-nav-link href="{{ route('destination.index') }}">
+        <x-nav-link href="{{ route('hotel.index') }}">
             • Hotels
         </x-nav-link>
-        <x-nav-link href="{{ route('destination.index') }}">
+        <x-nav-link href="{{ route('pharmacy.index') }}">
             • Pharmacies
         </x-nav-link>
         <x-nav-link href="{{ route('destination.index') }}">
