@@ -7,11 +7,6 @@
                 </h1>
             </div>
         </div>
-        <?php 
-        print_r('<pre>');
-        print_r($errors);
-        print_r('</pre>');
-        ?>
         <form action="{{ isset($hotel) ? route('hotel.update', $hotel->id) : route('hotel.store') }}" method="POST"
             enctype="multipart/form-data">
             @csrf
@@ -82,22 +77,6 @@
                             @enderror
                         </div>
                         <div class="mb-4">
-                            <label for="balcony" class="block text-sm font-medium text-gray-700">Balcony</label>
-                            <select name="balcony" id="balcony"
-                                class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
-                                <option value="0"
-                                    {{ old('balcony', $hotel->balcony ?? 0) == 0 ? 'selected' : '' }}>
-                                    Not Available</option>
-                                <option value="1"
-                                    {{ old('balcony', $hotel->balcony ?? 0) == 1 ? 'selected' : '' }}>
-                                    Available
-                                </option>
-                            </select>
-                            @error('balcony')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="mb-4">
                             <label for="star" class="block text-sm font-medium text-gray-700">Star</label>
                             <select name="star" id="star"
                                 class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
@@ -137,10 +116,8 @@
                         <h2 class="text-md font-semibold mb-2">Featured Image</h2>
                         <p class="text-sm text-gray-600 mb-4">To show in cards.</p>
                         <div class="mb-4">
-                            <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
-                            <input type="hidden" name="image">
-                            <input type="file" name="image" id="image"
-                                class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
+                            <image-uploader name="image" id="image"
+                                class="mt-1 block rounded-md border-gray-200 shadow-sm py-1"></image-uploader>
                         </div>
                         <div class="mb-4">
                             <label for="image_alt" class="block text-sm font-medium text-gray-700">Featured Image
@@ -214,9 +191,12 @@
                                 class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
                                 <option value="0"
                                     {{ old('breakfast', $hotel->breakfast ?? 0) == 0 ? 'selected' : '' }}>
-                                    Available</option>
+                                    Not Available</option>
                                 <option value="1"
                                     {{ old('breakfast', $hotel->breakfast ?? 0) == 1 ? 'selected' : '' }}>
+                                    Available</option>
+                                <option value="2"
+                                    {{ old('breakfast', $hotel->breakfast ?? 0) == 2 ? 'selected' : '' }}>
                                     Available a extra charges</option>
                             </select>
                         </div>
