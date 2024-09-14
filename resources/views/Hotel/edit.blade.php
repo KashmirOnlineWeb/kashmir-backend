@@ -7,6 +7,7 @@
                 </h1>
             </div>
         </div>
+        
         <form action="{{ isset($hotel) ? route('hotel.update', $hotel->id) : route('hotel.store') }}" method="POST"
             enctype="multipart/form-data">
             @csrf
@@ -133,6 +134,7 @@
                         <p class="text-sm text-gray-600 mb-4">To show in cards.</p>
                         <div class="mb-4">
                             <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
+                            <input type="hidden" name="image">
                             <input type="file" name="image" id="image"
                                 class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
                         </div>
@@ -262,13 +264,6 @@
                             <label for="city_id" class="block text-sm font-medium text-gray-700">City</label>
                             <select name="city_id" id="city_id"
                                 class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
-                                @php
-                                    $cities = [
-                                        (object) ['id' => 1, 'name' => 'New York'],
-                                        (object) ['id' => 2, 'name' => 'Los Angeles'],
-                                        (object) ['id' => 3, 'name' => 'Chicago'],
-                                    ];
-                                @endphp
                                 @foreach ($cities as $city)
                                     <option value="{{ $city->id }}"
                                         {{ isset($hotel) && $hotel->city_id == $city->id ? 'selected' : '' }}>
