@@ -13,24 +13,7 @@
             </div>
           </div>
           <div class="flex-shrink-0">
-            <div class="relative cursor-pointer" @click="triggerFileInput(index)">
-              <input type="file" :id="'image-' + index" @change="onFileChange($event, index)" class="hidden" ref="fileInput">
-              <img v-if="element.file" :src="element.file" alt="Preview" class="w-24 h-24 rounded-md border border-gray-200">
-              <div v-else class="w-24 h-24 flex items-center justify-center border border-dashed border-gray-300 rounded-md px-2">
-                <span class="text-gray-500 text-xs">Click to upload image</span>
-              </div>
-              <div v-if="element.file" class="absolute top-0 right-0 p-1 bg-white rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M4 3a1 1 0 000 2h12a1 1 0 100-2H4zM3 7a1 1 0 011-1h12a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1V7zm2 1v7h10V8H5z" />
-                </svg>
-              </div>
-              <div v-if="element.uploading" class="absolute inset-0 flex items-center justify-center bg-white bg-opacity-75">
-                <svg class="animate-spin h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-                </svg>
-              </div>
-            </div>
+            <ImageUploader :name="'slider-' + index" :initialFile="element.file" @update:file="updateFile(index, $event)" @upload:start="handleUploadStart" @upload:end="handleUploadEnd" />
           </div>
           <div class="flex-grow pl-4">
             <div class="mb-4 flex">
@@ -56,20 +39,18 @@
 
 <script setup>
 import { ref, watch } from 'vue';
-import axios from 'axios';
+import { useSliderStore } from '../stores/sliderStore';
 import draggable from 'vuedraggable';
+import ImageUploader from './ImageUploader.vue';
 
 const props = defineProps({
   initialData: {
     type: Array,
-    default: () => [
-      { id: 1, file: 'https://via.placeholder.com/150', alt: 'Image 1', title: 'Title 1', description: 'Description 1' },
-      { id: 2, file: 'https://via.placeholder.com/150', alt: 'Image 2', title: 'Title 2', description: 'Description 2' }
-    ]
+    default: () => []
   }
 });
 
-const emit = defineEmits(['update:sliderData']);
+const sliderStore = useSliderStore();
 
 const images = ref([...props.initialData]);
 
@@ -83,42 +64,24 @@ const removeImage = (index) => {
   updateSliderData();
 };
 
-const onFileChange = async (event, index) => {
-  const file = event.target.files[0];
-  if (file) {
-    images.value[index].uploading = true;
-    images.value[index].error = null;
-    try {
-      const formData = new FormData();
-      formData.append('file', file);
-
-      const response = await axios.post('/api/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-
-      const imageUrl = response.data.url;
-      images.value[index].file = imageUrl;
-      images.value[index].uploading = false;
-      updateSliderData();
-    } catch (error) {
-      images.value[index].uploading = false;
-      images.value[index].error = 'Error uploading file: ' + error.message;
-    }
-  }
-};
-
-const triggerFileInput = (index) => {
-  const fileInput = document.getElementById('image-' + index);
-  fileInput.click();
+const updateFile = (index, file) => {
+  images.value[index].file = file;
+  updateSliderData();
 };
 
 const updateSliderData = () => {
-  emit('update:sliderData', JSON.stringify(images.value));
+  sliderStore.updateSliderData(images.value);
 };
 
-// Watch for changes in images and emit the updated data
+const handleUploadStart = () => {
+  sliderStore.setUploadingStatus(true);
+};
+
+const handleUploadEnd = () => {
+  sliderStore.setUploadingStatus(false);
+};
+
+// Watch for changes in images and update the store
 watch(images, updateSliderData, { deep: true });
 </script>
 
