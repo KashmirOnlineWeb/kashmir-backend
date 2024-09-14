@@ -26,6 +26,7 @@
         "vue": "^3.2.37"
     },
     "dependencies": {
+        "pinia": "^2.2.2",
         "vuedraggable": "^4.1.0"
     }
 }
