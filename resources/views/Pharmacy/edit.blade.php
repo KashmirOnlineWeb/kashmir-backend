@@ -82,9 +82,8 @@
                         <h2 class="text-md font-semibold mb-2">Featured Image</h2>
                         <p class="text-sm text-gray-600 mb-4">To show in cards.</p>
                         <div class="mb-4">
-                            <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
-                            <input type="file" name="image" id="image"
-                                class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
+                            <image-uploader name="image" id="image"
+                                class="mt-1 block rounded-md border-gray-200 shadow-sm py-1"></image-uploader>
                         </div>
                         <div class="mb-4">
                             <label for="image_alt" class="block text-sm font-medium text-gray-700">Featured Image
