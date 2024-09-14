@@ -7,7 +7,11 @@
                 </h1>
             </div>
         </div>
-        
+        <?php 
+        print_r('<pre>');
+        print_r($errors);
+        print_r('</pre>');
+        ?>
         <form action="{{ isset($hotel) ? route('hotel.update', $hotel->id) : route('hotel.store') }}" method="POST"
             enctype="multipart/form-data">
             @csrf
