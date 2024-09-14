@@ -9,24 +9,7 @@
         </div>
       </div>
       <div class="flex-shrink-0 w-full sm:w-auto">
-        <div class="relative cursor-pointer" @click="triggerFileInput(index)">
-          <input type="file" :id="'image-' + index" @change="onFileChange($event, index)" class="hidden" ref="fileInput">
-          <img v-if="info.file" :src="'/'+info.file" alt="Preview" class="w-24 h-24 rounded-md border border-gray-200">
-          <div v-else class="w-24 h-24 flex items-center justify-center border border-dashed border-gray-300 rounded-md px-2">
-            <span class="text-gray-500 text-xs">Click to upload image</span>
-          </div>
-          <div v-if="info.file" class="absolute top-0 right-0 p-1 bg-white rounded-full">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M4 3a1 1 0 000 2h12a1 1 0 100-2H4zM3 7a1 1 0 011-1h12a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1V7zm2 1v7h10V8H5z" />
-            </svg>
-          </div>
-          <div v-if="info.uploading" class="absolute inset-0 flex items-center justify-center bg-white bg-opacity-75">
-            <svg class="animate-spin h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-            </svg>
-          </div>
-        </div>
+        <ImageUploader :name="'pharmacy-' + index" :initialFile="info.file" @update:file="updateFile(index, $event)" />
       </div>
       <div class="flex-grow pl-4 w-full sm:w-auto">
         <div class="mb-4 flex gap-2">
@@ -55,6 +38,7 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
+import ImageUploader from './ImageUploader.vue';
 
 const props = defineProps({
   initialData: {
@@ -77,35 +61,9 @@ const removeInfo = (index) => {
   updatePharmaciesContent();
 };
 
-const onFileChange = async (event, index) => {
-  const file = event.target.files[0];
-  if (file) {
-    pharmacies.value[index].uploading = true;
-    pharmacies.value[index].error = null;
-    try {
-      const formData = new FormData();
-      formData.append('image', file);
-
-      const response = await axios.post('/api/image', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-
-      const imageUrl = response.data.path;
-      pharmacies.value[index].file = imageUrl;
-      pharmacies.value[index].uploading = false;
-      updatePharmaciesContent();
-    } catch (error) {
-      pharmacies.value[index].uploading = false;
-      pharmacies.value[index].error = 'Error uploading file: ' + error.message;
-    }
-  }
-};
-
-const triggerFileInput = (index) => {
-  const fileInput = document.getElementById('image-' + index);
-  fileInput.click();
+const updateFile = (index, file) => {
+  pharmacies.value[index].file = file;
+  updatePharmaciesContent();
 };
 
 const updatePharmaciesContent = () => {

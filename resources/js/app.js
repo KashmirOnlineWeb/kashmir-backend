@@ -5,19 +5,24 @@
  */
 
 import './bootstrap';
-import { createApp, ref, onMounted, onUnmounted } from 'vue';
+import { createApp, ref, onMounted, onUnmounted, computed } from 'vue';
 import DropdownMenu from './components/DropdownMenu.vue';
 import SeoFields from './components/SeoFields.vue';
 import Tabs from './components/Tabs.vue';
 import Tab from './components/Tab.vue';
 import SliderComponent from './components/SliderComponent.vue';
 import Pharmacies from './components/Pharmacies.vue';
+import { createPinia } from 'pinia';
+import { useSliderStore } from './stores/sliderStore';
+import ImageUploader from './components/ImageUploader.vue';
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
  * registering components with the application instance so they are ready
  * to use in your application's views. An example is included for you.
  */
+
+const pinia = createPinia();
 
 const app = createApp({
     setup() {
@@ -67,6 +72,10 @@ const app = createApp({
             document.removeEventListener('click', handleClickOutside);
         });
 
+        const sliderStore = useSliderStore();
+        const sliderData = computed(() => JSON.stringify(sliderStore.getSliderData));
+        const isUploading = computed(() => sliderStore.getUploadingStatus);
+
         return {
             mobileMenuOpen,
             userMenuOpen,
@@ -75,34 +84,21 @@ const app = createApp({
             toggleUserMenu,
             metaTitle,
             metaDescription,
-            keywords
+            keywords,
+            sliderData,
+            isUploading
         };
+    },
+    components: {
+        DropdownMenu,
+        SeoFields,
+        Tabs,
+        Tab,
+        SliderComponent,
+        Pharmacies,
+        ImageUploader // Register the ImageUploader component
     }
 });
 
-app.component('dropdown-menu', DropdownMenu);
-app.component('seo-fields', SeoFields);
-app.component('tabs', Tabs);
-app.component('tab', Tab);
-app.component('slider-component', SliderComponent);
-app.component('pharmacies', Pharmacies);
-
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
-
-// Object.entries(import.meta.glob('./**/*.vue', { eager: true })).forEach(([path, definition]) => {
-//     app.component(path.split('/').pop().replace(/\.\w+$/, ''), definition.default);
-// });
-
-/**
- * Finally, we will attach the application instance to a HTML element with
- * an "id" attribute of "app". This element is included with the "auth"
- * scaffolding. Otherwise, you will need to add an element yourself.
- */
-
+app.use(pinia);
 app.mount('#app');
