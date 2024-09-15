@@ -15,7 +15,7 @@
         <x-nav-link href="{{ route('pharmacy.index') }}">
             • Pharmacies
         </x-nav-link>
-        <x-nav-link href="{{ route('destination.index') }}">
+        <x-nav-link href="{{ route('hospital.index') }}">
             • Hospitals
         </x-nav-link>
         <x-nav-link href="{{ route('destination.index') }}">
