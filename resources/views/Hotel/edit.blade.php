@@ -7,7 +7,6 @@
                 </h1>
             </div>
         </div>
-
         <form action="{{ isset($hotel) ? route('hotel.update', $hotel->id) : route('hotel.store') }}" method="POST"
             enctype="multipart/form-data">
             @csrf
