@@ -1,7 +1,7 @@
 <template>
   <div class="relative cursor-pointer w-24" @click="triggerFileInput">
     <input type="file" :id="inputId" @change="onFileChange" class="hidden" ref="fileInput">
-    <img v-if="file" :src="'/' + file" alt="Preview" class="w-24 h-24 rounded-md border border-gray-200">
+    <img v-if="file" :src="file.startsWith('http') ? file : '/' + file" alt="Preview" class="w-24 h-24 rounded-md border border-gray-200">
     <div v-else class="w-24 h-24 flex items-center justify-center border border-dashed border-gray-300 rounded-md px-2">
       <span class="text-gray-500 text-xs">Click to upload image</span>
     </div>
