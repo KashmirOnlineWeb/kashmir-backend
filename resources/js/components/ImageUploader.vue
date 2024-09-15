@@ -18,6 +18,9 @@
       </svg>
     </div>
     <input type="hidden" :name="name" :value="file">
+    <div v-if="errorMessage" class="absolute bottom-0 left-0 p-1 bg-red-500 text-white text-xs rounded-md">
+      {{ errorMessage }}
+    </div>
   </div>
 </template>
 
@@ -41,6 +44,7 @@ const emit = defineEmits(['update:file', 'upload:start', 'upload:end']);
 const file = ref(props.initialFile);
 const uploading = ref(false);
 const inputId = `image-${props.name}`;
+const errorMessage = ref(null);
 
 const onFileChange = async (event) => {
   const selectedFile = event.target.files[0];
@@ -48,6 +52,7 @@ const onFileChange = async (event) => {
     emit('update:file', selectedFile);
     emit('upload:start');
     uploading.value = true;
+    errorMessage.value = null; // Reset error message
     try {
       const formData = new FormData();
       formData.append('image', selectedFile);
@@ -64,6 +69,7 @@ const onFileChange = async (event) => {
       emit('upload:end');
     } catch (error) {
       console.error('Error uploading file:', error);
+      errorMessage.value = error.response?.data?.message || 'An error occurred during upload';
     } finally {
       uploading.value = false;
     }
