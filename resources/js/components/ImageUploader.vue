@@ -49,6 +49,10 @@ const errorMessage = ref(null);
 const onFileChange = async (event) => {
   const selectedFile = event.target.files[0];
   if (selectedFile) {
+    if (selectedFile.size > 5 * 1024 * 1024) { // Check if file size is greater than 5 MB
+      errorMessage.value = 'File size exceeds 5 MB';
+      return;
+    }
     emit('update:file', selectedFile);
     emit('upload:start');
     uploading.value = true;
