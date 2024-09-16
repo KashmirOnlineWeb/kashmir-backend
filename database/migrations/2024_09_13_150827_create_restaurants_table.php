@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('restourants', function (Blueprint $table) {
+        Schema::create('restaurants', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
             $table->tinyInteger('status')->default(0)->comment('0 = inactive, 1=active');
@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('image_alt')->nullable();
             $table->bigInteger('city_id')->nullable()->unsigned();
             $table->bigInteger('meta_id')->nullable()->unsigned();
-            $table->text('restourant_content')->nullable();
+            $table->text('restaurant_content')->nullable();
             $table->timestamps();
 
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('restourants');
+        Schema::dropIfExists('restaurants');
     }
 };

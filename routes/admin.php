@@ -39,7 +39,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/collageandschool', CollageAndSchoolController::class)->names('collageandschool');
 
     /* Restourant */
-    Route::resource('/restourant', RestourantController::class)->names('restourant');
+    Route::resource('/restaurant', RestourantController::class)->names('restaurant');
 });
 
 Route::prefix('api')->middleware(['auth'])->group(function () {
