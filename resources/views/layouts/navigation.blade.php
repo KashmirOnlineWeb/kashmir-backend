@@ -5,9 +5,9 @@
     <x-nav-link href="#" :active="request()->routeIs('cities')">
         Pages
     </x-nav-link>
-    <x-nav-link href="{{ route('city.index') }}" :active="request()->routeIs('city.index')">
+    <!-- <x-nav-link href="{{ route('city.index') }}" :active="request()->routeIs('city.index')">
         Cities
-    </x-nav-link>
+    </x-nav-link> -->
     <x-nav-link href="{{ route('destination.index') }}" :active="request()->routeIs('destination.index')">
         Destinations
     </x-nav-link>
@@ -21,8 +21,38 @@
         <x-nav-link href="{{ route('hospital.index') }}" :active="request()->routeIs('hospital.index')">
             • Hospitals
         </x-nav-link>
-        <x-nav-link href="{{ route('destination.index') }}">
+        <x-nav-link href="{{ route('collageandschool.index') }}">
             • Colleges & Schools
+        </x-nav-link>
+        <x-nav-link href="{{ route('restaurant.index') }}">
+            • Restaurants
+        </x-nav-link>
+        <x-nav-link href="#">
+            • Shopping Places
+        </x-nav-link>
+        <x-nav-link href="#">
+            • Things to be noted
+        </x-nav-link>
+        <x-nav-link href="#">
+            • Houseboats
+        </x-nav-link>
+        <x-nav-link href="#">
+            • Sightseeings
+        </x-nav-link>
+        <x-nav-link href="#">
+            • Religions Places
+        </x-nav-link>
+        <x-nav-link href="#">
+            • How to reach
+        </x-nav-link>
+        <x-nav-link href="#">
+            • Safety Information
+        </x-nav-link>
+        <x-nav-link href="#">
+            • General Information
+        </x-nav-link>
+        <x-nav-link href="#">
+            • Locations
         </x-nav-link>
     </nav>
 
