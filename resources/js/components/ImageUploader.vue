@@ -1,7 +1,7 @@
 <template>
   <div class="relative cursor-pointer w-24" @click="triggerFileInput">
     <input type="file" :id="inputId" @change="onFileChange" class="hidden" ref="fileInput">
-    <img v-if="file" :src="'/' + file" alt="Preview" class="w-24 h-24 rounded-md border border-gray-200">
+    <img v-if="file" :src="file.startsWith('http') ? file : '/' + file" alt="Preview" class="w-24 h-24 rounded-md border border-gray-200">
     <div v-else class="w-24 h-24 flex items-center justify-center border border-dashed border-gray-300 rounded-md px-2">
       <span class="text-gray-500 text-xs">Click to upload image</span>
     </div>
@@ -18,6 +18,9 @@
       </svg>
     </div>
     <input type="hidden" :name="name" :value="file">
+    <div v-if="errorMessage" class="absolute bottom-0 left-0 p-1 bg-red-500 text-white text-xs rounded-md">
+      {{ errorMessage }}
+    </div>
   </div>
 </template>
 
@@ -41,13 +44,19 @@ const emit = defineEmits(['update:file', 'upload:start', 'upload:end']);
 const file = ref(props.initialFile);
 const uploading = ref(false);
 const inputId = `image-${props.name}`;
+const errorMessage = ref(null);
 
 const onFileChange = async (event) => {
   const selectedFile = event.target.files[0];
   if (selectedFile) {
+    if (selectedFile.size > 5 * 1024 * 1024) { // Check if file size is greater than 5 MB
+      errorMessage.value = 'File size exceeds 5 MB';
+      return;
+    }
     emit('update:file', selectedFile);
     emit('upload:start');
     uploading.value = true;
+    errorMessage.value = null; // Reset error message
     try {
       const formData = new FormData();
       formData.append('image', selectedFile);
@@ -64,6 +73,7 @@ const onFileChange = async (event) => {
       emit('upload:end');
     } catch (error) {
       console.error('Error uploading file:', error);
+      errorMessage.value = error.response?.data?.message || 'An error occurred during upload';
     } finally {
       uploading.value = false;
     }

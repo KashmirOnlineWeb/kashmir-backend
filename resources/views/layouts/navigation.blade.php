@@ -2,6 +2,9 @@
     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
         Dashboard
     </x-nav-link>
+    <x-nav-link href="#" :active="request()->routeIs('cities')">
+        Pages
+    </x-nav-link>
     <x-nav-link href="{{ route('city.index') }}" :active="request()->routeIs('city.index')">
         Cities
     </x-nav-link>
@@ -9,38 +12,41 @@
         Destinations
     </x-nav-link>
     <nav class="grid items-start px-2 text-sm font-normal lg:pl-2">
-        <x-nav-link href="{{ route('hotel.index') }}">
+        <x-nav-link href="{{ route('hotel.index') }}" :active="request()->routeIs('hotel.index')">
             • Hotels
         </x-nav-link>
-        <x-nav-link href="{{ route('pharmacy.index') }}">
+        <x-nav-link href="{{ route('pharmacy.index') }}" :active="request()->routeIs('pharmacy.index')">
             • Pharmacies
         </x-nav-link>
-        <x-nav-link href="{{ route('destination.index') }}">
+        <x-nav-link href="{{ route('hospital.index') }}" :active="request()->routeIs('hospital.index')">
             • Hospitals
         </x-nav-link>
         <x-nav-link href="{{ route('destination.index') }}">
             • Colleges & Schools
         </x-nav-link>
     </nav>
-    <x-nav-link href="#" :active="request()->routeIs('cities')">
-        Pages
-    </x-nav-link>
 
-    <span class="text-gray-500 text-xs font-semibold mt-10">Planned for future</span>
+    <span class="text-gray-500 text-xs font-semibold mt-10 border-t border-gray-300 pt-4">Planned for future</span>
     <a href="#"
         class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 font-semibold hover:bg-gray-200 transition-all hover:text-primary">Users
-    </a>
-    <a href="#"
-        class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 font-semibold hover:bg-gray-200 transition-all hover:text-primary">Orders
     </a>
     <a href="#"
         class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 font-semibold hover:bg-gray-200 transition-all hover:text-primary">Packages
     </a>
     <a href="#"
-        class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 font-semibold hover:bg-gray-200 transition-all hover:text-primary">Hospitals
-    </a>
-    <a href="#"
-        class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 font-semibold hover:bg-gray-200 transition-all hover:text-primary">Schools
-        and Collages
-    </a>
+        class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 font-semibold hover:bg-gray-200 transition-all hover:text-primary">Shop</a>
+    <nav class="grid items-start px-2 text-sm font-normal lg:pl-2">
+        <x-nav-link href="#">
+            • Products
+        </x-nav-link>
+        <x-nav-link href="#">
+            • Orders
+        </x-nav-link>
+        <x-nav-link href="#">
+            • Payments
+        </x-nav-link>
+        <x-nav-link href="#">
+            • Refunds
+        </x-nav-link>
+    </nav>
 </nav>

@@ -117,6 +117,7 @@
                         <p class="text-sm text-gray-600 mb-4">To show in cards.</p>
                         <div class="mb-4">
                             <image-uploader name="image" id="image"
+                                v-bind:initial-file="'{{ old('image', $hotel->image ?? '') }}'"
                                 class="mt-1 block rounded-md border-gray-200 shadow-sm py-1"></image-uploader>
                         </div>
                         <div class="mb-4">

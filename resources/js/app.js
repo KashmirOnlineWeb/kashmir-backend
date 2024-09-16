@@ -12,6 +12,7 @@ import Tabs from './components/Tabs.vue';
 import Tab from './components/Tab.vue';
 import SliderComponent from './components/SliderComponent.vue';
 import Pharmacies from './components/Pharmacies.vue';
+import Hospitals from './components/Hospitals.vue';
 import { createPinia } from 'pinia';
 import { useSliderStore } from './stores/sliderStore';
 import ImageUploader from './components/ImageUploader.vue';
@@ -96,6 +97,7 @@ const app = createApp({
         Tab,
         SliderComponent,
         Pharmacies,
+        Hospitals,
         ImageUploader // Register the ImageUploader component
     }
 });
