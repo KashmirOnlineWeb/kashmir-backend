@@ -219,8 +219,7 @@ class HotelController extends Controller
             $response = $hotel->destroy($id);
             return Redirect::route('hotel.index',$response);
         } catch (Exception $e) {
-            Log::error('Somethinng went wrong in hotel update.');
+            Log::error('Somethinng went wrong in hotel destroy.');
         }
-
     }
 }
