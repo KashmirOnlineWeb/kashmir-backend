@@ -24,7 +24,7 @@
         <x-nav-link href="{{ route('collageandschool.index') }}">
             • Colleges & Schools
         </x-nav-link>
-        <x-nav-link href="{{ route('restourant.index') }}">
+        <x-nav-link href="{{ route('restaurant.index') }}">
             • Restaurants
         </x-nav-link>
         <x-nav-link href="#">

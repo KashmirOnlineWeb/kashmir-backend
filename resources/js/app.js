@@ -17,6 +17,7 @@ import CollegesAndSchools from './components/CollegesAndSchools.vue';
 import { createPinia } from 'pinia';
 import { useSliderStore } from './stores/sliderStore';
 import ImageUploader from './components/ImageUploader.vue';
+import Restaurants from './components/Restaurants.vue';
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -100,7 +101,8 @@ const app = createApp({
         Pharmacies,
         Hospitals,
         ImageUploader,
-        CollegesAndSchools
+        CollegesAndSchools,
+        Restaurants
     }
 });
 

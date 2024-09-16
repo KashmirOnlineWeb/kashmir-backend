@@ -9,7 +9,7 @@ use App\Http\Controllers\Admin\HospitalController;
 use App\Http\Controllers\Admin\PharmacyController;
 use App\Http\Controllers\Admin\CollageAndSchoolController;
 use App\Http\Controllers\Admin\HelperController;
-use App\Http\Controllers\Admin\RestourantController;
+use App\Http\Controllers\Admin\RestaurantController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -38,8 +38,8 @@ Route::middleware(['auth'])->group(function () {
     /* Collage and school */
     Route::resource('/collageandschool', CollageAndSchoolController::class)->names('collageandschool');
 
-    /* Restourant */
-    Route::resource('/restaurant', RestourantController::class)->names('restaurant');
+    /* Restaurant */
+    Route::resource('/restaurant', RestaurantController::class)->names('restaurant');
 });
 
 Route::prefix('api')->middleware(['auth'])->group(function () {
