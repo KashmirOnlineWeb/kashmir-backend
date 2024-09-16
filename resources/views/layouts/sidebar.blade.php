@@ -1,4 +1,4 @@
-<div class="border-r bg-gray-50 fixed inset-y-0 left-0 z-20 w-64 transform transition-transform duration-300 ease-in-out"
+<div class="border-r bg-gray-50 fixed inset-y-0 left-0 z-20 w-72 transform transition-transform duration-300 ease-in-out"
     :class="{
         '-translate-x-full': !mobileMenuOpen && !isDesktop,
         'translate-x-0': mobileMenuOpen || isDesktop,
@@ -6,7 +6,7 @@
     }">
     <div class="flex h-full max-h-screen flex-col gap-2">
         <div class="flex h-14 items-center justify-between border-b px-4 lg:h-[60px] lg:px-6">
-            <a href="/" class="flex items-center gap-2 font-semibold">
+            <a href="/dashboard" class="flex items-center gap-2 font-semibold">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                     class="lucide lucide-package2-icon h-6 w-6">
