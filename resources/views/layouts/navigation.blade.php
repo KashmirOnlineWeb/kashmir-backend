@@ -21,10 +21,10 @@
         <x-nav-link href="{{ route('hospital.index') }}" :active="request()->routeIs('hospital.index')">
             • Hospitals
         </x-nav-link>
-        <x-nav-link href="{{ route('collageandschool.index') }}">
+        <x-nav-link href="{{ route('collageandschool.index') }}" :active="request()->routeIs('collageandschool.index')">
             • Colleges & Schools
         </x-nav-link>
-        <x-nav-link href="{{ route('restaurant.index') }}">
+        <x-nav-link href="{{ route('restaurant.index') }}" :active="request()->routeIs('restaurant.index')">
             • Restaurants
         </x-nav-link>
         <x-nav-link href="#">
