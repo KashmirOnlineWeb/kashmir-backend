@@ -149,3 +149,13 @@
         </form>
     </div>
 </x-app-layout>
+<script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
+<script>
+    tinymce.init({
+        selector: 'textarea#description, textarea#highlights_content',
+        plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount linkchecker',
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        branding: false,
+        promotion: false
+    });
+</script>

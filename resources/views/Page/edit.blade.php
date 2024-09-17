@@ -29,6 +29,15 @@
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
+                            <div class="mb-4 w-full">
+                                <label for="slug" class="block text-sm font-medium text-gray-700">Slug</label>
+                                <input type="text" name="slug" id="slug"
+                                    value="{{ old('slug', $page->slug ?? '') }}"
+                                    class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
+                                @error('slug')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
                         </div>
                     </div>
                 </div>

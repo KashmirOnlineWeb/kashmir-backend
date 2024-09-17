@@ -110,9 +110,9 @@ const initializeTinyMCEForNew = () => {
     if (!tinymce.get(`content-${content.id}`)) {
       tinymce.init({
         selector: `#content-${content.id}`,
-        plugins: 'advlist autolink lists link image charmap preview anchor pagebreak code',
+        plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount linkchecker',
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
         toolbar_mode: 'floating',
-        toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | link code',
         menubar: 'file edit view insert format tools table help',
         height: 300,
         branding: false,
