@@ -7,6 +7,9 @@
                 </h1>
             </div>
         </div>
+        <?php 
+print_r($errors);
+        ?>
         <form action="{{ isset($restaurant) ? route('restaurant.update', $restaurant->id) : route('restaurant.store') }}"
             method="POST" enctype="multipart/form-data">
             @csrf
@@ -41,13 +44,6 @@
                             <label for="city_id" class="block text-sm font-medium text-gray-700">City</label>
                             <select name="city_id" id="city_id"
                                 class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
-                                @php
-                                    $cities = [
-                                        (object) ['id' => 1, 'name' => 'New York'],
-                                        (object) ['id' => 2, 'name' => 'Los Angeles'],
-                                        (object) ['id' => 3, 'name' => 'Chicago'],
-                                    ];
-                                @endphp
                                 @foreach ($cities as $city)
                                     <option value="{{ $city->id }}"
                                         {{ isset($restaurant) && $restaurant->city_id == $city->id ? 'selected' : '' }}>
@@ -119,7 +115,7 @@
                     </div>
                     <div class="mb-4 w-full">
                         <label for="type" class="block text-sm font-medium text-gray-700">Restaurant Type</label>
-                        <select name="type" id="type"
+                        <select name="restaurant_type" id="type"
                             class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
                             <option value="" disabled>Select Restaurant Type</option>
                             <option value="Asian restaurant">Asian restaurant</option>
@@ -141,7 +137,7 @@
                 <div class="mb-4 flex gap-2">
                     <div class="mb-4 w-full">
                         <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-                        <textarea name="description" id="description" value="{{ old('description', $hospital->description ?? '') }}"
+                        <textarea name="description" id="description" value="{{ old('description', $restaurant->description ?? '') }}"
                             class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
                                 </textarea>
                         @error('description')

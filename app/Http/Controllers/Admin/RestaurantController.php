@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Restaurant;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 use App\Models\City;
 use App\Models\Meta;
 
@@ -32,49 +34,59 @@ class RestaurantController extends Controller
             $data = $request->all();
             $request->validate([
                             'name'            => 'required|string',
-                            'status'          => 'required|integer|digits_between:0,1',
+                            //'status'          => 'required|integer|digits_between:0,1',
+                            'restaurant_type' => 'sometimes|string',
+                            'address'         => 'sometimes|string',
+                            'contact'         => 'sometimes|digits:10',
+                            'google_map'      => 'sometimes|string',
+                            'slug'            => 'sometimes|string',
                             'image'           => 'sometimes|string',
                             'image_alt'       => 'sometimes|string',
                             'city_id'         => 'required|integer|exists:cities,id',
-                            'meta_title'      => 'required|string|nullable',
+                            /*'meta_title'      => 'required|string|nullable',
                             'meta_description'=> 'required|string|nullable',
-                            'keywords'        => 'required|string|nullable'
+                            'keywords'        => 'required|string|nullable'*/
                         ]);
 
             /* Insert Meta */
-            if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
+            /*if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
                 $meta = Meta::create([
                             'meta_title'       => $data['meta_title'],
                             'meta_description' => $data['meta_description'],
                             'keywords'         => $data['keywords'],
                             'status'           => 1,
                         ]);
-            }
+            }*/
 
             $response = Restaurant::create([
-                                        'name'               => $data['name'],
-                                        'status'             => $data['status'],
-                                        'image'              => $data['image'],
-                                        'image_alt'          => $data['image_alt'],
-                                        'restaurant_content' => $data['restaurant_content'],
-                                        'meta_id'            => $meta->id,
-                                        'city_id'            => $data['city_id'],
+                                        'name'            => $data['name'],
+                                        //'status'          => $data['status'],
+                                        'description'     => $data['description'],
+                                        'restaurant_type' => $data['restaurant_type'],
+                                        'address'         => $data['address'],
+                                        'contact'         => $data['contact'],
+                                        'google_map'      => $data['google_map'],
+                                        'slug'            => $data['slug'],
+                                        'image'           => $data['image'],
+                                        'image_alt'       => $data['image_alt'],
+                                        //'meta_id'       => $meta->id,
+                                        'city_id'         => $data['city_id'],
                                     ]);
 
-            return Redirect::route('Restaurant.index',$response->id)->with('success', 'Restaurant created successfully');
+            return Redirect::route('restaurant.index',$response->id)->with('success', 'Restaurant created successfully');
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in restaurant store.');
         }
     }
 
-    public function edit(Restaurant $restaurant)
+    public function edit(Request $request, $id)
     {
         $cities      = City::select('id','name')->get();
         $restaurant  = Restaurant::findOrFail($id);
         $meta   = [];
-        if(!empty($restaurant->meta_id)){
+        /*if(!empty($restaurant->meta_id)){
             $meta   = Meta::findOrFail($restaurant->meta_id);    
-        }
+        }*/
         
         return view('Restaurant.edit',compact('cities', 'restaurant', 'meta'));
     }
@@ -88,19 +100,24 @@ class RestaurantController extends Controller
             $request->validate([
                             'restaurant_id'   => 'required|integer|exists:restaurants,id',
                             'name'            => 'required|string',
-                            'status'          => 'required|integer|digits_between:0,1',
+                            //'status'          => 'required|integer|digits_between:0,1',
+                            'restaurant_type' => 'sometimes|string',
+                            'address'         => 'sometimes|string',
+                            'contact'         => 'sometimes|digits:10',
+                            'google_map'      => 'sometimes|string',
+                            'slug'            => 'sometimes|string',
                             'image'           => 'sometimes|string',
                             'image_alt'       => 'sometimes|string',
                             'city_id'         => 'required|integer|exists:cities,id',
-                            'meta_title'      => 'required|string|nullable',
+                            /*'meta_title'      => 'required|string|nullable',
                             'meta_description'=> 'required|string|nullable',
-                            'keywords'        => 'required|string|nullable'
+                            'keywords'        => 'required|string|nullable'*/
                         ]);
 
             $restaurant = Restaurant::find($id);
 
             /* Insert Meta */
-            if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
+            /*if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
                 $meta = Meta::where('id',$restaurant->meta_id)
                             ->update([
                                 'meta_title'       => $data['meta_title'],
@@ -108,21 +125,26 @@ class RestaurantController extends Controller
                                 'keywords'         => $data['keywords'],
                                 'status'           => 1,
                             ]);
-            }
+            }*/
             
             $response = Restaurant::where('id', $restaurant->id)
                                 ->update([
-                                        'name'               => $data['name'],
-                                        'status'             => $data['status'],
-                                        'image'              => $data['image'],
-                                        'image_alt'          => $data['image_alt'],
-                                        'restaurant_content' => $data['restaurant_content'],
-                                        'meta_id'            => $restaurant->meta_id,
-                                        'city_id'            => $data['city_id'],
+                                        'name'            => $data['name'],
+                                        //'status'          => $data['status'],
+                                        'description'     => $data['description'],
+                                        'restaurant_type' => $data['restaurant_type'],
+                                        'address'         => $data['address'],
+                                        'contact'         => $data['contact'],
+                                        'google_map'      => $data['google_map'],
+                                        'slug'            => $data['slug'],
+                                        'image'           => $data['image'],
+                                        'image_alt'       => $data['image_alt'],
+                                        //'meta_id'       => $restaurant->meta_id,
+                                        'city_id'         => $data['city_id'],
                                     ]);
 
 
-            return Redirect::route('Restaurant.index',$response)->with('success', 'Restaurant updated successfully');
+            return Redirect::route('restaurant.index',$response)->with('success', 'Restaurant updated successfully');
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in restaurant update.');
         }
@@ -139,11 +161,11 @@ class RestaurantController extends Controller
                 
             $request->validate(['restaurant_id' => 'required|integer|exists:restaurants,id']);
             $restaurant = Restaurant::find($id);
-            if(!empty($restaurant->meta_id)){
+            /*if(!empty($restaurant->meta_id)){
                 Meta::destroy($restaurant->meta_id);
-            }
+            }*/
             $response = $restaurant->destroy($id);
-            return Redirect::route('Restaurant.index',$response);
+            return Redirect::route('restaurant.index',$response);
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in restaurant destroy.');
         }

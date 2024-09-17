@@ -65,8 +65,8 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <div id="app-{{ $restaurant->id }}" class="relative inline-block text-left">
-                                <dropdown-menu :edit-url="'{{ route('r$restaurant.edit', $restaurant->id) }}'"
-                                    :delete-url="'{{ route('r$restaurant.destroy', $restaurant->id) }}'"></dropdown-menu>
+                                <dropdown-menu :edit-url="'{{ route('restaurant.edit', $restaurant->id) }}'"
+                                    :delete-url="'{{ route('restaurant.destroy', $restaurant->id) }}'"></dropdown-menu>
                             </div>
                         </td>
                     </tr>
