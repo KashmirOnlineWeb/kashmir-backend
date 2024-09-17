@@ -30,45 +30,61 @@ class DestinationController extends Controller
     }
 
     /**
+     * Create the destination information.
+     */
+    public function create(Request $request): View
+    {
+        $cities = City::select('id','name')->get();
+        return view('Destination.edit',compact('cities'));
+    }
+
+    /**
      * Store the destination form.
      */
     public function store(Request $request): RedirectResponse
     {
         try {
             $data = $request->all();
-            $request->validate([
-                            'name' => 'required|string',
-                            'slug' => 'required|string',
-                            'description' => 'required',
-                            'highlights_content' => 'required',
-                            //'title' => 'required|string',
-                            'destination_type' => 'required|integer|min:1|digits_between:1,2',
-                            //'meta_id' => 'required|string',
-                        ]);
             
-                        // save meta data
-            $meta = Meta::create([
-                'meta_title' => $data['meta_title'],
-                'meta_description' => $data['meta_description'],
-                'keywords' => $data['keywords'],
-            ]);
-
-            $result = Destination::create([
-                            'name'              => $data['name'],
-                            'slug'              => $data['slug'],
-                            //'title'             => $data['title'],
-                            //'short_description' => $data['short_description'],
-                            'description'       => $data['description'],
-                            'highlights_content' => $data['highlights_content'],
-                            //'image'           => $data['image'],
-                            'image_alt'         => $data['image_alt'],
-                            //'image_gallery'   => $data['image_gallery'],
-                            'destination_type'  => $data['destination_type'],
-                            'meta_id'           => $meta->id,
+            $request->validate([
+                            'name'             => 'required|string',
+                            'slug'             => 'required|string',
+                            'title'            => 'required|string',
+                            'image'            => 'sometimes|string',
+                            'image_alt'        => 'sometimes|string',
+                            'destination_type' => 'required|integer|min:1|digits_between:1,2',
+                            'city_id'          => 'required|integer|exists:cities,id',
+                            'meta_title'       => 'required|string|nullable',
+                            'meta_description' => 'required|string|nullable',
+                            'keywords'         => 'required|string|nullable'
                         ]);
 
-            return Redirect::route('Destination.edit',$result->id);
+            /* Insert Meta */
+            if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
+                $meta = Meta::create([
+                            'meta_title'       => $data['meta_title'],
+                            'meta_description' => $data['meta_description'],
+                            'keywords'         => $data['keywords'],
+                            'status'           => 1,
+                        ]);
+            }
+            
+            $response = Destination::create([
+                                        'name'              => $data['name'],
+                                        'slug'              => $data['slug'],
+                                        'title'             => $data['title'],
+                                        'short_description' => $data['short_description'],
+                                        'description'       => $data['description'],
+                                        'highlights_content'=> $data['highlights_content'],
+                                        'image'             => $data['image'],
+                                        'image_alt'         => $data['image_alt'],
+                                        'image_gallery'     => $data['image_gallery'],
+                                        'destination_type'  => $data['destination_type'],
+                                        'meta_id'           => $meta->id,
+                                        'city_id'           => $data['city_id'],
+                                    ]);
 
+            return Redirect::route('Destination.index',$response->id);
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in destination store.');
         }
@@ -79,35 +95,73 @@ class DestinationController extends Controller
      */
     public function edit(Request $request, $id): View
     {   
-        $destination = Destination::findOrFail($id);
-        $meta = Meta::findOrFail($destination->meta_id);
-        $cities = City::all();  
-
-        return view('Destination.edit', compact('destination', 'meta','cities'));
+        $cities = City::select('id','name')->get();
+        $destination  = Destination::findOrFail($id);
+        $meta   = [];
+        if(!empty($destination->meta_id)){
+            $meta   = Meta::findOrFail($destination->meta_id);    
+        }
+        
+        return view('Destination.edit',compact('cities', 'destination', 'meta'));
     }
-
-    /**
-     * Create the destination information.
-     */
-    public function create(Request $request): View
-    {
-        $cities = City::all();
-        $meta = (object) [
-            'meta_title' => '',
-            'meta_description' => '',
-            'keywords' => ''
-        ];
-
-        return view('Destination.edit', compact('meta','cities'));
-    }
-
     
     /**
      * Update the destination information.
      */
     public function update(): RedirectResponse
     {
-        
+        try {
+            $data = $request->all();
+            $request->merge(['destination_id' => $id]);
+            
+            $request->validate([
+                            'destination_id'   => 'required|integer|exists:destinations,id',
+                            'name'             => 'required|string',
+                            'slug'             => 'required|string',
+                            'title'            => 'required|string',
+                            'image'            => 'sometimes|string',
+                            'image_alt'        => 'sometimes|string',
+                            'destination_type' => 'required|integer|min:1|digits_between:1,2',
+                            'city_id'          => 'required|integer|exists:cities,id',
+                            'meta_title'       => 'required|string|nullable',
+                            'meta_description' => 'required|string|nullable',
+                            'keywords'         => 'required|string|nullable'
+                        ]);
+
+            $destination = Destination::find($id);
+
+            /* Insert Meta */
+            if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
+                $meta = Meta::where('id',$destination->meta_id)
+                            ->update([
+                                'meta_title'       => $data['meta_title'],
+                                'meta_description' => $data['meta_description'],
+                                'keywords'         => $data['keywords'],
+                                'status'           => 1,
+                            ]);
+            }
+            
+            $response = Destination::where('id', $destination->id)
+                                ->update([
+                                        'name'              => $data['name'],
+                                        'slug'              => $data['slug'],
+                                        'title'             => $data['title'],
+                                        'short_description' => $data['short_description'],
+                                        'description'       => $data['description'],
+                                        'highlights_content'=> $data['highlights_content'],
+                                        'image'             => $data['image'],
+                                        'image_alt'         => $data['image_alt'],
+                                        'image_gallery'     => $data['image_gallery'],
+                                        'destination_type'  => $data['destination_type'],
+                                        'meta_id'           => $destination->meta_id,
+                                        'city_id'           => $data['city_id'],
+                                    ]);
+
+
+            return Redirect::route('Destination.index',$response);
+        } catch (Exception $e) {
+            Log::error('Somethinng went wrong in destination update.');
+        }
     }
 
     /**
@@ -115,6 +169,19 @@ class DestinationController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        
+        try {
+            $data = $request->all();
+            $request->merge(['destination_id' => $id]);
+                
+            $request->validate(['destination_id' => 'required|integer|exists:destinations,id']);
+            $destination = Destination::find($id);
+            if(!empty($destination->meta_id)){
+                Meta::destroy($destination->meta_id);
+            }
+            $response = $destination->destroy($id);
+            return Redirect::route('Destination.index',$response);
+        } catch (Exception $e) {
+            Log::error('Somethinng went wrong in destination destroy.');
+        }
     }
 }
