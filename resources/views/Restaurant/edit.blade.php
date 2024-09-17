@@ -84,21 +84,83 @@
 
             <!-- Section 3: Additional Information -->
             <div class="mb-4 p-4 border-b border-gray-200">
-                <h2 class="text-md font-semibold mb-2">Additional Information</h2>
+                <!-- <h2 class="text-md font-semibold mb-2">Additional Information</h2>
                 <p class="text-sm text-gray-600 mb-4">Add additional details like image, name, address, contact,
-                    description, and content.</p>
-                <restaurants
+                    description, and content.</p> -->
+                <div class="mb-4 flex gap-2">
+                    <div class="mb-4 w-full">
+                        <label for="google_map" class="block text-sm font-medium text-gray-700">Google Map</label>
+                        <input type="text" name="google_map" id="google_map"
+                            value="{{ old('google_map', $restaurant->google_map ?? '') }}"
+                            class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1" />
+                        @error('google_map')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="mb-4 w-full">
+                        <label for="contact" class="block text-sm font-medium text-gray-700">Contact</label>
+                        <input type="text" name="contact" id="contact"
+                            value="{{ old('contact', $restaurant->contact ?? '') }}"
+                            class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1" />
+                        @error('contact')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="mb-4 flex gap-2">
+                    <div class="mb-4 w-full">
+                        <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                        <input type="text" name="address" id="address"
+                            value="{{ old('address', $restaurant->address ?? '') }}"
+                            class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1" />
+                        @error('address')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="mb-4 w-full">
+                        <label for="type" class="block text-sm font-medium text-gray-700">Restaurant Type</label>
+                        <select name="type" id="type"
+                            class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
+                            <option value="" disabled>Select Restaurant Type</option>
+                            <option value="Asian restaurant">Asian restaurant</option>
+                            <option value="Cafe">Cafe</option>
+                            <option value="Family restaurant">Family restaurant</option>
+                            <option value="Fast food restaurant">Fast food restaurant</option>
+                            <option value="French restaurant">French restaurant</option>
+                            <option value="Kashmiri restaurant">Kashmiri restaurant</option>
+                            <option value="Mughlai restaurant">Mughlai restaurant</option>
+                            <option value="Mutton barbecue restaurant">Mutton barbecue restaurant</option>
+                            <option value="Restourant">Restourant</option>
+                            <option value="Pizza restaurant">Pizza restaurant</option>
+                        </select>
+                        @error('type')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="mb-4 flex gap-2">
+                    <div class="mb-4 w-full">
+                        <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                        <textarea name="description" id="description" value="{{ old('description', $hospital->description ?? '') }}"
+                            class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
+                                </textarea>
+                        @error('description')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+                <!-- <restaurants
                     :initial-data="{{ json_encode(old('restaurant_content', $restaurant->restaurant_content ?? [])) }}">
-                </restaurants>
+                </restaurants> -->
             </div>
 
             <!-- SEO Fields Section -->
-            <div id="seo-fields">
+            <!-- <div id="seo-fields">
                 <seo-fields :meta-title="'{{ old('meta_title', $meta->meta_title ?? '') }}'"
                     :meta-description="'{{ old('meta_description', $meta->meta_description ?? '') }}'"
                     :keywords="'{{ old('keywords', $meta->keywords ?? '') }}'">
                 </seo-fields>
-            </div>
+            </div> -->
             <div class="mb-4">
                 <button type="submit"
                     class="bg-black text-white p-2 rounded">{{ isset($restaurant) ? 'Update Restaurant' : 'Save Restaurant' }}</button>

@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Pharmacy extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'name',
+        'image',
+        'image_alt',
+        'status',
+        'slug',
+        'min_price',
+    ];
 }

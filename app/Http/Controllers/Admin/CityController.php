@@ -38,7 +38,7 @@ class CityController extends Controller
             'keywords' => ''
         ];
 
-        return view('City.edit', compact('meta'));
+        return view('City.edit', compact('meta', 'city'));
     }
 
     /**
@@ -85,7 +85,7 @@ class CityController extends Controller
     {
         $city = City::findOrFail($id);
         $meta = Meta::findOrFail($city->meta_id);
-        return view('City.edit', compact('city', 'meta'));
+        return view('City.edit', compact('city'));
     }
 
     /**

@@ -2,7 +2,7 @@
     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
         Dashboard
     </x-nav-link>
-    <x-nav-link href="#" :active="request()->routeIs('cities')">
+    <x-nav-link href="{{ route('page.index') }}" :active="request()->routeIs('page.index')">
         Pages
     </x-nav-link>
     <!-- <x-nav-link href="{{ route('city.index') }}" :active="request()->routeIs('city.index')">
@@ -21,13 +21,13 @@
         <x-nav-link href="{{ route('hospital.index') }}" :active="request()->routeIs('hospital.index')">
             • Hospitals
         </x-nav-link>
-        <x-nav-link href="{{ route('collageandschool.index') }}">
+        <x-nav-link href="{{ route('collageandschool.index') }}" :active="request()->routeIs('collageandschool.index')">
             • Colleges & Schools
         </x-nav-link>
-        <x-nav-link href="{{ route('restaurant.index') }}">
+        <x-nav-link href="{{ route('restaurant.index') }}" :active="request()->routeIs('restaurant.index')">
             • Restaurants
         </x-nav-link>
-        <x-nav-link href="#">
+        <x-nav-link href="{{ route('shoppingplace.index') }}" :active="request()->routeIs('shoppingplace.index')">
             • Shopping Places
         </x-nav-link>
         <x-nav-link href="#">

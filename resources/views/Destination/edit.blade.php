@@ -111,16 +111,9 @@
                     <label for="city_id" class="block text-sm font-medium text-gray-700">City</label>
                     <select name="city_id" id="city_id"
                         class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
-                        @php
-                            $cities = [
-                                (object) ['id' => 1, 'name' => 'New York'],
-                                (object) ['id' => 2, 'name' => 'Los Angeles'],
-                                (object) ['id' => 3, 'name' => 'Chicago'],
-                            ];
-                        @endphp
                         @foreach ($cities as $city)
                             <option value="{{ $city->id }}"
-                                {{ isset($destination) && $destination->city_id == $city->id ? 'selected' : '' }}>
+                                {{ isset($hotel) && $hotel->city_id == $city->id ? 'selected' : '' }}>
                                 {{ $city->name }}</option>
                         @endforeach
                     </select>
@@ -156,3 +149,13 @@
         </form>
     </div>
 </x-app-layout>
+<script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
+<script>
+    tinymce.init({
+        selector: 'textarea#description, textarea#highlights_content',
+        plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount linkchecker',
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        branding: false,
+        promotion: false
+    });
+</script>
