@@ -79,7 +79,7 @@ class RestaurantController extends Controller
         return view('Restaurant.edit',compact('cities', 'restaurant', 'meta'));
     }
 
-    public function update(Request $request, Restaurant $restaurant)
+    public function update(Request $request, $id)
     {
         try {
             $data = $request->all();
