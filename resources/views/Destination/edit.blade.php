@@ -108,7 +108,7 @@
                             <slider-component 
                             :initial-data='@json(old("slider", $destination->slider ?? []))'
                             ></slider-component>
-                            <input type="hidden" name="slider" :value="sliderData">
+                            <input type="hidden" name="image_gallery" :value="sliderData">
                         </div>
                     </tab>
                 </tabs>
