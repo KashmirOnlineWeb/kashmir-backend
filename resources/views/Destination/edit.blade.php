@@ -105,8 +105,10 @@
                     </tab>
                     <tab name="Slider">
                         <div class="py-4 border-t border-gray-200">
-                            <slider-component :initial-data='@json($destination->slider ?? [])'></slider-component>
-                            <input type="hidden" name="image_gallery" :value="sliderData">
+                            <slider-component 
+                            :initial-data='@json(old("slider", $destination->slider ?? []))'
+                            ></slider-component>
+                            <input type="hidden" name="slider" :value="sliderData">
                         </div>
                     </tab>
                 </tabs>
@@ -169,7 +171,7 @@
 <script>
     tinymce.init({
         selector: 'textarea#description, textarea#highlights_content',
-        plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount linkchecker',
+        plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
         toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
         branding: false,
         promotion: false
