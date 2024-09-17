@@ -2,6 +2,7 @@
     <div>
         <div class="flex items-center justify-between mb-4">
             <div>
+                {{ old('hospitals_content') }}
                 <h1 class="text-lg font-semibold md:text-xl leading-none tracking-tight">
                     {{ isset($hospital) ? 'Edit Hospital' : 'Create Hospital' }}
                 </h1>
@@ -100,23 +101,26 @@
 
             <!-- Section 2: Content and Highlights -->
             <div class="mb-4 p-4 border-b border-gray-200">
-                <h2 class="text-md font-semibold mb-2">Content</h2>
-                <p class="text-sm text-gray-600 mb-4">Add detailed description of the hospital.</p>
+                <h2 class="text-md font-semibold mb-2">Specializations</h2>
                 <textarea name="content" id="content" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1 tinymce">{{ old('content', $hospital->content ?? '') }}</textarea>
                 @error('content')
                     <span class="text-red-500 text-sm">{{ $message }}</span></br>
                 @enderror
-                @error('hospitals_content')
-                    <span class="text-red-500 text-sm">{{ $message }}</span>
+            </div>
+            <div class="mb-4 p-4 border-b border-gray-200">
+                <h2 class="text-md font-semibold mb-2">Facilities</h2>
+                <textarea name="facilities" id="facilities" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1 tinymce">{{ old('facilities', $hospital->facilities ?? '') }}</textarea>
+                @error('facilities')
+                    <span class="text-red-500 text-sm">{{ $message }}</span></br>
                 @enderror
             </div>
-
-            <!-- SEO Fields Section -->
-            <div id="seo-fields">
-                <seo-fields :meta-title="'{{ old('meta_title', $meta->meta_title ?? '') }}'"
-                    :meta-description="'{{ old('meta_description', $meta->meta_description ?? '') }}'"
-                    :keywords="'{{ old('keywords', $meta->keywords ?? '') }}'">
-                </seo-fields>
+            <div class="mb-4 p-4 border-b border-gray-200">
+                <h2 class="text-md font-semibold mb-2">Referral System</h2>
+                <textarea name="referral_system" id="referral_system"
+                    class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1 tinymce">{{ old('referral_system', $hospital->referral_system ?? '') }}</textarea>
+                @error('referral_system')
+                    <span class="text-red-500 text-sm">{{ $message }}</span></br>
+                @enderror
             </div>
 
             <!-- Section 3: Additional Information -->
@@ -124,9 +128,92 @@
                 <h2 class="text-md font-semibold mb-2">Additional Information</h2>
                 <p class="text-sm text-gray-600 mb-4">Add additional details like image, name, address, contact,
                     description, and content.</p>
-                <hospitals
+                <div class="mb-4">
+                    <div class="flex-grow pl-4 w-full sm:w-auto">
+                        <div class="mb-4 flex gap-2">
+                            <div class="mb-4 w-full">
+                                <label for="introduction"
+                                    class="block text-sm font-medium text-gray-700">Introduction</label>
+                                <textarea name="introduction" id="introduction" value="{{ old('introduction', $hospital->introduction ?? '') }}"
+                                    class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1"></textarea>
+                                @error('introduction')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="mb-4 w-full">
+                                <label for="description"
+                                    class="block text-sm font-medium text-gray-700">Description</label>
+                                <textarea name="description" id="description" value="{{ old('description', $hospital->description ?? '') }}"
+                                    class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
+                                </textarea>
+                                @error('description')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="mb-4 flex gap-2">
+                            <div class="mb-4 w-full">
+                                <div class="mb-4 w-full">
+                                    <label for="description" class="block text-sm font-medium text-gray-700">How to
+                                        Reach</label>
+                                    <textarea name="how_to_reach" id="how_to_reach" value="{{ old('how_to_reach', $hospital->how_to_reach ?? '') }}"
+                                        class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
+                                </textarea>
+                                    @error('how_to_reach')
+                                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="mb-4 w-full">
+                                <div class="mb-4 w-full">
+                                    <label for="description" class="block text-sm font-medium text-gray-700">Trauma
+                                        Services</label>
+                                    <textarea name="trauma_services" id="trauma_services"
+                                        value="{{ old('trauma_services', $hospital->trauma_services ?? '') }}"
+                                        class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
+                                </textarea>
+                                    @error('trauma_services')
+                                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="mb-4 w-full">
+                                <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                                <input type="text" name="address"
+                                    value="{{ old('address', $hospital->address ?? '') }}"
+                                    class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
+                                @error('address')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="mb-4 w-full">
+                                <label for="website_url" class="block text-sm font-medium text-gray-700"> Website
+                                    URL</label>
+                                <input type="text" name="website_url"
+                                    value="{{ old('website_url', $hospital->website_url ?? '') }}"
+                                    class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
+                                @error('website_url')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="mb-4 w-full">
+                                <label for="google_map" class="block text-sm font-medium text-gray-700">Google
+                                    Maps Link</label>
+                                <input type="text" name="google_map"
+                                    value="{{ old('google_map', $hospital->google_map ?? '') }}"
+                                    class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
+                                @error('google_map')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <hospitals
                     :initial-data="{{ json_encode(old('hospitals_content', $hospital->hospitals_content ?? [])) }}">
-                </hospitals>
+                </hospitals> -->
             </div>
 
             <div class="mb-4">

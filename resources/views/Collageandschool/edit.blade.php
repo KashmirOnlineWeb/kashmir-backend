@@ -88,18 +88,69 @@
                 <h2 class="text-md font-semibold mb-2">Collage/School Information</h2>
                 <p class="text-sm text-gray-600 mb-4">Add additional details like image, name, address, contact,
                     description, and content.</p>
-                <colleges-and-schools
+                <div class="mb-4 flex gap-2">
+                    <div class="mb-4 w-full">
+                        <label for="board" class="block text-sm font-medium text-gray-700">Board</label>
+                        <input type="text" name="board" id="board"
+                            value="{{ old('board', $collageandschool->board ?? '') }}"
+                            class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1" />
+                        @error('board')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="mb-4 w-full">
+                        <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
+                        <input type="text" name="location" id="location"
+                            value="{{ old('location', $collageandschool->location ?? '') }}"
+                            class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1" />
+                        @error('location')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="mb-4 flex gap-2">
+                    <div class="mb-4 w-full">
+                        <label for="website_url" class="block text-sm font-medium text-gray-700">Website URL</label>
+                        <input type="text" name="website_url" id="website_url"
+                            value="{{ old('website_url', $collageandschool->website_url ?? '') }}"
+                            class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1" />
+                        @error('website_url')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="mb-4 w-full">
+                        <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                        <input type="text" name="address" id="address"
+                            value="{{ old('address', $collageandschool->address ?? '') }}"
+                            class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1" />
+                        @error('address')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="mb-4 flex gap-2">
+                    <div class="mb-4 w-full">
+                        <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                        <input type="text" name="description" id="description"
+                            value="{{ old('description', $collageandschool->description ?? '') }}"
+                            class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1" />
+                        @error('description')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+                <!-- <colleges-and-schools
                     :initial-data="{{ json_encode(old('collagesandschools_content', $collageandschool->collagesandschools_content ?? [])) }}">
-                    </collages-and-schools>
+                    </collages-and-schools> -->
             </div>
 
             <!-- SEO Fields Section -->
-            <div id="seo-fields">
+            <!-- <div id="seo-fields">
                 <seo-fields :meta-title="'{{ old('meta_title', $meta->meta_title ?? '') }}'"
                     :meta-description="'{{ old('meta_description', $meta->meta_description ?? '') }}'"
                     :keywords="'{{ old('keywords', $meta->keywords ?? '') }}'">
                 </seo-fields>
-            </div>
+            </div> -->
 
             <div class="mb-4">
                 <button type="submit"

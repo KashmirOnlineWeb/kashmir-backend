@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Log;
 use App\Models\Pharmacy;
 use App\Models\Meta;
-
+use App\Models\City;
 class PharmacyController extends Controller
 {
     /**
@@ -32,7 +32,8 @@ class PharmacyController extends Controller
      */
     public function create(Request $request): View
     {
-        return view('Pharmacy.edit');
+        $cities = City::all();
+        return view('Pharmacy.edit', compact('cities'));
     }
 
     /**
