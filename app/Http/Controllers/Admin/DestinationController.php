@@ -78,7 +78,7 @@ class DestinationController extends Controller
                                         'highlights_content'=> $data['highlights_content'],
                                         'image'             => $data['image'],
                                         'image_alt'         => $data['image_alt'],
-                                        'image_gallery'     => $data['image_gallery'],
+                                        'image_gallery'     => json_encode($data['image_gallery']),
                                         'destination_type'  => $data['destination_type'],
                                         'meta_id'           => $meta->id,
                                         'city_id'           => $data['city_id'],
@@ -101,7 +101,7 @@ class DestinationController extends Controller
         if(!empty($destination->meta_id)){
             $meta   = Meta::findOrFail($destination->meta_id);    
         }
-        
+        $destination->image_gallery = json_decode($destination->image_gallery);
         return view('Destination.edit',compact('cities', 'destination', 'meta'));
     }
     
@@ -152,7 +152,7 @@ class DestinationController extends Controller
                                         'highlights_content'=> $data['highlights_content'],
                                         'image'             => $data['image'],
                                         'image_alt'         => $data['image_alt'],
-                                        'image_gallery'     => $data['image_gallery'],
+                                        'image_gallery'     => json_encode($data['image_gallery']),
                                         'destination_type'  => $data['destination_type'],
                                         'meta_id'           => $destination->meta_id,
                                         'city_id'           => $data['city_id'],
