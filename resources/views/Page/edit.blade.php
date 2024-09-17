@@ -46,8 +46,11 @@
             <!-- Section 2: Tabs for Content and Highlights -->
             <div class="mb-4 p-4 border-b border-gray-200">
                 <h2 class="text-md font-semibold mb-2">Content</h2>
-                <content-repeater :initialData="{{ json_encode(old('contents', $page->contents ?? [])) }}"
-                    @update:contents="updateContents" />
+                <content-repeater 
+                    :initialData="{{ json_encode(old('repeater_content', $shoppingplace->repeater_content ?? [])) }}"
+                    @update:contents="updateContents"
+                    name-prefix="repeater_content"
+                />
                 @error('contents')
                     <span class="text-red-500 text-sm">{{ $message }}</span></br>
                 @enderror

@@ -189,6 +189,15 @@
                                 @enderror
                             </div>
                             <div class="mb-4 w-full">
+                                <label for="contact" class="block text-sm font-medium text-gray-700">Contact</label>
+                                <input type="text" name="contact"
+                                    value="{{ old('contact', $hospital->contact ?? '') }}"
+                                    class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
+                                @error('contact')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="mb-4 w-full">
                                 <label for="website_url" class="block text-sm font-medium text-gray-700"> Website
                                     URL</label>
                                 <input type="text" name="website_url"
