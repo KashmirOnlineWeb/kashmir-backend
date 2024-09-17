@@ -10,10 +10,16 @@ class Pharmacy extends Model
     use HasFactory;
     protected $fillable = [
         'name',
-        'image',
-        'image_alt',
-        'status',
         'slug',
-        'min_price',
+        'status',
+        'google_map',
+        'location',
+        'working_hours',
+        'contact',
+        'city_id',
+        'meta_id',
+        'content',
+        'image',
+        'image_alt'
     ];
 }

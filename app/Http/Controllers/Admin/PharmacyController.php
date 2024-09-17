@@ -48,37 +48,44 @@ class PharmacyController extends Controller
                             'name'            => 'required|string',
                             'status'          => 'required|integer|digits_between:0,1',
                             'slug'            => 'required|string',
+                            'google_map'      => 'sometimes|string',
+                            'location'        => 'required|string',
+                            'working_hours'   => 'required|string',
+                            'contact'         => 'sometimes|digits:10',
                             'image'           => 'sometimes|string',
                             'image_alt'       => 'sometimes|string',
                             'city_id'         => 'required|integer|exists:cities,id',
-                            'meta_title'      => 'required|string|nullable',
-                            'meta_description'=> 'required|string|nullable',
-                            'keywords'        => 'required|string|nullable'
+                            //'meta_title'      => 'required|string|nullable',
+                            //'meta_description'=> 'required|string|nullable',
+                            //'keywords'        => 'required|string|nullable'
                         ]);
 
             /* Insert Meta */
-            if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
+            /*if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
                 $meta = Meta::create([
                             'meta_title'       => $data['meta_title'],
                             'meta_description' => $data['meta_description'],
                             'keywords'         => $data['keywords'],
                             'status'           => 1,
                         ]);
-            }
+            }*/
 
             $response = Pharmacy::create([
-                                        'name'              => $data['name'],
-                                        'slug'              => $data['slug'],
-                                        'status'            => $data['status'],
-                                        'content'           => $data['content'],
-                                        'pharmacies_content'=> $data['pharmacies_content'],
+                                        'name'            => $data['name'],
+                                        'slug'            => $data['slug'],
+                                        'status'          => $data['status'],
+                                        'content'         => $data['content'],
+                                        'google_map'      => $data['google_map'],
+                                        'location'        => $data['location'],
+                                        'working_hours'   => $data['working_hours'],
+                                        'contact'         => $data['contact'],
                                         'image'             => $data['image'],
                                         'image_alt'         => $data['image_alt'],
-                                        'meta_id'           => $meta->id,
+                                        //'meta_id'           => $meta->id,
                                         'city_id'           => $data['city_id'],
                                     ]);
 
-            return Redirect::route('Pharmacy.index',$response->id);
+            return Redirect::route('pharmacy.index',$response->id);
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in pharmacy store.');
         }
@@ -87,14 +94,14 @@ class PharmacyController extends Controller
     /**
      * Display the pharmacy form.
      */
-    public function edit(Request $request): View
+    public function edit(Request $request, $id): View
     {
         $cities    = City::select('id','name')->get();
         $pharmacy  = Pharmacy::findOrFail($id);
         $meta      = [];
-        if(!empty($pharmacy->meta_id)){
+        /*if(!empty($pharmacy->meta_id)){
             $meta  = Meta::findOrFail($pharmacy->meta_id);    
-        }
+        }*/
         return view('Pharmacy.edit',compact('cities', 'pharmacy', 'meta'));
     }
 
@@ -112,18 +119,22 @@ class PharmacyController extends Controller
                             'name'            => 'required|string',
                             'status'          => 'required|integer|digits_between:0,1',
                             'slug'            => 'required|string',
+                            'google_map'      => 'sometimes|string',
+                            'location'        => 'required|string',
+                            'working_hours'   => 'required|string',
+                            'contact'         => 'sometimes|digits:10',
                             'image'           => 'sometimes|string',
                             'image_alt'       => 'sometimes|string',
                             'city_id'         => 'required|integer|exists:cities,id',
-                            'meta_title'      => 'required|string|nullable',
-                            'meta_description'=> 'required|string|nullable',
-                            'keywords'        => 'required|string|nullable'
+                            //'meta_title'      => 'required|string|nullable',
+                            //'meta_description'=> 'required|string|nullable',
+                            //'keywords'        => 'required|string|nullable'
                         ]);
 
             $pharmacy = Pharmacy::find($id);
 
             /* Insert Meta */
-            if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
+            /*if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
                 $meta = Meta::where('id',$pharmacy->meta_id)
                             ->update([
                                 'meta_title'       => $data['meta_title'],
@@ -131,22 +142,25 @@ class PharmacyController extends Controller
                                 'keywords'         => $data['keywords'],
                                 'status'           => 1,
                             ]);
-            }
+            }*/
             
             $response = pharmacy::where('id', $pharmacy->id)
                                 ->update([
-                                        'name'              => $data['name'],
-                                        'slug'              => $data['slug'],
-                                        'status'            => $data['status'],
-                                        'content'           => $data['content'],
-                                        'pharmacies_content'=> $data['pharmacies_content'],
-                                        'image'             => $data['image'],
-                                        'image_alt'         => $data['image_alt'],
-                                        'meta_id'           => $pharmacy->meta_id,
-                                        'city_id'           => $data['city_id'],
+                                        'name'            => $data['name'],
+                                        'slug'            => $data['slug'],
+                                        'status'          => $data['status'],
+                                        'content'         => $data['content'],
+                                        'google_map'      => $data['google_map'],
+                                        'location'        => $data['location'],
+                                        'working_hours'   => $data['working_hours'],
+                                        'contact'         => $data['contact'],
+                                        'image'           => $data['image'],
+                                        'image_alt'       => $data['image_alt'],
+                                        //'meta_id'           => $pharmacy->meta_id,
+                                        'city_id'         => $data['city_id'],
                                     ]);
 
-            return Redirect::route('Pharmacy.index',$response);
+            return Redirect::route('pharmacy.index',$response);
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in pharmacy update.');
         }
@@ -162,12 +176,12 @@ class PharmacyController extends Controller
             $request->merge(['pharmacy_id' => $id]);
                 
             $request->validate(['pharmacy_id'        => 'required|integer|exists:pharmacies,id']);       
-            $Pharmacy = Pharmacy::find($id);
-            if(!empty($Pharmacy->meta_id)){
-                Meta::destroy($Pharmacy->meta_id);
-            }
+            $pharmacy = Pharmacy::find($id);
+            /*if(!empty($pharmacy->meta_id)){
+                Meta::destroy($pharmacy->meta_id);
+            }*/
             $response = $pharmacy->destroy($id);
-            return Redirect::route('Pharmacy.index',$response);
+            return Redirect::route('pharmacy.index',$response);
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in pharmacy destroy.');
         }

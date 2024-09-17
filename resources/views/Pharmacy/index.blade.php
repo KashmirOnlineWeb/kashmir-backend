@@ -44,8 +44,8 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <div id="app-{{ $pharmacy->id }}" class="relative inline-block text-left">
-                                <dropdown-menu :edit-url="'{{ route('pharmacies.edit', $pharmacy->id) }}'"
-                                    :delete-url="'{{ route('pharmacies.destroy', $pharmacy->id) }}'"></dropdown-menu>
+                                <dropdown-menu :edit-url="'{{ route('pharmacy.edit', $pharmacy->id) }}'"
+                                    :delete-url="'{{ route('pharmacy.destroy', $pharmacy->id) }}'"></dropdown-menu>
                             </div>
                         </td>
                     </tr>

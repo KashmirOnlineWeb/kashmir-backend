@@ -7,6 +7,9 @@
                 </h1>
             </div>
         </div>
+        <?php 
+print_r($errors);
+        ?>
         <form action="{{ isset($pharmacy) ? route('pharmacy.update', $pharmacy->id) : route('pharmacy.store') }}"
             method="POST" enctype="multipart/form-data">
             @csrf
@@ -59,7 +62,7 @@
                                 class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
                                 @foreach ($cities as $city)
                                     <option value="{{ $city->id }}"
-                                        {{ isset($hotel) && $hotel->city_id == $city->id ? 'selected' : '' }}>
+                                        {{ isset($pharmacy) && $pharmacy->city_id == $city->id ? 'selected' : '' }}>
                                         {{ $city->name }}</option>
                                 @endforeach
                             </select>
@@ -140,22 +143,22 @@
                             @enderror
                         </div>
                         <div class="mb-4 w-full">
-                            <label for="google_maps_link" class="block text-sm font-medium text-gray-700">Google
-                                Maps Link</label>
-                            <input type="text" name="google_maps_link"
-                                value="{{ old('google_maps_link', $pharmacy->google_maps_link ?? '') }}"
+                            <label for="google_map" class="block text-sm font-medium text-gray-700">Google
+                                Maps</label>
+                            <input type="text" name="google_map"
+                                value="{{ old('google_map', $pharmacy->google_map ?? '') }}"
                                 class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
-                            @error('google_maps_link')
+                            @error('google_map')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
                     <div class="mb-4">
-                        <label for="min_price" class="block text-sm font-medium text-gray-700">Min Price</label>
-                        <input type="text" name="min_price"
-                            value="{{ old('min_price', $pharmacy->min_price ?? '') }}"
+                        <label for="content" class="block text-sm font-medium text-gray-700">Content</label>
+                        <input type="text" name="content"
+                            value="{{ old('content', $pharmacy->content ?? '') }}"
                             class="mt-1 block w-full sm:w-1/2 rounded-md border-gray-200 shadow-sm py-1">
-                        @error('min_price')
+                        @error('content')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
