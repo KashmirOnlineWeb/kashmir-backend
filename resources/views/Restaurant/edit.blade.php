@@ -7,9 +7,6 @@
                 </h1>
             </div>
         </div>
-        <?php 
-print_r($errors);
-        ?>
         <form action="{{ isset($restaurant) ? route('restaurant.update', $restaurant->id) : route('restaurant.store') }}"
             method="POST" enctype="multipart/form-data">
             @csrf

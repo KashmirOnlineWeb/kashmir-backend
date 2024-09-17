@@ -106,7 +106,7 @@
                     <tab name="Slider">
                         <div class="py-4 border-t border-gray-200">
                             <slider-component :initial-data='@json($destination->slider ?? [])'></slider-component>
-                            <input type="hidden" name="slider" :value="sliderData">
+                            <input type="hidden" name="image_gallery" :value="sliderData">
                         </div>
                     </tab>
                 </tabs>
@@ -129,7 +129,7 @@
                         class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
                         @foreach ($cities as $city)
                             <option value="{{ $city->id }}"
-                                {{ isset($hotel) && $hotel->city_id == $city->id ? 'selected' : '' }}>
+                                {{ isset($destination) && $destination->city_id == $city->id ? 'selected' : '' }}>
                                 {{ $city->name }}</option>
                         @endforeach
                     </select>

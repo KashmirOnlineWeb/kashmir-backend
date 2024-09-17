@@ -45,13 +45,13 @@ class DestinationController extends Controller
     {
         try {
             $data = $request->all();
-            
             $request->validate([
                             'name'             => 'required|string',
                             'slug'             => 'required|string',
-                            'title'            => 'required|string',
+                            //'title'            => 'required|string',
                             'image'            => 'sometimes|string',
                             'image_alt'        => 'sometimes|string',
+                            'image_gallery'    => 'sometimes|array',
                             'destination_type' => 'required|integer|min:1|digits_between:1,2',
                             'city_id'          => 'required|integer|exists:cities,id',
                             'meta_title'       => 'required|string|nullable',
@@ -72,8 +72,8 @@ class DestinationController extends Controller
             $response = Destination::create([
                                         'name'              => $data['name'],
                                         'slug'              => $data['slug'],
-                                        'title'             => $data['title'],
-                                        'short_description' => $data['short_description'],
+                                        //'title'             => $data['title'],
+                                        //'short_description' => $data['short_description'],
                                         'description'       => $data['description'],
                                         'highlights_content'=> $data['highlights_content'],
                                         'image'             => $data['image'],
@@ -84,7 +84,7 @@ class DestinationController extends Controller
                                         'city_id'           => $data['city_id'],
                                     ]);
 
-            return Redirect::route('Destination.index',$response->id);
+            return Redirect::route('destination.index',$response->id);
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in destination store.');
         }
@@ -108,7 +108,7 @@ class DestinationController extends Controller
     /**
      * Update the destination information.
      */
-    public function update(): RedirectResponse
+    public function update(Request $request, $id): RedirectResponse
     {
         try {
             $data = $request->all();
@@ -118,9 +118,10 @@ class DestinationController extends Controller
                             'destination_id'   => 'required|integer|exists:destinations,id',
                             'name'             => 'required|string',
                             'slug'             => 'required|string',
-                            'title'            => 'required|string',
+                            //'title'            => 'required|string',
                             'image'            => 'sometimes|string',
                             'image_alt'        => 'sometimes|string',
+                            'image_gallery'    => 'sometimes|array',
                             'destination_type' => 'required|integer|min:1|digits_between:1,2',
                             'city_id'          => 'required|integer|exists:cities,id',
                             'meta_title'       => 'required|string|nullable',
@@ -145,8 +146,8 @@ class DestinationController extends Controller
                                 ->update([
                                         'name'              => $data['name'],
                                         'slug'              => $data['slug'],
-                                        'title'             => $data['title'],
-                                        'short_description' => $data['short_description'],
+                                        //'title'             => $data['title'],
+                                        //'short_description' => $data['short_description'],
                                         'description'       => $data['description'],
                                         'highlights_content'=> $data['highlights_content'],
                                         'image'             => $data['image'],
@@ -158,7 +159,7 @@ class DestinationController extends Controller
                                     ]);
 
 
-            return Redirect::route('Destination.index',$response);
+            return Redirect::route('destination.index',$response);
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in destination update.');
         }
