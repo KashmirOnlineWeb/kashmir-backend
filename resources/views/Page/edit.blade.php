@@ -18,7 +18,7 @@
                 <div class="w-full gap-4 px-2 mb-4">
                     <div class="p-4">
                         <h2 class="text-md font-semibold mb-2">Basic Information</h2>
-                        <p class="text-sm text-gray-600 mb-4">Provide the basic details of the destination.</p>
+                        <p class="text-sm text-gray-600 mb-4">Provide the basic details of the page.</p>
                         <div class="flex w-full mb-4 border-b gap-4 border-gray-200">
                             <div class="mb-4 w-full">
                                 <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
