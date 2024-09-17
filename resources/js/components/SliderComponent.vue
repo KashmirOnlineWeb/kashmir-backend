@@ -13,15 +13,15 @@
             </div>
           </div>
           <div class="flex-shrink-0">
-            <ImageUploader :name="'slider-' + index" :initialFile="element.file" @update:file="updateFile(index, $event)" @upload:start="handleUploadStart" @upload:end="handleUploadEnd" />
+            <ImageUploader :name="`${namePrefix}[${index}][file]`" :initialFile="element.file" @update:file="updateFile(index, $event)" @upload:start="handleUploadStart" @upload:end="handleUploadEnd" />
           </div>
           <div class="flex-grow pl-4">
             <div class="mb-4 flex">
-              <input type="text" v-model="element.alt" placeholder="Alt Text" class="mt-1 block w-1/2 rounded-md border-gray-200 shadow-sm py-1 mr-2" @input="updateSliderData">
-              <input type="text" v-model="element.title" placeholder="Title" class="mt-1 block w-1/2 rounded-md border-gray-200 shadow-sm py-1" @input="updateSliderData">
+              <input type="text" v-model="element.alt" :name="`${namePrefix}[${index}][alt]`" placeholder="Alt Text" class="mt-1 block w-1/2 rounded-md border-gray-200 shadow-sm py-1 mr-2" @input="updateSliderData">
+              <input type="text" v-model="element.title" :name="`${namePrefix}[${index}][title]`" placeholder="Title" class="mt-1 block w-1/2 rounded-md border-gray-200 shadow-sm py-1" @input="updateSliderData">
             </div>
             <div>
-              <textarea v-model="element.description" placeholder="Description" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1" @input="updateSliderData"></textarea>
+              <textarea v-model="element.description" :name="`${namePrefix}[${index}][description]`" placeholder="Description" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1" @input="updateSliderData"></textarea>
             </div>
             <div v-if="element.error" class="text-red-500 text-sm mt-2">{{ element.error }}</div>
           </div>
@@ -38,7 +38,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, nextTick } from 'vue';
 import { useSliderStore } from '../stores/sliderStore';
 import draggable from 'vuedraggable';
 import ImageUploader from './ImageUploader.vue';
@@ -47,10 +47,15 @@ const props = defineProps({
   initialData: {
     type: [Array, String],
     default: () => []
+  },
+  namePrefix: {
+    type: String,
+    default: 'slider'
   }
 });
 
 const sliderStore = useSliderStore();
+const emit = defineEmits(['update:slider-data']);
 
 // Parse initial data if it's a string
 let initialData;
@@ -63,14 +68,16 @@ try {
 
 const images = ref([...initialData]);
 
-const addImage = () => {
+const addImage = async () => {
   images.value.push({ id: Date.now(), file: null, alt: '', title: '', description: '', uploading: false, error: null });
   updateSliderData();
+  await nextTick();
 };
 
-const removeImage = (index) => {
+const removeImage = async (index) => {
   images.value.splice(index, 1);
   updateSliderData();
+  await nextTick();
 };
 
 const updateFile = (index, file) => {
@@ -79,7 +86,7 @@ const updateFile = (index, file) => {
 };
 
 const updateSliderData = () => {
-  sliderStore.updateSliderData(images.value);
+  emit('update:slider-data', images.value);
 };
 
 const handleUploadStart = () => {

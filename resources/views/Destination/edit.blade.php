@@ -105,10 +105,10 @@
                     </tab>
                     <tab name="Slider">
                         <div class="py-4 border-t border-gray-200">
-                            <slider-component 
-                            :initial-data='@json(old("slider", $destination->slider ?? []))'
+                        <slider-component 
+                                :initial-data='@json(old("image_gallery", $destination->image_gallery ?? []))'
+                                name-prefix="image_gallery"
                             ></slider-component>
-                            <input type="hidden" name="image_gallery" :value="sliderData">
                         </div>
                     </tab>
                 </tabs>
