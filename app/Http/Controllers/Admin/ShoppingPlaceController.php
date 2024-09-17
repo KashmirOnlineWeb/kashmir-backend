@@ -40,7 +40,7 @@ class ShoppingPlaceController extends Controller
     {
         try {
             $data = $request->all();
-            //dd($data);
+            dd($data);
             $request->validate([
                             'name'            => 'required|string',
                             'title'           => 'required|string',
