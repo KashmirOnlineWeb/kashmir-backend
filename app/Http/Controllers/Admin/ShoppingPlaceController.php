@@ -40,11 +40,11 @@ class ShoppingPlaceController extends Controller
     {
         try {
             $data = $request->all();
-            
+            //dd($data);
             $request->validate([
                             'name'            => 'required|string',
                             'title'           => 'required|string',
-                            'image'           => 'sometimes|string',
+                            'image'           => 'sometimes|string|nullable',
                             'image_alt'       => 'sometimes|string',
                             'repeater_content'=> 'sometimes|array',
                             'city_id'         => 'required|integer|exists:cities,id',

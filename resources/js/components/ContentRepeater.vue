@@ -9,22 +9,22 @@
         </div>
       </div>
       <div class="flex-shrink-0 w-full sm:w-auto">
-        <ImageUploader v-if="content.showImage" :name="'content-' + index" :initialFile="content.file" @update:file="updateFile(index, $event)" />
+        <ImageUploader v-if="content.showImage" :name="`${namePrefix}[${index}][file]`" :initialFile="content.file" @update:file="updateFile(index, $event)" />
         <div v-if="content.showImage" class="mt-2">
           <label class="block text-sm font-medium text-gray-700">Image Position</label>
-          <select v-model="content.imagePosition" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
+          <select v-model="content.imagePosition" :name="`${namePrefix}[${index}][imagePosition]`" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
             <option value="left">Left</option>
             <option value="right">Right</option>
           </select>
         </div>
         <div class="mt-2">
           <label class="block text-sm font-medium text-gray-700">Show Image</label>
-          <input type="checkbox" v-model="content.showImage" class="mt-1">
+          <input type="checkbox" v-model="content.showImage" :name="`${namePrefix}[${index}][showImage]`" class="mt-1">
         </div>
       </div>
       <div class="flex-grow pl-4 w-full sm:w-auto">
         <div class="mb-4">
-          <textarea v-model="content.content" :id="'content-' + content.id" class="tinymce"></textarea>
+          <textarea v-model="content.content" :id="`${namePrefix}-${content.id}`" :name="`${namePrefix}[${index}][content]`" class="tinymce"></textarea>
         </div>
         <div v-if="content.error" class="text-red-500 text-sm mt-2">{{ content.error }}</div>
       </div>
@@ -46,6 +46,10 @@ const props = defineProps({
   initialData: {
     type: Array,
     default: () => []
+  },
+  namePrefix: {
+    type: String,
+    default: 'content'
   }
 });
 
@@ -67,7 +71,7 @@ const removeContent = async (index) => {
   contents.value.splice(index, 1);
   updateContents();
   await nextTick();
-  tinymce.remove(`#content-${removedId}`);
+  tinymce.remove(`#${props.namePrefix}-${removedId}`);
 };
 
 const updateFile = (index, file) => {
@@ -107,9 +111,9 @@ const initializeTinyMCE = () => {
 
 const initializeTinyMCEForNew = () => {
   contents.value.forEach(content => {
-    if (!tinymce.get(`content-${content.id}`)) {
+    if (!tinymce.get(`${props.namePrefix}-${content.id}`)) {
       tinymce.init({
-        selector: `#content-${content.id}`,
+        selector: `#${props.namePrefix}-${content.id}`,
         plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount linkchecker',
         toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
         toolbar_mode: 'floating',
