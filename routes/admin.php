@@ -10,7 +10,7 @@ use App\Http\Controllers\Admin\PharmacyController;
 use App\Http\Controllers\Admin\CollageAndSchoolController;
 use App\Http\Controllers\Admin\HelperController;
 use App\Http\Controllers\Admin\RestaurantController;
-
+use App\Http\Controllers\Admin\ShoppingPlaceController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->group(function () {
@@ -40,6 +40,9 @@ Route::middleware(['auth'])->group(function () {
 
     /* Restaurant */
     Route::resource('/restaurant', RestaurantController::class)->names('restaurant');
+
+    /* Shopping Place */
+    Route::resource('/shoppingplace', ShoppingPlaceController::class)->names('shoppingplace');
 });
 
 Route::prefix('api')->middleware(['auth'])->group(function () {

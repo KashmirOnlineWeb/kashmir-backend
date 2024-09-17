@@ -27,7 +27,7 @@
         <x-nav-link href="{{ route('restaurant.index') }}" :active="request()->routeIs('restaurant.index')">
             • Restaurants
         </x-nav-link>
-        <x-nav-link href="#">
+        <x-nav-link href="{{ route('shoppingplace.index') }}" :active="request()->routeIs('shoppingplace.index')">
             • Shopping Places
         </x-nav-link>
         <x-nav-link href="#">

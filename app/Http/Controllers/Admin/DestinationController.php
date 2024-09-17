@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Log;
 use App\Models\Destination;
 use App\Models\Meta;
+use App\Models\City;
 
 class DestinationController extends Controller
 {
@@ -80,8 +81,9 @@ class DestinationController extends Controller
     {   
         $destination = Destination::findOrFail($id);
         $meta = Meta::findOrFail($destination->meta_id);
+        $cities = City::all();  
 
-        return view('Destination.edit', compact('destination', 'meta'));
+        return view('Destination.edit', compact('destination', 'meta','cities'));
     }
 
     /**
@@ -89,13 +91,14 @@ class DestinationController extends Controller
      */
     public function create(Request $request): View
     {
+        $cities = City::all();
         $meta = (object) [
             'meta_title' => '',
             'meta_description' => '',
             'keywords' => ''
         ];
 
-        return view('Destination.edit', compact('meta'));
+        return view('Destination.edit', compact('meta','cities'));
     }
 
     
