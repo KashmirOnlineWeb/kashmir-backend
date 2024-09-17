@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Pharmacy;
 use App\Models\City;
 use App\Models\Meta;
-use App\Models\City;
+
 class PharmacyController extends Controller
 {
     /**
