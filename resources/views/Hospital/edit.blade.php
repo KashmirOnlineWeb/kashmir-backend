@@ -8,6 +8,9 @@
                 </h1>
             </div>
         </div>
+        <?php 
+print_r($errors);
+        ?>
         <form action="{{ isset($hospital) ? route('hospital.update', $hospital->id) : route('hospital.store') }}"
             method="POST" enctype="multipart/form-data">
             @csrf

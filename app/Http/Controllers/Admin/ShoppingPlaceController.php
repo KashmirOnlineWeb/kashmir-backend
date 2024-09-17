@@ -74,7 +74,7 @@ class ShoppingPlaceController extends Controller
                                     ]);
 
 
-            return Redirect::route('Shoppingplace.index',$response->id)->with('success', 'Shopping place created successfully');
+            return Redirect::route('shoppingplace.index',$response->id)->with('success', 'Shopping place created successfully');
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in ShoppingPlace store.');
         }
@@ -142,7 +142,7 @@ class ShoppingPlaceController extends Controller
                                     ]);
 
 
-            return Redirect::route('Shoppingplace.index',$response)->with('success', 'Shopping place updated successfully');
+            return Redirect::route('shoppingplace.index',$response)->with('success', 'Shopping place updated successfully');
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in ShoppingPlace update.');
         }
@@ -164,7 +164,7 @@ class ShoppingPlaceController extends Controller
             }
 
             $response = $shoppingPlace->destroy($id);
-            return Redirect::route('Shoppingplace.index',$response)->with('success', 'Shopping place deleted successfully');
+            return Redirect::route('shoppingplace.index',$response)->with('success', 'Shopping place deleted successfully');
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in ShoppingPlace destroy.');
         }

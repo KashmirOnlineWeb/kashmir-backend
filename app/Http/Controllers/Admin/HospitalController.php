@@ -49,31 +49,31 @@ class HospitalController extends Controller
                             'slug'            => 'required|string',
                             'address'         => 'sometimes|string',
                             'city_id'         => 'required|integer|exists:cities,id',
-                            'contact'         => 'sometimes|digits:10',
+                            //'contact'         => 'sometimes|digits:10',
                             'google_map'      => 'sometimes|string',
                             'image'           => 'sometimes|string',
                             'image_alt'       => 'sometimes|string',
                             'website_url'     => 'sometimes|string',
-                            'meta_title'      => 'required|string|nullable',
-                            'meta_description'=> 'required|string|nullable',
-                            'keywords'        => 'required|string|nullable'
+                            //'meta_title'      => 'required|string|nullable',
+                            //'meta_description'=> 'required|string|nullable',
+                            //'keywords'        => 'required|string|nullable'
                         ]);
 
             /* Insert Meta */
-            if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
+            /*if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
                 $meta = Meta::create([
                             'meta_title'       => $data['meta_title'],
                             'meta_description' => $data['meta_description'],
                             'keywords'         => $data['keywords'],
                             'status'           => 1,
                         ]);
-            }
+            }*/
 
             $response = Hospital::create([
                                         'name'            => $data['name'],
                                         'slug'            => $data['slug'],
                                         'address'         => $data['address'],
-                                        'contact'         => $data['contact'],
+                                        'contact'         => '1111111111',//$data['contact'],
                                         'content'         => $data['content'],
                                         'description'     => $data['description'],
                                         'facilities'      => $data['facilities'],
@@ -85,11 +85,11 @@ class HospitalController extends Controller
                                         'referral_system' => $data['referral_system'],
                                         'trauma_services' => $data['trauma_services'],
                                         'website_url'     => $data['website_url'],
-                                        'meta_id'         => $meta->id,
+                                        //'meta_id'         => $meta->id,
                                         'city_id'         => $data['city_id'],
                                     ]);
 
-            return Redirect::route('Hospital.index',$response->id);
+            return Redirect::route('hospital.index',$response->id);
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in Hospital store.');
         }
@@ -105,9 +105,9 @@ class HospitalController extends Controller
         $cities = City::select('id','name')->get();
         $hospital  = Hospital::findOrFail($id);
         $meta   = [];
-        if(!empty($hospital->meta_id)){
+        /*if(!empty($hospital->meta_id)){
             $meta   = Meta::findOrFail($hospital->meta_id);    
-        }
+        }*/
         
         return view('Hospital.edit',compact('cities', 'hospital', 'meta'));
     }
@@ -132,15 +132,15 @@ class HospitalController extends Controller
                             'image'           => 'sometimes|string',
                             'image_alt'       => 'sometimes|string',
                             'website_url'     => 'sometimes|string',
-                            'meta_title'      => 'required|string|nullable',
+                            /*'meta_title'      => 'required|string|nullable',
                             'meta_description'=> 'required|string|nullable',
-                            'keywords'        => 'required|string|nullable'
+                            'keywords'        => 'required|string|nullable'*/
                         ]);
 
             $hospital = Hospital::find($id);
 
             /* Insert Meta */
-            if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
+            /*if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
                 $meta = Meta::where('id',$hospital->meta_id)
                             ->update([
                                 'meta_title'       => $data['meta_title'],
@@ -148,7 +148,7 @@ class HospitalController extends Controller
                                 'keywords'         => $data['keywords'],
                                 'status'           => 1,
                             ]);
-            }
+            }*/
             
             $response = Hospital::where('id', $hospital->id)
                                 ->update([
@@ -167,12 +167,12 @@ class HospitalController extends Controller
                                         'referral_system' => $data['referral_system'],
                                         'trauma_services' => $data['trauma_services'],
                                         'website_url'     => $data['website_url'],
-                                        'meta_id'         => $hospital->meta_id,
+                                        //'meta_id'         => $hospital->meta_id,
                                         'city_id'         => $data['city_id'],
                                     ]);
 
 
-            return Redirect::route('Hospital.index',$response);
+            return Redirect::route('hospital.index',$response);
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in hospital update.');
         }
@@ -187,13 +187,13 @@ class HospitalController extends Controller
             $data = $request->all();
             $request->merge(['hospital_id' => $id]);
                 
-            $request->validate(['hospital_id' => 'required|integer|exists:hospital,id']);
+            $request->validate(['hospital_id' => 'required|integer|exists:hospitals,id']);
             $hospital = Hospital::find($id);
-            if(!empty($hospital->meta_id)){
+            /*if(!empty($hospital->meta_id)){
                 Meta::destroy($hospital->meta_id);
-            }
+            }*/
             $response = $hospital->destroy($id);
-            return Redirect::route('Hospital.index',$response);
+            return Redirect::route('hospital.index',$response);
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in hospital destroy.');
         }

@@ -63,20 +63,20 @@ class HotelController extends Controller
                             'total_washrooms' => 'sometimes|integer',
                             'status'          => 'required|integer|digits_between:0,1',
                             'city_id'         => 'required|integer|exists:cities,id',
-                            'meta_title'      => 'required|string|nullable',
-                            'meta_description'=> 'required|string|nullable',
-                            'keywords'        => 'required|string|nullable'
+                            //'meta_title'      => 'required|string|nullable',
+                            //'meta_description'=> 'required|string|nullable',
+                            //'keywords'        => 'required|string|nullable'
                         ]);
 
             /* Insert Meta */
-            if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
+            /*if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
                 $meta = Meta::create([
                             'meta_title'       => $data['meta_title'],
                             'meta_description' => $data['meta_description'],
                             'keywords'         => $data['keywords'],
                             'status'           => 1,
                         ]);
-            }
+            }*/
             
             $response = Hotel::create([
                                         'name'              => $data['name'],
@@ -97,12 +97,12 @@ class HotelController extends Controller
                                         'total_washrooms'   => $data['total_washrooms'],
                                         'highlights_content'=> $data['highlights_content'],
                                         'status'            => $data['status'],
-                                        'meta_id'           => $meta->id,
+                                        //'meta_id'           => $meta->id,
                                         'city_id'           => $data['city_id'],
                                     ]);
 
 
-            return Redirect::route('Hotel.index',$response->id);
+            return Redirect::route('hotel.index',$response->id);
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in hotel store.');
         }
@@ -116,13 +116,13 @@ class HotelController extends Controller
         $cities = City::select('id','name')->get();
         $hotel  = Hotel::findOrFail($id);
         $meta   = [];
-        if(!empty($hotel->meta_id)){
+        /*if(!empty($hotel->meta_id)){
             $meta   = Meta::findOrFail($hotel->meta_id);    
-        }
+        }*/
         
         $hotel->amenities = json_decode($hotel->amenities);
         
-        return view('Hotel.edit',compact('cities', 'hotel', 'meta'));
+        return view('Hotel.edit',compact('cities', 'hotel'));
     }
 
     /**
@@ -153,15 +153,15 @@ class HotelController extends Controller
                             'total_washrooms' => 'sometimes|integer',
                             'status'          => 'required|integer|digits_between:0,1',
                             'city_id'         => 'required|integer|exists:cities,id',
-                            'meta_title'      => 'required|string|nullable',
+                            /*'meta_title'      => 'required|string|nullable',
                             'meta_description'=> 'required|string|nullable',
-                            'keywords'        => 'required|string|nullable'
+                            'keywords'        => 'required|string|nullable'*/
                         ]);
 
             $hotel = Hotel::find($id);
 
             /* Insert Meta */
-            if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
+            /*if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
                 $meta = Meta::where('id',$hotel->meta_id)
                             ->update([
                                 'meta_title'       => $data['meta_title'],
@@ -169,7 +169,7 @@ class HotelController extends Controller
                                 'keywords'         => $data['keywords'],
                                 'status'           => 1,
                             ]);
-            }
+            }*/
             
             $response = Hotel::where('id', $hotel->id)
                                 ->update([
@@ -191,12 +191,12 @@ class HotelController extends Controller
                                         'total_washrooms'   => $data['total_washrooms'],
                                         'highlights_content'=> $data['highlights_content'],
                                         'status'            => $data['status'],
-                                        'meta_id'           => $hotel->meta_id,
+                                        //'meta_id'           => $hotel->meta_id,
                                         'city_id'           => $data['city_id'],
                                     ]);
 
 
-            return Redirect::route('Hotel.index',$response);
+            return Redirect::route('hotel.index',$response);
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in hotel update.');
         }
@@ -212,12 +212,12 @@ class HotelController extends Controller
             $request->merge(['hotel_id' => $id]);
                 
             $request->validate(['hotel_id'        => 'required|integer|exists:hotels,id']);       
-            $hotel = Hotel::find($id);
+            /*$hotel = Hotel::find($id);
             if(!empty($hotel->meta_id)){
                 Meta::destroy($hotel->meta_id);
-            }
+            }*/
             $response = $hotel->destroy($id);
-            return Redirect::route('Hotel.index',$response);
+            return Redirect::route('hotel.index',$response);
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in hotel destroy.');
         }
