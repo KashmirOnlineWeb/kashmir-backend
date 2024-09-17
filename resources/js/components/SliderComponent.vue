@@ -45,14 +45,23 @@ import ImageUploader from './ImageUploader.vue';
 
 const props = defineProps({
   initialData: {
-    type: Array,
+    type: [Array, String],
     default: () => []
   }
 });
 
 const sliderStore = useSliderStore();
 
-const images = ref([...props.initialData]);
+// Parse initial data if it's a string
+let initialData;
+try {
+  initialData = typeof props.initialData === 'string' ? JSON.parse(props.initialData) : props.initialData;
+} catch (e) {
+  console.error('Failed to parse initialData:', e);
+  initialData = [];
+}
+
+const images = ref([...initialData]);
 
 const addImage = () => {
   images.value.push({ id: Date.now(), file: null, alt: '', title: '', description: '', uploading: false, error: null });
