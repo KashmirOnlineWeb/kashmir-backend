@@ -102,7 +102,7 @@ class HotelController extends Controller
                                     ]);
 
 
-            return Redirect::route('hotel.index',$response->id);
+            return Redirect::route('Hotel.index',$response->id);
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in hotel store.');
         }
@@ -122,7 +122,7 @@ class HotelController extends Controller
         
         $hotel->amenities = json_decode($hotel->amenities);
         
-        return view('hotel.edit',compact('cities', 'hotel', 'meta'));
+        return view('Hotel.edit',compact('cities', 'hotel', 'meta'));
     }
 
     /**
@@ -196,7 +196,7 @@ class HotelController extends Controller
                                     ]);
 
 
-            return Redirect::route('hotel.index',$response);
+            return Redirect::route('Hotel.index',$response);
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in hotel update.');
         }
@@ -217,7 +217,7 @@ class HotelController extends Controller
                 Meta::destroy($hotel->meta_id);
             }
             $response = $hotel->destroy($id);
-            return Redirect::route('hotel.index',$response);
+            return Redirect::route('Hotel.index',$response);
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in hotel destroy.');
         }

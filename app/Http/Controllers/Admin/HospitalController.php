@@ -109,7 +109,7 @@ class HospitalController extends Controller
             $meta   = Meta::findOrFail($hospital->meta_id);    
         }
         
-        return view('hospital.edit',compact('cities', 'hospital', 'meta'));
+        return view('Hospital.edit',compact('cities', 'hospital', 'meta'));
     }
 
     /**
@@ -172,7 +172,7 @@ class HospitalController extends Controller
                                     ]);
 
 
-            return Redirect::route('hospital.index',$response);
+            return Redirect::route('Hospital.index',$response);
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in hospital update.');
         }
@@ -193,7 +193,7 @@ class HospitalController extends Controller
                 Meta::destroy($hospital->meta_id);
             }
             $response = $hospital->destroy($id);
-            return Redirect::route('hospital.index',$response);
+            return Redirect::route('Hospital.index',$response);
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in hospital destroy.');
         }
