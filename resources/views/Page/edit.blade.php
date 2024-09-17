@@ -53,6 +53,14 @@
                 @enderror
             </div>
 
+            <!-- SEO Fields Section -->
+            <div id="seo-fields">
+                <seo-fields :meta-title="'{{ old('meta_title', $meta->meta_title ?? '') }}'"
+                    :meta-description="'{{ old('meta_description', $meta->meta_description ?? '') }}'"
+                    :keywords="'{{ old('keywords', $meta->keywords ?? '') }}'">
+                </seo-fields>
+            </div>
+
             <div class="mb-4">
                 <button type="submit" :disabled="isUploading"
                     class="bg-black text-white p-2 rounded disabled:opacity-50">{{ isset($page) ? 'Update Page' : 'Save Page' }}</button>
