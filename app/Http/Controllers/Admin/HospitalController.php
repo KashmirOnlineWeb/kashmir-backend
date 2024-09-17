@@ -49,7 +49,7 @@ class HospitalController extends Controller
                             'slug'            => 'required|string',
                             'address'         => 'sometimes|string',
                             'city_id'         => 'required|integer|exists:cities,id',
-                            //'contact'         => 'sometimes|digits:10',
+                            'contact'         => 'sometimes|digits:10',
                             'google_map'      => 'sometimes|string',
                             'image'           => 'sometimes|string',
                             'image_alt'       => 'sometimes|string',
@@ -73,7 +73,7 @@ class HospitalController extends Controller
                                         'name'            => $data['name'],
                                         'slug'            => $data['slug'],
                                         'address'         => $data['address'],
-                                        'contact'         => '1111111111',//$data['contact'],
+                                        'contact'         => $data['contact'],
                                         'content'         => $data['content'],
                                         'description'     => $data['description'],
                                         'facilities'      => $data['facilities'],
@@ -100,8 +100,6 @@ class HospitalController extends Controller
      */
     public function edit(Request $request, $id): View
     {
-        return view('Hospital.edit');
-
         $cities = City::select('id','name')->get();
         $hospital  = Hospital::findOrFail($id);
         $meta   = [];
