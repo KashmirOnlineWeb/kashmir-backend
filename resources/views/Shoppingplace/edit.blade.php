@@ -61,7 +61,7 @@
                                     class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
                                     @foreach ($cities as $city)
                                         <option value="{{ $city->id }}"
-                                            {{ isset($hotel) && $hotel->city_id == $city->id ? 'selected' : '' }}>
+                                            {{ isset($shoppingplace) && $shoppingplace->city_id == $city->id ? 'selected' : '' }}>
                                             {{ $city->name }}</option>
                                     @endforeach
                                 </select>
@@ -75,14 +75,14 @@
                         <p class="text-sm text-gray-600 mb-4">To show in cards.</p>
                         <div class="mb-4">
                             <image-uploader name="image" id="image"
-                                v-bind:initial-file="'{{ old('image', $destination->image ?? '') }}'"
+                                v-bind:initial-file="'{{ old('image', $shoppingplace->image ?? '') }}'"
                                 class="mt-1 block rounded-md border-gray-200 shadow-sm py-1"></image-uploader>
                         </div>
                         <div class="mb-4">
                             <label for="image_alt" class="block text-sm font-medium text-gray-700">Featured Image Alt
                                 Text</label>
                             <input type="text" name="image_alt" id="image_alt"
-                                value="{{ old('image_alt', $destination->image_alt ?? '') }}"
+                                value="{{ old('image_alt', $shoppingplace->image_alt ?? '') }}"
                                 class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
                         </div>
                     </div>

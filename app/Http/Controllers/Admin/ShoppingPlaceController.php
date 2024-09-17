@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 use App\Models\ShoppingPlace;
 use App\Models\City;
 use App\Models\Meta;
@@ -40,7 +42,7 @@ class ShoppingPlaceController extends Controller
     {
         try {
             $data = $request->all();
-            dd($data);
+            //dd($data);
             $request->validate([
                             'name'            => 'required|string',
                             'title'           => 'required|string',
@@ -68,7 +70,7 @@ class ShoppingPlaceController extends Controller
                                         'title'           => $data['title'],
                                         'image'           => $data['image'],
                                         'image_alt'       => $data['image_alt'],
-                                        'repeater_content'=> $data['repeater_content'],
+                                        'repeater_content'=> json_encode($data['repeater_content']),
                                         'city_id'         => $data['city_id'],
                                         'meta_id'         => $meta->id,
                                     ]);
@@ -86,13 +88,15 @@ class ShoppingPlaceController extends Controller
     public function edit(Request $request, $id): View
     {
         $cities = City::select('id','name')->get();
-        $shoppingPlace  = ShoppingPlace::findOrFail($id);
+        $shoppingplace  = ShoppingPlace::findOrFail($id);
         $meta   = [];
-        if(!empty($shoppingPlace->meta_id)){
-            $meta = Meta::findOrFail($shoppingPlace->meta_id);    
+        if(!empty($shoppingplace->meta_id)){
+            $meta = Meta::findOrFail($shoppingplace->meta_id);    
         }
+
+        $shoppingplace->repeater_content = json_decode($shoppingplace->repeater_content);
         
-        return view('Shoppingplace.edit',compact('cities', 'shoppingPlace', 'meta'));
+        return view('Shoppingplace.edit',compact('cities', 'shoppingplace', 'meta'));
     }
 
     /**
@@ -136,7 +140,7 @@ class ShoppingPlaceController extends Controller
                                         'title'           => $data['title'],
                                         'image'           => $data['image'],
                                         'image_alt'       => $data['image_alt'],
-                                        'repeater_content'=> $data['repeater_content'],
+                                        'repeater_content'=> json_encode($data['repeater_content']),
                                         'city_id'         => $data['city_id'],
                                         'meta_id'         => $shoppingPlace->meta_id,
                                     ]);
