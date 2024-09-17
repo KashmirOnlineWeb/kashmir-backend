@@ -94,7 +94,7 @@ class ShoppingPlaceController extends Controller
             $meta = Meta::findOrFail($shoppingplace->meta_id);    
         }
 
-        $shoppingplace->repeater_content = json_decode($shoppingplace->repeater_content);
+        //$shoppingplace->repeater_content = json_decode($shoppingplace->repeater_content, true);
         
         return view('Shoppingplace.edit',compact('cities', 'shoppingplace', 'meta'));
     }

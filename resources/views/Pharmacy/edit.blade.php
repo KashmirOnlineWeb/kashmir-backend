@@ -7,15 +7,29 @@
                 </h1>
             </div>
         </div>
-        <?php 
-print_r($errors);
-        ?>
+        
         <form action="{{ isset($pharmacy) ? route('pharmacy.update', $pharmacy->id) : route('pharmacy.store') }}"
             method="POST" enctype="multipart/form-data">
             @csrf
             @if (isset($pharmacy))
                 @method('PUT')
             @endif
+
+            <!-- Display Errors -->
+            @if ($errors->any())
+                <div class="mb-4">
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                        <strong class="font-bold">Whoops! Something went wrong.</strong></br>
+                        <span class="block sm:inline">Please check the form for errors.</span>
+                        <ul class="mt-3 list-disc list-inside text-sm text-red-600">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            @endif
+
             <!-- Section 1: Basic Information -->
             <div class="flex flex-wrap -mx-2 mb-4 border-b border-gray-200">
                 <div class="w-full md:w-1/2 px-2 mb-4">
@@ -152,15 +166,6 @@ print_r($errors);
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
-                    </div>
-                    <div class="mb-4">
-                        <label for="content" class="block text-sm font-medium text-gray-700">Content</label>
-                        <input type="text" name="content"
-                            value="{{ old('content', $pharmacy->content ?? '') }}"
-                            class="mt-1 block w-full sm:w-1/2 rounded-md border-gray-200 shadow-sm py-1">
-                        @error('content')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
                     </div>
                 </div>
             </div>
