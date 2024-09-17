@@ -2,7 +2,7 @@
     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
         Dashboard
     </x-nav-link>
-    <x-nav-link href="#" :active="request()->routeIs('cities')">
+    <x-nav-link href="{{ route('page.index') }}" :active="request()->routeIs('page.index')">
         Pages
     </x-nav-link>
     <!-- <x-nav-link href="{{ route('city.index') }}" :active="request()->routeIs('city.index')">
