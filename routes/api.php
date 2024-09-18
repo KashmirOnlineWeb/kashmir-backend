@@ -15,6 +15,14 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+/* Destinations nav */
+Route::get('/destinations', function (Request $request) {
+    $destinations = Destination::select(['id','name','slug','image','image_alt','destination_type'])
+                                ->get();
+    
+    return response()->json($destinations);
+});
+
 /* Destinations */
 Route::get('/destination/{slug}', function (Request $request, $slug) {
     $destination = Destination::where('slug', $slug)
