@@ -22,4 +22,20 @@ class Destination extends Model
                             'city_id',
                             'meta_id'
                         ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function meta()
+    {
+        return $this->belongsTo(Meta::class);
+    }                                                
 }
