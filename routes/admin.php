@@ -13,6 +13,11 @@ use App\Http\Controllers\Admin\RestaurantController;
 use App\Http\Controllers\Admin\ShoppingPlaceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\PageController;
+use App\Http\Controllers\Admin\BackgroundHistoryController;
+use App\Http\Controllers\Admin\GeneralInformationController;
+use App\Http\Controllers\Admin\HowToReachController;
+use App\Http\Controllers\Admin\SafetyInformationController;
+use App\Http\Controllers\Admin\LocationController;
 
 Route::middleware(['auth'])->group(function () {
     /* Category */
@@ -44,6 +49,21 @@ Route::middleware(['auth'])->group(function () {
 
     /* Shopping Place */
     Route::resource('/shoppingplace', ShoppingPlaceController::class)->names('shoppingplace');
+
+    /* Background History */
+    Route::resource('/backgroundhistory', BackgroundHistoryController::class)->names('backgroundhistory');
+
+    /* General Information */
+    Route::resource('/generalinformation', GeneralInformationController::class)->names('generalinformation');
+
+    /* Safety Information */
+    Route::resource('/safetyinformation', SafetyInformationController::class)->names('safetyinformation');
+
+    /* How to reach */
+    Route::resource('/howtoreach', HowToReachController::class)->names('howtoreach');
+
+    /* Location */
+    Route::resource('/location', LocationController::class)->names('location');
 
     /* Page */
     Route::resource('/page', PageController::class)->names('page');

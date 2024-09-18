@@ -10,6 +10,11 @@ use App\Models\Hotel;
 use App\Models\Pharmacy;
 use App\Models\Restaurant;
 use App\Models\ShoppingPlace;
+use App\Models\BackgroundHistory;
+use App\Models\GeneralInformation;
+use App\Models\HowToReach;
+use App\Models\Location;
+use App\Models\SafetyInformation;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -161,4 +166,90 @@ Route::get('/shoppingplace/{city_id}', function (Request $request, $city_id) {
                                 ->first();
 
     return response()->json(['shopping_places' => $shopping_places]);
+});
+
+/* Background history */
+Route::get('/backgroundhistory/{city_id}', function (Request $request, $city_id) {
+    $background_history = BackgroundHistory::where('city_id', $city_id)
+                                ->with(['city:id,name,slug,time_to_visit','meta:id,meta_title,meta_description,keywords'])
+                                ->select(['id',
+                                          'name',
+                                          'title',
+                                          'city_id',
+                                          'meta_id',
+                                          'image',
+                                          'image_alt',
+                                          'repeater_content',])
+                                ->first();
+
+    return response()->json(['background_history' => $background_history]);
+});
+
+/* General information */
+Route::get('/generalinformation/{city_id}', function (Request $request, $city_id) {
+    $general_information = GeneralInformation::where('city_id', $city_id)
+                                ->with(['city:id,name,slug,time_to_visit','meta:id,meta_title,meta_description,keywords'])
+                                ->select(['id',
+                                          'name',
+                                          'title',
+                                          'city_id',
+                                          'meta_id',
+                                          'image',
+                                          'image_alt',
+                                          'repeater_content',])
+                                ->first();
+
+    return response()->json(['general_information' => $general_information]);
+});
+
+/* How to reach */
+Route::get('/howtoreach/{city_id}', function (Request $request, $city_id) {
+    $howtoreach = HowToReach::where('city_id', $city_id)
+                                ->with(['city:id,name,slug,time_to_visit','meta:id,meta_title,meta_description,keywords'])
+                                ->select(['id',
+                                          'name',
+                                          'title',
+                                          'city_id',
+                                          'meta_id',
+                                          'image',
+                                          'image_alt',
+                                          'repeater_content',])
+                                ->first();
+
+    return response()->json(['howtoreach' => $howtoreach]);
+});
+
+/* Location */
+Route::get('/location/{city_id}', function (Request $request, $city_id) {
+    $Locations = Location::where('city_id', $city_id)
+                                ->with(['city:id,name,slug,time_to_visit','meta:id,meta_title,meta_description,keywords'])
+                                ->select(['id',
+                                          'name',
+                                          'title',
+                                          'city_id',
+                                          'meta_id',
+                                          'image',
+                                          'image_alt',
+                                          'repeater_content',])
+                                ->first();
+
+    return response()->json(['Locations' => $Locations]);
+});
+
+/* Safety information */
+Route::get('/safetyinformation/{city_id}', function (Request $request, $city_id) {
+    $safetyinformation = SafetyInformation::where('city_id', $city_id)
+                                ->with(['city:id,name,slug,time_to_visit','meta:id,meta_title,meta_description,keywords'])
+                                ->select(['id',
+                                          'name',
+                                          'title',
+                                          'city_id',
+                                          'meta_id',
+                                          'image',
+                                          'image_alt',
+                                          'description',
+                                          'repeater_content',])
+                                ->first();
+
+    return response()->json(['safetyinformation' => $safetyinformation]);
 });
