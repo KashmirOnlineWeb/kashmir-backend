@@ -46,8 +46,11 @@ Route::get('/collage/{slug}', function (Request $request, $slug) {
                                 ->select(['id','name','slug','address','board','description','image','image_alt','website_url'])
                                 ->get();
     $other_data = [
-                    'name'  => '',
-                    'title' => ''
+                    'name'              => '',
+                    'title'             => '',
+                    'meta_title'        => '',
+                    'meta_description'  => '',
+                    'meta_keywords'     => '', 
                 ];
     
     return response()->json(['collages' => $collages, 'other_data' => $other_data]);
@@ -76,7 +79,10 @@ Route::get('/hospital/{slug}', function (Request $request, $slug) {
                                 ->get();
     $other_data = [
                     'name'  => '',
-                    'title' => ''
+                    'title' => '',
+                    'meta_title'        => '',
+                    'meta_description'  => '',
+                    'meta_keywords'     => '', 
                 ];
     
     return response()->json(['hospitals' => $hospitals, 'other_data' => $other_data]);
@@ -107,7 +113,10 @@ Route::get('/hotel/{slug}', function (Request $request, $slug) {
                                 ->get();
     $other_data = [
                     'name'  => '',
-                    'title' => ''
+                    'title' => '',
+                    'meta_title'        => '',
+                    'meta_description'  => '',
+                    'meta_keywords'     => '', 
                 ];
     
     return response()->json(['hotels' => $hotels, 'other_data' => $other_data]);
@@ -129,7 +138,10 @@ Route::get('/pharmacy/{slug}', function (Request $request, $slug) {
                                 ->get();
     $other_data = [
                     'name'  => '',
-                    'title' => ''
+                    'title' => '',
+                    'meta_title'        => '',
+                    'meta_description'  => '',
+                    'meta_keywords'     => '', 
                 ];
     
     return response()->json(['pharmacies' => $pharmacies, 'other_data' => $other_data]);
@@ -152,7 +164,10 @@ Route::get('/restaurant/{slug}', function (Request $request, $slug) {
                                 ->get();
     $other_data = [
                     'name'  => '',
-                    'title' => ''
+                    'title' => '',
+                    'meta_title'        => '',
+                    'meta_description'  => '',
+                    'meta_keywords'     => '', 
                 ];
     
     return response()->json(['restaurants' => $restaurants, 'other_data' => $other_data]);
