@@ -23,6 +23,11 @@
           </div>
         </div>
         <div class="flex-grow pl-4 w-full sm:w-auto">
+          <!-- title -->
+        <div class="w-full mb-4">
+          <label class="block text-sm font-medium text-gray-700">Title</label>
+          <input type="text" v-model="content.title" :name="`${namePrefix}[${index}][title]`" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
+        </div>
           <div class="mb-4">
             <textarea v-model="content.content" :id="`${namePrefix}-${content.id}`" :name="`${namePrefix}[${index}][content]`" class="tinymce"></textarea>
           </div>
