@@ -15,6 +15,7 @@ use App\Models\GeneralInformation;
 use App\Models\HowToReach;
 use App\Models\Location;
 use App\Models\SafetyInformation;
+use App\Models\City;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -38,8 +39,10 @@ Route::get('/destination/{slug}', function (Request $request, $slug) {
 });
 
 /* Collages and Schools */
-Route::get('/collage/{city_id}', function (Request $request, $city_id) {
-    $collages = CollageAndSchool::where('city_id', $city_id)
+Route::get('/collage/{slug}', function (Request $request, $slug) {
+    $city  = City::where('slug',$slug)->select('id','slug')->first();
+
+    $collages = CollageAndSchool::where('city_id', $city->id)
                                 ->select(['id','name','slug','address','board','description','image','image_alt','website_url'])
                                 ->get();
     $other_data = [
@@ -51,8 +54,9 @@ Route::get('/collage/{city_id}', function (Request $request, $city_id) {
 });
 
 /* Hospitals */
-Route::get('/hospital/{city_id}', function (Request $request, $city_id) {
-    $hospitals = Hospital::where('city_id', $city_id)
+Route::get('/hospital/{slug}', function (Request $request, $slug) {
+    $city  = City::where('slug',$slug)->select('id','slug')->first();
+    $hospitals = Hospital::where('city_id', $city->id)
                                 ->select(['id',
                                           'name',
                                           'slug',
@@ -79,8 +83,9 @@ Route::get('/hospital/{city_id}', function (Request $request, $city_id) {
 });
 
 /* Hotels */
-Route::get('/hotel/{city_id}', function (Request $request, $city_id) {
-    $hotels = Hotel::where('city_id', $city_id)
+Route::get('/hotel/{slug}', function (Request $request, $slug) {
+    $city  = City::where('slug',$slug)->select('id','slug')->first();
+    $hotels = Hotel::where('city_id', $city->id)
                                 ->select(['id',
                                           'name',
                                           'slug',
@@ -109,8 +114,9 @@ Route::get('/hotel/{city_id}', function (Request $request, $city_id) {
 });
 
 /* Pharmacy */
-Route::get('/pharmacy/{city_id}', function (Request $request, $city_id) {
-    $pharmacies = Pharmacy::where('city_id', $city_id)
+Route::get('/pharmacy/{slug}', function (Request $request, $slug) {
+    $city  = City::where('slug',$slug)->select('id','slug')->first();
+    $pharmacies = Pharmacy::where('city_id', $city->id)
                                 ->select(['id',
                                           'name',
                                           'slug',
@@ -130,8 +136,9 @@ Route::get('/pharmacy/{city_id}', function (Request $request, $city_id) {
 });
 
 /* Restaurant */
-Route::get('/restaurant/{city_id}', function (Request $request, $city_id) {
-    $restaurants = Restaurant::where('city_id', $city_id)
+Route::get('/restaurant/{slug}', function (Request $request, $slug) {
+    $city  = City::where('slug',$slug)->select('id','slug')->first();
+    $restaurants = Restaurant::where('city_id', $city->id)
                                 ->select(['id',
                                           'name',
                                           'description',
@@ -152,8 +159,9 @@ Route::get('/restaurant/{city_id}', function (Request $request, $city_id) {
 });
 
 /* Shopping places */
-Route::get('/shoppingplace/{city_id}', function (Request $request, $city_id) {
-    $shopping_places = ShoppingPlace::where('city_id', $city_id)
+Route::get('/shoppingplace/{slug}', function (Request $request, $slug) {
+    $city  = City::where('slug',$slug)->select('id','slug')->first();
+    $shopping_places = ShoppingPlace::where('city_id', $city->id)
                                 ->with(['city:id,name,slug,time_to_visit','meta:id,meta_title,meta_description,keywords'])
                                 ->select(['id',
                                           'name',
@@ -169,8 +177,9 @@ Route::get('/shoppingplace/{city_id}', function (Request $request, $city_id) {
 });
 
 /* Background history */
-Route::get('/backgroundhistory/{city_id}', function (Request $request, $city_id) {
-    $background_history = BackgroundHistory::where('city_id', $city_id)
+Route::get('/backgroundhistory/{slug}', function (Request $request, $slug) {
+    $city  = City::where('slug',$slug)->select('id','slug')->first();
+    $background_history = BackgroundHistory::where('city_id', $city->id)
                                 ->with(['city:id,name,slug,time_to_visit','meta:id,meta_title,meta_description,keywords'])
                                 ->select(['id',
                                           'name',
@@ -186,8 +195,9 @@ Route::get('/backgroundhistory/{city_id}', function (Request $request, $city_id)
 });
 
 /* General information */
-Route::get('/generalinformation/{city_id}', function (Request $request, $city_id) {
-    $general_information = GeneralInformation::where('city_id', $city_id)
+Route::get('/generalinformation/{slug}', function (Request $request, $slug) {
+    $city  = City::where('slug',$slug)->select('id','slug')->first();
+    $general_information = GeneralInformation::where('city_id', $city->id)
                                 ->with(['city:id,name,slug,time_to_visit','meta:id,meta_title,meta_description,keywords'])
                                 ->select(['id',
                                           'name',
@@ -203,8 +213,9 @@ Route::get('/generalinformation/{city_id}', function (Request $request, $city_id
 });
 
 /* How to reach */
-Route::get('/howtoreach/{city_id}', function (Request $request, $city_id) {
-    $howtoreach = HowToReach::where('city_id', $city_id)
+Route::get('/howtoreach/{slug}', function (Request $request, $slug) {
+    $city  = City::where('slug',$slug)->select('id','slug')->first();
+    $howtoreach = HowToReach::where('city_id', $city->id)
                                 ->with(['city:id,name,slug,time_to_visit','meta:id,meta_title,meta_description,keywords'])
                                 ->select(['id',
                                           'name',
@@ -220,8 +231,9 @@ Route::get('/howtoreach/{city_id}', function (Request $request, $city_id) {
 });
 
 /* Location */
-Route::get('/location/{city_id}', function (Request $request, $city_id) {
-    $Locations = Location::where('city_id', $city_id)
+Route::get('/location/{slug}', function (Request $request, $slug) {
+    $city  = City::where('slug',$slug)->select('id','slug')->first();
+    $Locations = Location::where('city_id', $city->id)
                                 ->with(['city:id,name,slug,time_to_visit','meta:id,meta_title,meta_description,keywords'])
                                 ->select(['id',
                                           'name',
@@ -237,8 +249,9 @@ Route::get('/location/{city_id}', function (Request $request, $city_id) {
 });
 
 /* Safety information */
-Route::get('/safetyinformation/{city_id}', function (Request $request, $city_id) {
-    $safetyinformation = SafetyInformation::where('city_id', $city_id)
+Route::get('/safetyinformation/{slug}', function (Request $request, $slug) {
+    $city  = City::where('slug',$slug)->select('id','slug')->first();
+    $safetyinformation = SafetyInformation::where('city_id', $city->id)
                                 ->with(['city:id,name,slug,time_to_visit','meta:id,meta_title,meta_description,keywords'])
                                 ->select(['id',
                                           'name',
