@@ -7,9 +7,6 @@
                 </h1>
             </div>
         </div>
-        <?php 
-print_r($errors);
-        ?>
         <form
             action="{{ isset($collageandschool) ? route('collageandschool.update', $collageandschool->id) : route('collageandschool.store') }}"
             method="POST" enctype="multipart/form-data">
@@ -32,7 +29,7 @@ print_r($errors);
                     </div>
                 </div>
             @endif
-            
+
             <!-- Section 1: Basic Information -->
             <div class="flex flex-wrap -mx-2 mb-4 border-b border-gray-200">
                 <div class="w-full md:w-1/2 px-2 mb-4">
@@ -140,7 +137,7 @@ print_r($errors);
                         @enderror
                     </div>
                 </div>
-                
+
                 <!-- <colleges-and-schools
                     :initial-data="{{ json_encode(old('collagesandschools_content', $collageandschool->collagesandschools_content ?? [])) }}">
                     </collages-and-schools> -->
