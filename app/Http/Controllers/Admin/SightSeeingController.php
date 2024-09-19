@@ -9,36 +9,36 @@ use Illuminate\Validation\Rule;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Log;
-use App\Models\Location;
+use App\Models\SightSeeing;
 use App\Models\City;
 use App\Models\Meta;
 
-class LocationController extends Controller
+class SightSeeingController extends Controller
 {
     /**
-     * Display list of location
+     * Display list of sightseeing
      */
     public function index()
     {
         try {
-            $locations = Location::orderBy('id','desc')->paginate(12);
-            return view('Location.index')->with(['locations' => $locations]);
+            $sightseeing = SightSeeing::orderBy('id','desc')->paginate(12);
+            return view('Sightseeing.index')->with(['sightseeing' => $sightseeing]);
         } catch (Exception $e) {
-            Log::error('Somethinng went wrong in Location index.');
+            Log::error('Somethinng went wrong in sightseeing index.');
         }
     }
 
     /**
-     * Create location form.
+     * Create sightseeing form.
      */
     public function create(Request $request): View
     {
         $cities = City::select('id','name')->get();
-        return view('Location.edit',compact('cities'));
+        return view('Sightseeing.edit',compact('cities'));
     }
 
     /**
-     * Store location form.
+     * Store sightseeing form.
      */
     public function store(Request $request): RedirectResponse
     {
@@ -67,7 +67,7 @@ class LocationController extends Controller
                         ]);
             }
             
-            $response = Location::create([
+            $response = SightSeeing::create([
                                         'name'             => $data['name'],
                                         'title'            => $data['title'],
                                         'image'            => $data['image'],
@@ -77,40 +77,40 @@ class LocationController extends Controller
                                         'city_id'          => $data['city_id'],
                                     ]);
 
-            return Redirect::route('location.index',$response->id);
+            return Redirect::route('sightseeing.index',$response->id);
         } catch (Exception $e) {
-            Log::error('Somethinng went wrong in Location store.');
+            Log::error('Somethinng went wrong in sightseeing store.');
         }
     }
 
     /**
-     * Display the Location form.
+     * Display the sightseeing form.
      */
     public function edit(Request $request, $id): View
     {
-        $cities             = City::select('id','name')->get();
-        $location          = Location::findOrFail($id);
-        $meta               = [];
-        if(!empty($location->meta_id)){
-            $meta = Meta::findOrFail($location->meta_id);
+        $cities            = City::select('id','name')->get();
+        $sightseeing       = SightSeeing::findOrFail($id);
+        $meta              = [];
+        if(!empty($sightseeing->meta_id)){
+            $meta = Meta::findOrFail($sightseeing->meta_id);
         }
         
-        $location->repeater_content = json_decode($location->repeater_content);
+        $sightseeing->repeater_content = json_decode($sightseeing->repeater_content);
         
-        return view('Location.edit',compact('cities', 'location'));
+        return view('Sightseeing.edit',compact('cities', 'sightseeing'));
     }
 
     /**
-     * Update the location information.
+     * Update the sightseeing information.
      */
     public function update(Request $request, $id): RedirectResponse
     {
         try {
             $data = $request->all();
-            $request->merge(['location_id' => $id]);
+            $request->merge(['sightseeing_id' => $id]);
             
             $request->validate([
-                            'location_id'       => 'required|integer|exists:locations,id',
+                            'sightseeing_id'   => 'required|integer|exists:sight_seeing,id',
                             'name'             => 'required|string',
                             'title'            => 'required|string',
                             'image'            => 'sometimes|string|nullable',
@@ -122,11 +122,11 @@ class LocationController extends Controller
                             'keywords'         => 'required|string|nullable'
                         ]);
 
-            $location = Location::find($id);
+            $sightseeing = SightSeeing::find($id);
 
             /* Insert Meta */
             if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
-                $meta = Meta::where('id',$location->meta_id)
+                $meta = Meta::where('id',$sightseeing->meta_id)
                             ->update([
                                 'meta_title'       => $data['meta_title'],
                                 'meta_description' => $data['meta_description'],
@@ -135,42 +135,42 @@ class LocationController extends Controller
                             ]);
             }
             
-            $response = Location::where('id', $location->id)
+            $response = SightSeeing::where('id', $sightseeing->id)
                                 ->update([
                                         'name'             => $data['name'],
                                         'title'            => $data['title'],
                                         'image'            => $data['image'],
                                         'image_alt'        => $data['image_alt'],
                                         'repeater_content' => json_encode($data['repeater_content']),
-                                        'meta_id'          => $location->meta_id,
+                                        'meta_id'          => $sightseeing->meta_id,
                                         'city_id'          => $data['city_id']
                                     ]);
 
 
-            return Redirect::route('location.index',$response);
+            return Redirect::route('sightseeing.index',$response);
         } catch (Exception $e) {
-            Log::error('Somethinng went wrong in location update.');
+            Log::error('Somethinng went wrong in sightseeing update.');
         }
     }
 
     /**
-     * Delete the location.
+     * Delete the sightseeing.
      */
     public function destroy(Request $request, $id): RedirectResponse
     {
         try {
             $data = $request->all();
-            $request->merge(['location_id' => $id]);
+            $request->merge(['sightseeing_id' => $id]);
                 
-            $request->validate(['location_id' => 'required|integer|exists:locations,id']);
-            $location = Location::find($id);
-            if(!empty($location->meta_id)){
-                Meta::destroy($location->meta_id);
+            $request->validate(['sightseeing_id' => 'required|integer|exists:sight_seeing,id']);
+            $sightseeing = SightSeeing::find($id);
+            if(!empty($sightseeing->meta_id)){
+                Meta::destroy($sightseeing->meta_id);
             }
-            $response = $location->destroy($id);
-            return Redirect::route('location.index',$response);
+            $response = $sightseeing->destroy($id);
+            return Redirect::route('sightseeing.index',$response);
         } catch (Exception $e) {
-            Log::error('Somethinng went wrong in location destroy.');
+            Log::error('Somethinng went wrong in sightseeing destroy.');
         }
     }
 }

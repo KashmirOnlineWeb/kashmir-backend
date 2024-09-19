@@ -16,6 +16,10 @@ use App\Models\HowToReach;
 use App\Models\Location;
 use App\Models\SafetyInformation;
 use App\Models\City;
+use App\Models\ReligiousPlace;
+use App\Models\SightSeeing;
+use App\Models\ThingsToBeNoted;
+use App\Models\ThingsToDo;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -280,4 +284,76 @@ Route::get('/safetyinformation/{slug}', function (Request $request, $slug) {
                                 ->first();
 
     return response()->json(['safetyinformation' => $safetyinformation]);
+});
+
+/* Religious places */
+Route::get('/religiousplace/{slug}', function (Request $request, $slug) {
+    $city  = City::where('slug',$slug)->select('id','slug')->first();
+    $religiousplace = ReligiousPlace::where('city_id', $city->id)
+                                ->with(['city:id,name,slug,time_to_visit','meta:id,meta_title,meta_description,keywords'])
+                                ->select(['id',
+                                          'name',
+                                          'title',
+                                          'city_id',
+                                          'meta_id',
+                                          'image',
+                                          'image_alt',
+                                          'repeater_content',])
+                                ->first();
+
+    return response()->json(['religiousplace' => $religiousplace]);
+});
+
+/* Sight seeings */
+Route::get('/sightseeing/{slug}', function (Request $request, $slug) {
+    $city  = City::where('slug',$slug)->select('id','slug')->first();
+    $sightseeing = SightSeeing::where('city_id', $city->id)
+                                ->with(['city:id,name,slug,time_to_visit','meta:id,meta_title,meta_description,keywords'])
+                                ->select(['id',
+                                          'name',
+                                          'title',
+                                          'city_id',
+                                          'meta_id',
+                                          'image',
+                                          'image_alt',
+                                          'repeater_content',])
+                                ->first();
+
+    return response()->json(['sightseeing' => $sightseeing]);
+});
+
+/* Things To Be Noted */
+Route::get('/thingstobenoted/{slug}', function (Request $request, $slug) {
+    $city  = City::where('slug',$slug)->select('id','slug')->first();
+    $thingstobenoted = ThingsToBeNoted::where('city_id', $city->id)
+                                ->with(['city:id,name,slug,time_to_visit','meta:id,meta_title,meta_description,keywords'])
+                                ->select(['id',
+                                          'name',
+                                          'title',
+                                          'city_id',
+                                          'meta_id',
+                                          'image',
+                                          'image_alt',
+                                          'repeater_content',])
+                                ->first();
+
+    return response()->json(['thingstobenoted' => $thingstobenoted]);
+});
+
+/* Things to do */
+Route::get('/thingstodo/{slug}', function (Request $request, $slug) {
+    $city  = City::where('slug',$slug)->select('id','slug')->first();
+    $thingstodo = ThingsToDo::where('city_id', $city->id)
+                                ->with(['city:id,name,slug,time_to_visit','meta:id,meta_title,meta_description,keywords'])
+                                ->select(['id',
+                                          'name',
+                                          'title',
+                                          'city_id',
+                                          'meta_id',
+                                          'image',
+                                          'image_alt',
+                                          'repeater_content',])
+                                ->first();
+
+    return response()->json(['thingstodo' => $thingstodo]);
 });

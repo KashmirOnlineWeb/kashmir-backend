@@ -9,36 +9,36 @@ use Illuminate\Validation\Rule;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Log;
-use App\Models\Location;
+use App\Models\ThingsToDo;
 use App\Models\City;
 use App\Models\Meta;
 
-class LocationController extends Controller
+class ThingsToDoController extends Controller
 {
     /**
-     * Display list of location
+     * Display list of thingstodo
      */
     public function index()
     {
         try {
-            $locations = Location::orderBy('id','desc')->paginate(12);
-            return view('Location.index')->with(['locations' => $locations]);
+            $thingstodo = ThingsToDo::orderBy('id','desc')->paginate(12);
+            return view('Thingstodo.index')->with(['thingstodo' => $thingstodo]);
         } catch (Exception $e) {
-            Log::error('Somethinng went wrong in Location index.');
+            Log::error('Somethinng went wrong in thingstodo index.');
         }
     }
 
     /**
-     * Create location form.
+     * Create thingstodo form.
      */
     public function create(Request $request): View
     {
         $cities = City::select('id','name')->get();
-        return view('Location.edit',compact('cities'));
+        return view('Thingstodo.edit',compact('cities'));
     }
 
     /**
-     * Store location form.
+     * Store thingstodo form.
      */
     public function store(Request $request): RedirectResponse
     {
@@ -67,7 +67,7 @@ class LocationController extends Controller
                         ]);
             }
             
-            $response = Location::create([
+            $response = ThingsToDo::create([
                                         'name'             => $data['name'],
                                         'title'            => $data['title'],
                                         'image'            => $data['image'],
@@ -77,40 +77,40 @@ class LocationController extends Controller
                                         'city_id'          => $data['city_id'],
                                     ]);
 
-            return Redirect::route('location.index',$response->id);
+            return Redirect::route('thingstodo.index',$response->id);
         } catch (Exception $e) {
-            Log::error('Somethinng went wrong in Location store.');
+            Log::error('Somethinng went wrong in thingstodo store.');
         }
     }
 
     /**
-     * Display the Location form.
+     * Display the thingstodo form.
      */
     public function edit(Request $request, $id): View
     {
-        $cities             = City::select('id','name')->get();
-        $location          = Location::findOrFail($id);
-        $meta               = [];
-        if(!empty($location->meta_id)){
-            $meta = Meta::findOrFail($location->meta_id);
+        $cities   = City::select('id','name')->get();
+        $thingstodo = ThingsToDo::findOrFail($id);
+        $meta     = [];
+        if(!empty($thingstodo->meta_id)){
+            $meta = Meta::findOrFail($thingstodo->meta_id);
         }
         
-        $location->repeater_content = json_decode($location->repeater_content);
+        $thingstodo->repeater_content = json_decode($thingstodo->repeater_content);
         
-        return view('Location.edit',compact('cities', 'location'));
+        return view('Thingstodo.edit',compact('cities', 'thingstodo'));
     }
 
     /**
-     * Update the location information.
+     * Update the thingstodo information.
      */
     public function update(Request $request, $id): RedirectResponse
     {
         try {
             $data = $request->all();
-            $request->merge(['location_id' => $id]);
+            $request->merge(['thingstodo_id' => $id]);
             
             $request->validate([
-                            'location_id'       => 'required|integer|exists:locations,id',
+                            'thingstodo_id'    => 'required|integer|exists:things_to_do,id',
                             'name'             => 'required|string',
                             'title'            => 'required|string',
                             'image'            => 'sometimes|string|nullable',
@@ -122,11 +122,11 @@ class LocationController extends Controller
                             'keywords'         => 'required|string|nullable'
                         ]);
 
-            $location = Location::find($id);
+            $thingstodo = ThingsToDo::find($id);
 
             /* Insert Meta */
             if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
-                $meta = Meta::where('id',$location->meta_id)
+                $meta = Meta::where('id',$thingstodo->meta_id)
                             ->update([
                                 'meta_title'       => $data['meta_title'],
                                 'meta_description' => $data['meta_description'],
@@ -135,42 +135,42 @@ class LocationController extends Controller
                             ]);
             }
             
-            $response = Location::where('id', $location->id)
+            $response = ThingsToDo::where('id', $thingstodo->id)
                                 ->update([
                                         'name'             => $data['name'],
                                         'title'            => $data['title'],
                                         'image'            => $data['image'],
                                         'image_alt'        => $data['image_alt'],
                                         'repeater_content' => json_encode($data['repeater_content']),
-                                        'meta_id'          => $location->meta_id,
+                                        'meta_id'          => $thingstodo->meta_id,
                                         'city_id'          => $data['city_id']
                                     ]);
 
 
-            return Redirect::route('location.index',$response);
+            return Redirect::route('thingstodo.index',$response);
         } catch (Exception $e) {
-            Log::error('Somethinng went wrong in location update.');
+            Log::error('Somethinng went wrong in thingstodo update.');
         }
     }
 
     /**
-     * Delete the location.
+     * Delete the thingstodo.
      */
     public function destroy(Request $request, $id): RedirectResponse
     {
         try {
             $data = $request->all();
-            $request->merge(['location_id' => $id]);
+            $request->merge(['thingstodo_id' => $id]);
                 
-            $request->validate(['location_id' => 'required|integer|exists:locations,id']);
-            $location = Location::find($id);
-            if(!empty($location->meta_id)){
-                Meta::destroy($location->meta_id);
+            $request->validate(['thingstodo_id' => 'required|integer|exists:thingstodo,id']);
+            $thingstodo = ThingsToDo::find($id);
+            if(!empty($thingstodo->meta_id)){
+                Meta::destroy($thingstodo->meta_id);
             }
-            $response = $location->destroy($id);
-            return Redirect::route('location.index',$response);
+            $response = $thingstodo->destroy($id);
+            return Redirect::route('thingstodo.index',$response);
         } catch (Exception $e) {
-            Log::error('Somethinng went wrong in location destroy.');
+            Log::error('Somethinng went wrong in thingstodo destroy.');
         }
     }
 }

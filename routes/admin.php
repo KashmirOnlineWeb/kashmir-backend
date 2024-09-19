@@ -18,6 +18,10 @@ use App\Http\Controllers\Admin\GeneralInformationController;
 use App\Http\Controllers\Admin\HowToReachController;
 use App\Http\Controllers\Admin\SafetyInformationController;
 use App\Http\Controllers\Admin\LocationController;
+use App\Http\Controllers\Admin\ThingsToDoController;
+use App\Http\Controllers\Admin\ReligiousPlaceController;
+use App\Http\Controllers\Admin\SightSeeingController;
+use App\Http\Controllers\Admin\ThingsToBeNotedController;
 
 Route::middleware(['auth'])->group(function () {
     /* Category */
@@ -64,6 +68,18 @@ Route::middleware(['auth'])->group(function () {
 
     /* Location */
     Route::resource('/location', LocationController::class)->names('location');
+
+    /* Things to do */
+    Route::resource('/thingstodo', ThingsToDoController::class)->names('thingstodo');
+
+    /* Religious Places */
+    Route::resource('/religiousplace', ReligiousPlaceController::class)->names('religiousplace');
+
+    /* Sight Seeing */
+    Route::resource('/sightseeing', SightSeeingController::class)->names('sightseeing');
+
+    /* Things to be noted */
+    Route::resource('/thingstobenoted', ThingsToBeNotedController::class)->names('thingstobenoted');
 
     /* Page */
     Route::resource('/page', PageController::class)->names('page');
