@@ -17,7 +17,7 @@ class HelperController extends Controller
 
             $file     = $request->file('image');
             $fileName = time().uniqid().'.'.$file->extension();
-            $response = Storage::put('public/images/'.$fileName, file_get_contents($file->getRealPath()));
+            $response = Storage::put('/images/'.$fileName, file_get_contents($file->getRealPath()));
 
             $data = ['status' => $response, 'path' => ''];
             if($response){
