@@ -15,11 +15,11 @@
                 <tr>
                     <th scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        ID
+                        Name
                     </th>
                     <th scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Name
+                        City
                     </th>
                     <th scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -34,13 +34,10 @@
                 @foreach ($pharmacies as $pharmacy)
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm font-medium text-gray-900">{{ $pharmacy->id }}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-500">{{ $pharmacy->name }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-500">{{ $pharmacy->location }}</div>
+                            <div class="text-sm text-gray-500">{{ $pharmacy->city->name ?? 'N/A' }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <div id="app-{{ $pharmacy->id }}" class="relative inline-block text-left">

@@ -51,7 +51,7 @@
                                 {{ $destination->destination_type == 2 ? 'Religious' : 'Non-Religious' }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-500">{{ $destination->city }}</div>
+                            <div class="text-sm text-gray-500">{{ $destination->city->name ?? 'N/A' }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-500">{{ $destination->created_at }}</div>
