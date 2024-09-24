@@ -32,7 +32,7 @@
 
             <!-- Section 1 and Section 3 -->
             <div class="flex flex-wrap -mx-2 mb-4 border-b border-gray-200">
-            <div class="w-full md:w-1/2 px-2 mb-4">
+                <div class="w-full md:w-1/2 px-2 mb-4">
                     <div class="p-4">
                         <h2 class="text-md font-semibold mb-2">Basic Information</h2>
                         <p class="text-sm text-gray-600 mb-4">Provide the basic details of the destination.</p>
@@ -61,7 +61,7 @@
                                     class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
                                     @foreach ($cities as $city)
                                         <option value="{{ $city->id }}"
-                                            {{ isset($hotel) && $hotel->city_id == $city->id ? 'selected' : '' }}>
+                                            {{ isset($shoppingplace) && $shoppingplace->city_id == $city->id ? 'selected' : '' }}>
                                             {{ $city->name }}</option>
                                     @endforeach
                                 </select>
@@ -93,11 +93,9 @@
             <!-- Section 2: Tabs for Content and Highlights -->
             <div class="mb-4 p-4 border-b border-gray-200">
                 <h2 class="text-md font-semibold mb-2">Content</h2>
-                <content-repeater 
-                :initial-data='@json(old("repeater_content", $shoppingplace->repeater_content ?? []))'
-                    name-prefix="repeater_content"
-                />
-                
+                <content-repeater :initial-data="{{ json_encode(old('repeater_content', $shoppingplace->repeater_content ?? [])) }}"
+                    name-prefix="repeater_content" />
+
                 @error('repeater_content')
                     <span class="text-red-500 text-sm">{{ $message }}</span></br>
                 @enderror
