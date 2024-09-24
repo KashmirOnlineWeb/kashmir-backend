@@ -47,7 +47,7 @@ class HotelController extends Controller
             
             $request->validate([
                             'name'            => 'required|string',
-                            'slug'            => 'required|string',
+                            'slug'            => 'sometimes|string',
                             'amenities'       => 'sometimes|array',
                             'balcony'         => 'sometimes|integer|digits_between:0,1',
                             'breakfast'       => 'sometimes|integer|digits_between:0,1',
@@ -81,7 +81,7 @@ class HotelController extends Controller
             $response = Hotel::create([
                                         'name'              => $data['name'],
                                         'slug'              => $data['slug'],
-                                        'amenities'         => json_encode($data['amenities']),
+                                        'amenities'         => (isset($data['amenities']) ? json_encode($data['amenities']) : NULL),
                                         'balcony'           => $data['balcony'],
                                         'breakfast'         => $data['breakfast'],
                                         'contact'           => $data['contact'],
@@ -137,7 +137,7 @@ class HotelController extends Controller
             $request->validate([
                             'hotel_id'        => 'required|integer|exists:hotels,id',
                             'name'            => 'required|string',
-                            'slug'            => 'required|string',
+                            'slug'            => 'sometimes|string',
                             'amenities'       => 'sometimes|array',
                             'balcony'         => 'sometimes|integer|digits_between:0,1',
                             'breakfast'       => 'sometimes|integer|digits_between:0,1',
@@ -175,7 +175,7 @@ class HotelController extends Controller
                                 ->update([
                                         'name'              => $data['name'],
                                         'slug'              => $data['slug'],
-                                        'amenities'         => json_encode($data['amenities']),
+                                        'amenities'         => (isset($data['amenities']) ? json_encode($data['amenities']) : NULL),
                                         'balcony'           => $data['balcony'],
                                         'breakfast'         => $data['breakfast'],
                                         'contact'           => $data['contact'],
