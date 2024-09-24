@@ -46,7 +46,36 @@
   <script setup>
   import { ref, onMounted, watch, nextTick } from 'vue';
   import ImageUploader from './ImageUploader.vue';
-  
+  //import { DomParser } from 'tinymce.html'; // Import the DomParser
+
+  const parseHTMLContent = (html) => {
+    // Sanitize the HTML content
+    const sanitizedHTML = html
+      .replace(/\\\"/g, '"') // Replace escaped quotes
+      .replace(/\\\//g, '/') // Replace escaped slashes
+      .replace(/\\r\\n/g, " ") // Replace escaped line breaks with a space
+      .replace(/\\n/g, " ") // Replace newline characters with a space
+      .replace(/\\r/g, " "); // Replace carriage return characters with a space
+
+    const parser = new tinymce.html.DomParser({ validate: true }); // Create a new instance of DomParser
+    return parser.parse(sanitizedHTML); // Parse the sanitized HTML string into a DOM-like structure
+  };
+
+  const parseJSON = (data) => {
+    return data;
+    // try {
+    //   const cleanedData = data
+    //     .replace(/\\\"/g, '"') // Replace escaped quotes
+    //     .replace(/\\\\/g, '\\') // Replace double backslashes with single backslashes
+    //     .replace(/(\r\n|\n|\r)/gm, ""); // Remove line breaks
+
+    //   return JSON.parse(cleanedData);
+    // } catch (error) {
+    //   console.error('JSON parsing error:', error);
+    //   return []; // Return an empty array or handle the error as needed
+    // }
+  };
+
   const props = defineProps({
     initialData: {
       type: [Array, String],
@@ -62,8 +91,15 @@
   
   let idCounter = 0; // Counter to generate unique IDs
   
-  // Parse initial data if it's a string
-  const initialData = typeof props.initialData === 'string' ? JSON.parse(props.initialData) : props.initialData;
+  // Parse initial data and apply DomParser to content fields
+  const initialData = typeof props.initialData === 'string' 
+    ? parseJSON(props.initialData).map(item => {
+        if (item.content) {
+          item.content = parseHTMLContent(item.content); // Use DomParser to parse HTML content
+        }
+        return item;
+      }) 
+    : props.initialData;
   
   // Transform showImage from "on/off" to true/false
   const transformedData = initialData.map(item => ({
