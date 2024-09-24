@@ -168,7 +168,7 @@ class DestinationController extends Controller
     /**
      * Delete the Destination.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request, $id): RedirectResponse
     {
         try {
             $data = $request->all();
@@ -180,7 +180,7 @@ class DestinationController extends Controller
                 Meta::destroy($destination->meta_id);
             }
             $response = $destination->destroy($id);
-            return Redirect::route('Destination.index',$response);
+            return Redirect::route('destination.index',$response);
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in destination destroy.');
         }
