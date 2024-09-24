@@ -62,18 +62,19 @@
   };
 
   const parseJSON = (data) => {
-    return data;
-    // try {
-    //   const cleanedData = data
-    //     .replace(/\\\"/g, '"') // Replace escaped quotes
-    //     .replace(/\\\\/g, '\\') // Replace double backslashes with single backslashes
-    //     .replace(/(\r\n|\n|\r)/gm, ""); // Remove line breaks
+    //return data;
+    return JSON.parse(data);
+    try {
+      const cleanedData = data
+        .replace(/\\\"/g, '"') // Replace escaped quotes
+        .replace(/\\\\/g, '\\') // Replace double backslashes with single backslashes
+        .replace(/(\r\n|\n|\r)/gm, ""); // Remove line breaks
 
-    //   return JSON.parse(cleanedData);
-    // } catch (error) {
-    //   console.error('JSON parsing error:', error);
-    //   return []; // Return an empty array or handle the error as needed
-    // }
+      return JSON.parse(cleanedData);
+    } catch (error) {
+      console.error('JSON parsing error:', error);
+      return []; // Return an empty array or handle the error as needed
+    }
   };
 
   const props = defineProps({
@@ -95,7 +96,7 @@
   const initialData = typeof props.initialData === 'string' 
     ? parseJSON(props.initialData).map(item => {
         if (item.content) {
-          item.content = parseHTMLContent(item.content); // Use DomParser to parse HTML content
+          //item.content = parseHTMLContent(item.content); // Use DomParser to parse HTML content
         }
         return item;
       }) 

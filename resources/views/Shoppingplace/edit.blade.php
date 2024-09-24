@@ -93,7 +93,7 @@
             <!-- Section 2: Tabs for Content and Highlights -->
             <div class="mb-4 p-4 border-b border-gray-200">
                 <h2 class="text-md font-semibold mb-2">Content</h2>
-                <content-repeater :initial-data="{{ old('repeater_content', $shoppingplace->repeater_content ?? []) }}"
+                <content-repeater :initial-data="{{ json_encode(old('repeater_content', $shoppingplace->repeater_content ?? [])) }}"
                     name-prefix="repeater_content" />
 
                 @error('repeater_content')
