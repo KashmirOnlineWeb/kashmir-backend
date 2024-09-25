@@ -51,12 +51,14 @@ class DestinationController extends Controller
                             //'title'            => 'required|string',
                             'image'           => 'sometimes|string|nullable',
                             'image_alt'       => 'sometimes|string|nullable',
-                            'image_gallery'    => 'sometimes|array',
+                            'image_gallery'    => 'required|array',
                             'destination_type' => 'required|integer|min:1|digits_between:1,2',
                             'city_id'          => 'required|integer|exists:cities,id',
                             'meta_title'       => 'required|string|nullable',
                             'meta_description' => 'required|string|nullable',
                             'keywords'         => 'required|string|nullable'
+                        ],[
+                            'image_gallery' => 'Please upload at least one Slider image.'
                         ]);
 
             /* Insert Meta */

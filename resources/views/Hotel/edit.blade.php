@@ -44,7 +44,7 @@
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div class="mb-4">
+                        <!-- <div class="mb-4">
                             <label for="slug" class="block text-sm font-medium text-gray-700">Slug</label>
                             <input type="text" name="slug" id="slug"
                                 value="{{ old('slug', $hotel->slug ?? '') }}"
@@ -52,7 +52,7 @@
                             @error('slug')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
-                        </div>
+                        </div> -->
                         <div class="mb-4">
                             <label for="contact" class="block text-sm font-medium text-gray-700">Contact</label>
                             <input type="text" name="contact" id="contact"
@@ -62,7 +62,7 @@
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div class="mb-4">
+                        <!-- <div class="mb-4">
                             <label for="total_washrooms" class="block text-sm font-medium text-gray-700">Total
                                 Washrooms</label>
                             <input type="number" name="total_washrooms" id="total_washrooms"
@@ -91,7 +91,7 @@
                             @error('total_rooms')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
-                        </div>
+                        </div> -->
                         <div class="mb-4">
                             <label for="star" class="block text-sm font-medium text-gray-700">Star</label>
                             <select name="star" id="star"
@@ -144,7 +144,7 @@
                                 value="{{ old('image_alt', $hotel->image_alt ?? '') }}"
                                 class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
                         </div>
-                        <div class="mb-4">
+                        <!-- <div class="mb-4">
                             <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
                             <select name="status" id="status"
                                 class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
@@ -156,7 +156,7 @@
                                     Active
                                 </option>
                             </select>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="p-4">
                         <h2 class="text-md font-semibold mb-2">Amenities</h2>
@@ -190,7 +190,7 @@
                                     Bar</option>
                             </select>
                         </div>
-                        <div class="mb-4">
+                        <!-- <div class="mb-4">
                             <label for="balcony" class="block text-sm font-medium text-gray-700">Balcony</label>
                             <select name="balcony" id="balcony"
                                 class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
@@ -201,7 +201,7 @@
                                     {{ old('balcony', $hotel->balcony ?? 0) == 1 ? 'selected' : '' }}>
                                     Available</option>
                             </select>
-                        </div>
+                        </div> -->
                         <div class="mb-4">
                             <label for="breakfast" class="block text-sm font-medium text-gray-700">Breakfast</label>
                             <select name="breakfast" id="breakfast"
@@ -235,7 +235,7 @@
                             </div>
                         </div>
                     </tab>
-                    <tab name="Highlights">
+                    <!-- <tab name="Highlights">
                         <div class="py-4 border-t border-gray-200">
                             <div class="mb-4">
                                 <label for="highlights_content"
@@ -245,7 +245,7 @@
                                     class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1 tinymce">{{ old('highlights_content', $hotel->highlights_content ?? '') }}</textarea>
                             </div>
                         </div>
-                    </tab>
+                    </tab> -->
                 </tabs>
                 @error('content')
                     <span class="text-red-500 text-sm">{{ $message }}</span></br>
