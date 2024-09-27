@@ -30,7 +30,7 @@
         <x-nav-link href="{{ route('shoppingplace.index') }}" :active="request()->routeIs('shoppingplace.index')">
             • Shopping Places
         </x-nav-link>
-        <x-nav-link href="#">
+        <x-nav-link href="{{ route('thingstobenoted.index') }}" :active="request()->routeIs('thingstobenoted.index')">
             • Things to be noted
         </x-nav-link>
         <x-nav-link href="#">
