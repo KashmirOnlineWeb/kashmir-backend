@@ -214,7 +214,7 @@
                                     Available</option>
                                 <option value="2"
                                     {{ old('breakfast', $hotel->breakfast ?? 0) == 2 ? 'selected' : '' }}>
-                                    Available a extra charges</option>
+                                    Available at extra charges</option>
                             </select>
                         </div>
                     </div>
@@ -267,7 +267,7 @@
                                 class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
                                 @foreach ($cities as $city)
                                     <option value="{{ $city->id }}"
-                                        {{ isset($hotel) && $hotel->city_id == $city->id ? 'selected' : '' }}>
+                                    {{ (old('city_id') == $city->id || (isset($hotel) && $hotel->city_id == $city->id)) ? 'selected' : '' }}>
                                         {{ $city->name }}</option>
                                 @endforeach
                             </select>
