@@ -35,6 +35,7 @@ Route::get('/destinations', function (Request $request) {
 
 /* Destinations */
 Route::get('/destination/{slug}', function (Request $request, $slug) {
+    $slug = strtolower($slug); // Convert slug to lowercase
     $destination = Destination::where('slug', $slug)
                                 ->with(['city:id,name,slug,time_to_visit','meta:id,meta_title,meta_description,keywords'])
                                 ->first();
@@ -44,6 +45,7 @@ Route::get('/destination/{slug}', function (Request $request, $slug) {
 
 /* Collages and Schools */
 Route::get('/collage/{slug}', function (Request $request, $slug) {
+    $slug = strtolower($slug); // Convert slug to lowercase
     $city  = City::where('slug',$slug)->select('id','slug')->first();
 
     $collages = CollageAndSchool::where('city_id', $city->id)
@@ -62,6 +64,7 @@ Route::get('/collage/{slug}', function (Request $request, $slug) {
 
 /* Hospitals */
 Route::get('/hospital/{slug}', function (Request $request, $slug) {
+    $slug = strtolower($slug); // Convert slug to lowercase
     $city  = City::where('slug',$slug)->select('id','slug')->first();
     $hospitals = Hospital::where('city_id', $city->id)
                                 ->select(['id',
@@ -94,6 +97,7 @@ Route::get('/hospital/{slug}', function (Request $request, $slug) {
 
 /* Hotels */
 Route::get('/hotel/{slug}', function (Request $request, $slug) {
+    $slug = strtolower($slug); // Convert slug to lowercase
     $city  = City::where('slug',$slug)->select('id','slug')->first();
     $hotels = Hotel::where('city_id', $city->id)
                                 ->select(['id',
@@ -128,6 +132,7 @@ Route::get('/hotel/{slug}', function (Request $request, $slug) {
 
 /* Pharmacy */
 Route::get('/pharmacy/{slug}', function (Request $request, $slug) {
+    $slug = strtolower($slug); // Convert slug to lowercase
     $city  = City::where('slug',$slug)->select('id','slug')->first();
     $pharmacies = Pharmacy::where('city_id', $city->id)
                                 ->select(['id',
@@ -153,6 +158,7 @@ Route::get('/pharmacy/{slug}', function (Request $request, $slug) {
 
 /* Restaurant */
 Route::get('/restaurant/{slug}', function (Request $request, $slug) {
+    $slug = strtolower($slug); // Convert slug to lowercase
     $city  = City::where('slug',$slug)->select('id','slug')->first();
     $restaurants = Restaurant::where('city_id', $city->id)
                                 ->select(['id',
@@ -179,6 +185,7 @@ Route::get('/restaurant/{slug}', function (Request $request, $slug) {
 
 /* Shopping places */
 Route::get('/shoppingplace/{slug}', function (Request $request, $slug) {
+    $slug = strtolower($slug); // Convert slug to lowercase
     $city  = City::where('slug',$slug)->select('id','slug')->first();
     $shopping_places = ShoppingPlace::where('city_id', $city->id)
                                 ->with(['city:id,name,slug,time_to_visit','meta:id,meta_title,meta_description,keywords'])
@@ -197,6 +204,7 @@ Route::get('/shoppingplace/{slug}', function (Request $request, $slug) {
 
 /* Background history */
 Route::get('/backgroundhistory/{slug}', function (Request $request, $slug) {
+    $slug = strtolower($slug); // Convert slug to lowercase
     $city  = City::where('slug',$slug)->select('id','slug')->first();
     $background_history = BackgroundHistory::where('city_id', $city->id)
                                 ->with(['city:id,name,slug,time_to_visit','meta:id,meta_title,meta_description,keywords'])
@@ -215,6 +223,7 @@ Route::get('/backgroundhistory/{slug}', function (Request $request, $slug) {
 
 /* General information */
 Route::get('/generalinformation/{slug}', function (Request $request, $slug) {
+    $slug = strtolower($slug); // Convert slug to lowercase
     $city  = City::where('slug',$slug)->select('id','slug')->first();
     $general_information = GeneralInformation::where('city_id', $city->id)
                                 ->with(['city:id,name,slug,time_to_visit','meta:id,meta_title,meta_description,keywords'])
@@ -233,6 +242,7 @@ Route::get('/generalinformation/{slug}', function (Request $request, $slug) {
 
 /* How to reach */
 Route::get('/howtoreach/{slug}', function (Request $request, $slug) {
+    $slug = strtolower($slug); // Convert slug to lowercase
     $city  = City::where('slug',$slug)->select('id','slug')->first();
     $howtoreach = HowToReach::where('city_id', $city->id)
                                 ->with(['city:id,name,slug,time_to_visit','meta:id,meta_title,meta_description,keywords'])
@@ -251,6 +261,7 @@ Route::get('/howtoreach/{slug}', function (Request $request, $slug) {
 
 /* Location */
 Route::get('/location/{slug}', function (Request $request, $slug) {
+    $slug = strtolower($slug); // Convert slug to lowercase
     $city  = City::where('slug',$slug)->select('id','slug')->first();
     $Locations = Location::where('city_id', $city->id)
                                 ->with(['city:id,name,slug,time_to_visit','meta:id,meta_title,meta_description,keywords'])
@@ -269,6 +280,7 @@ Route::get('/location/{slug}', function (Request $request, $slug) {
 
 /* Safety information */
 Route::get('/safetyinformation/{slug}', function (Request $request, $slug) {
+    $slug = strtolower($slug); // Convert slug to lowercase
     $city  = City::where('slug',$slug)->select('id','slug')->first();
     $safetyinformation = SafetyInformation::where('city_id', $city->id)
                                 ->with(['city:id,name,slug,time_to_visit','meta:id,meta_title,meta_description,keywords'])
@@ -288,6 +300,7 @@ Route::get('/safetyinformation/{slug}', function (Request $request, $slug) {
 
 /* Religious places */
 Route::get('/religiousplace/{slug}', function (Request $request, $slug) {
+    $slug = strtolower($slug); // Convert slug to lowercase
     $city  = City::where('slug',$slug)->select('id','slug')->first();
     $religiousplace = ReligiousPlace::where('city_id', $city->id)
                                 ->with(['city:id,name,slug,time_to_visit','meta:id,meta_title,meta_description,keywords'])
@@ -306,6 +319,7 @@ Route::get('/religiousplace/{slug}', function (Request $request, $slug) {
 
 /* Sight seeings */
 Route::get('/sightseeing/{slug}', function (Request $request, $slug) {
+    $slug = strtolower($slug); // Convert slug to lowercase
     $city  = City::where('slug',$slug)->select('id','slug')->first();
     $sightseeing = SightSeeing::where('city_id', $city->id)
                                 ->with(['city:id,name,slug,time_to_visit','meta:id,meta_title,meta_description,keywords'])
@@ -324,6 +338,7 @@ Route::get('/sightseeing/{slug}', function (Request $request, $slug) {
 
 /* Things To Be Noted */
 Route::get('/thingstobenoted/{slug}', function (Request $request, $slug) {
+    $slug = strtolower($slug); // Convert slug to lowercase
     $city  = City::where('slug',$slug)->select('id','slug')->first();
     $thingstobenoted = ThingsToBeNoted::where('city_id', $city->id)
                                 ->with(['city:id,name,slug,time_to_visit','meta:id,meta_title,meta_description,keywords'])
@@ -342,6 +357,7 @@ Route::get('/thingstobenoted/{slug}', function (Request $request, $slug) {
 
 /* Things to do */
 Route::get('/thingstodo/{slug}', function (Request $request, $slug) {
+    $slug = strtolower($slug); // Convert slug to lowercase
     $city  = City::where('slug',$slug)->select('id','slug')->first();
     $thingstodo = ThingsToDo::where('city_id', $city->id)
                                 ->with(['city:id,name,slug,time_to_visit','meta:id,meta_title,meta_description,keywords'])
