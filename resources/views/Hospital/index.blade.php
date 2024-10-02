@@ -21,10 +21,10 @@
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         City
                     </th>
-                    <th scope="col"
+                    <!-- <th scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Status
-                    </th>
+                    </th> -->
                     <th scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Contact
@@ -51,9 +51,9 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-500">{{ $hospital->city->name ?? 'N/A' }}</div>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
+                        <!-- <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-500">{{ $hospital->status ? 'Active' : 'Inactive' }}</div>
-                        </td>
+                        </td> -->
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-500">{{ $hospital->contact }}</div>
                         </td>

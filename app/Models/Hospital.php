@@ -27,4 +27,9 @@ class Hospital extends Model
                             'trauma_services',
                             'website_url'
                         ];
+    
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
 }

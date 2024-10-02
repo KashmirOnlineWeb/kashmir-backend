@@ -45,7 +45,7 @@
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div class="mb-4">
+                        <!-- <div class="mb-4">
                             <label for="slug" class="block text-sm font-medium text-gray-700">Slug</label>
                             <input type="text" name="slug" id="slug"
                                 value="{{ old('slug', $hospital->slug ?? '') }}"
@@ -53,8 +53,8 @@
                             @error('slug')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
-                        </div>
-                        <div class="mb-4">
+                        </div> -->
+                        <!-- <div class="mb-4">
                             <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
                             <select name="status" id="status"
                                 class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
@@ -69,7 +69,7 @@
                             @error('status')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
-                        </div>
+                        </div> -->
                         <div class="mb-4">
                             <label for="city_id" class="block text-sm font-medium text-gray-700">City</label>
                             <select name="city_id" id="city_id"
@@ -110,13 +110,13 @@
 
             <!-- Section 2: Content and Highlights -->
             <div class="mb-4 p-4 border-b border-gray-200">
-                <h2 class="text-md font-semibold mb-2">Specializations</h2>
+                <h2 class="text-md font-semibold mb-2">Description</h2>
                 <textarea name="content" id="content" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1 tinymce">{{ old('content', $hospital->content ?? '') }}</textarea>
                 @error('content')
                     <span class="text-red-500 text-sm">{{ $message }}</span></br>
                 @enderror
             </div>
-            <div class="mb-4 p-4 border-b border-gray-200">
+            <!-- <div class="mb-4 p-4 border-b border-gray-200">
                 <h2 class="text-md font-semibold mb-2">Facilities</h2>
                 <textarea name="facilities" id="facilities" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1 tinymce">{{ old('facilities', $hospital->facilities ?? '') }}</textarea>
                 @error('facilities')
@@ -130,7 +130,7 @@
                 @error('referral_system')
                     <span class="text-red-500 text-sm">{{ $message }}</span></br>
                 @enderror
-            </div>
+            </div> -->
 
             <!-- Section 3: Additional Information -->
             <div class="mb-4 p-4 border-b border-gray-200">
@@ -140,7 +140,7 @@
                 <div class="mb-4">
                     <div class="flex-grow pl-4 w-full sm:w-auto">
                         <div class="mb-4 flex gap-2">
-                            <div class="mb-4 w-full">
+                            <!-- <div class="mb-4 w-full">
                                 <label for="introduction"
                                     class="block text-sm font-medium text-gray-700">Introduction</label>
                                 <textarea name="introduction" id="introduction" value="{{ old('introduction', $hospital->introduction ?? '') }}"
@@ -148,10 +148,10 @@
                                 @error('introduction')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
-                            </div>
+                            </div> -->
                             <div class="mb-4 w-full">
                                 <label for="description"
-                                    class="block text-sm font-medium text-gray-700">Description</label>
+                                    class="block text-sm font-medium text-gray-700">Small Description</label>
                                 <textarea name="description" id="description" value="{{ old('description', $hospital->description ?? '') }}"
                                     class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
                                 </textarea>
@@ -159,8 +159,21 @@
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
+                            <!-- <div class="mb-4 w-full">
+                                <div class="mb-4 w-full">
+                                    <label for="description" class="block text-sm font-medium text-gray-700">Trauma
+                                        Services</label>
+                                    <textarea name="trauma_services" id="trauma_services"
+                                        value="{{ old('trauma_services', $hospital->trauma_services ?? '') }}"
+                                        class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
+                                </textarea>
+                                    @error('trauma_services')
+                                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div> -->
                         </div>
-                        <div class="mb-4 flex gap-2">
+                        <!-- <div class="mb-4 flex gap-2">
                             <div class="mb-4 w-full">
                                 <div class="mb-4 w-full">
                                     <label for="description" class="block text-sm font-medium text-gray-700">How to
@@ -173,21 +186,8 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="mb-4 w-full">
-                                <div class="mb-4 w-full">
-                                    <label for="description" class="block text-sm font-medium text-gray-700">Trauma
-                                        Services</label>
-                                    <textarea name="trauma_services" id="trauma_services"
-                                        value="{{ old('trauma_services', $hospital->trauma_services ?? '') }}"
-                                        class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
-                                </textarea>
-                                    @error('trauma_services')
-                                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-4">
+                        </div> -->
+                        <div class="mb-2">
                             <div class="mb-4 w-full">
                                 <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
                                 <input type="text" name="address"
@@ -200,13 +200,13 @@
                             <div class="mb-4 w-full">
                                 <label for="contact" class="block text-sm font-medium text-gray-700">Contact</label>
                                 <input type="text" name="contact" id="contact"
-                                    value="{{ old('contact', $hotel->contact ?? '') }}"
+                                    value="{{ old('contact', $hospital->contact ?? '') }}"
                                     class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
                                 @error('contact')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="mb-4 w-full">
+                            <!-- <div class="mb-4 w-full">
                                 <label for="website_url" class="block text-sm font-medium text-gray-700"> Website
                                     URL</label>
                                 <input type="text" name="website_url"
@@ -215,7 +215,7 @@
                                 @error('website_url')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
-                            </div>
+                            </div> -->
                             <div class="mb-4 w-full">
                                 <label for="google_map" class="block text-sm font-medium text-gray-700">Google
                                     Maps Link</label>
