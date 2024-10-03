@@ -7,11 +7,13 @@
             <div class="py-1" role="none">
                 <span class="block px-4 py-2 text-sm font-semibold text-gray-700">Actions</span>
                 <a :href="editUrl" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-0">Edit</a>
-                <form :action="deleteUrl" method="POST" role="menuitem" tabindex="-1" id="menu-item-1">
-                    <input type="hidden" name="_method" value="DELETE">
-                    <input type="hidden" name="_token" :value="csrfToken">
-                    <button type="submit" class="text-gray-700 block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Delete</button>
-                </form>
+                <template v-if="deleteUrl">
+                    <form :action="deleteUrl" method="POST" role="menuitem" tabindex="-1" id="menu-item-1">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" :value="csrfToken">
+                        <button type="submit" class="text-gray-700 block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Delete</button>
+                    </form>
+                </template>
             </div>
         </div>
     </div>

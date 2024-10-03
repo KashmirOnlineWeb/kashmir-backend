@@ -5,6 +5,14 @@
     <x-nav-link href="{{ route('page.index') }}" :active="request()->routeIs('page.index')">
         Pages
     </x-nav-link>
+    <x-nav-link href="#">
+        Packages
+    </x-nav-link>
+    <nav class="grid items-start px-2 text-sm font-normal lg:pl-2">
+        <x-nav-link href="#">
+            • Categories
+        </x-nav-link>
+    </nav>
     <!-- <x-nav-link href="{{ route('city.index') }}" :active="request()->routeIs('city.index')">
         Cities
     </x-nav-link> -->
@@ -33,8 +41,8 @@
         <x-nav-link href="{{ route('thingstobenoted.index') }}" :active="request()->routeIs('thingstobenoted.index')">
             • Things to be noted
         </x-nav-link>
-        <x-nav-link href="#">
-            • Houseboats
+        <x-nav-link href="{{ route('backgroundhistory.index') }}" :active="request()->routeIs('backgroundhistory.index')">
+            • Background & History
         </x-nav-link>
         <x-nav-link href="#">
             • Sightseeings
