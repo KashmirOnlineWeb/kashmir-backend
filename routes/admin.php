@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\ThingsToDoController;
 use App\Http\Controllers\Admin\ReligiousPlaceController;
 use App\Http\Controllers\Admin\SightSeeingController;
 use App\Http\Controllers\Admin\ThingsToBeNotedController;
+use App\Http\Controllers\Admin\PackageController;
 
 Route::middleware(['auth'])->group(function () {
     /* Category */
@@ -83,6 +84,9 @@ Route::middleware(['auth'])->group(function () {
 
     /* Page */
     Route::resource('/page', PageController::class)->names('page');
+
+    /* Package */
+    Route::resource('/package', PackageController::class)->names('package');
 });
 
 Route::prefix('api')->middleware(['auth'])->group(function () {
