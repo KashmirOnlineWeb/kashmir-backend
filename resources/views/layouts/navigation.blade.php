@@ -44,10 +44,10 @@
         <x-nav-link href="{{ route('backgroundhistory.index') }}" :active="request()->routeIs('backgroundhistory.index')">
             • Background & History
         </x-nav-link>
-        <x-nav-link href="#">
+        <x-nav-link href="{{ route('sightseeing.index') }}" :active="request()->routeIs('sightseeing.index')">
             • Sightseeings
         </x-nav-link>
-        <x-nav-link href="#">
+        <x-nav-link href="{{ route('religiousplace.index') }}" :active="request()->routeIs('religiousplace.index')">
             • Religions Places
         </x-nav-link>
         <x-nav-link href="#">

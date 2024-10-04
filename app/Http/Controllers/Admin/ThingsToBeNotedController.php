@@ -70,8 +70,8 @@ class ThingsToBeNotedController extends Controller
             $response = ThingsToBeNoted::create([
                                         'name'             => $data['name'],
                                         'title'            => $data['title'],
-                                        'image'            => $data['image'],
-                                        'image_alt'        => $data['image_alt'],
+                                        'image'            => isset($data['image']) ? $data['image'] : NULL,
+                                        'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
                                         'repeater_content' => json_encode($data['repeater_content']),
                                         'meta_id'          => $meta->id,
                                         'city_id'          => $data['city_id'],
@@ -139,8 +139,8 @@ class ThingsToBeNotedController extends Controller
                                 ->update([
                                         'name'             => $data['name'],
                                         'title'            => $data['title'],
-                                        'image'            => $data['image'],
-                                        'image_alt'        => $data['image_alt'],
+                                        'image'            => isset($data['image']) ? $data['image'] : NULL,
+                                        'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
                                         'repeater_content' => json_encode($data['repeater_content']),
                                         'meta_id'          => $thingstobenoted->meta_id,
                                         'city_id'          => $data['city_id']
@@ -162,7 +162,7 @@ class ThingsToBeNotedController extends Controller
             $data = $request->all();
             $request->merge(['thingstobenoted_id' => $id]);
                 
-            $request->validate(['thingstobenoted_id' => 'required|integer|exists:things_to_be_noted,id']);
+            $request->validate(['thingstobenoted_id' => 'required|integer|exists:things_to_be_noteds,id']);
             $thingstobenoted = ThingsToBeNoted::find($id);
             if(!empty($thingstobenoted->meta_id)){
                 Meta::destroy($thingstobenoted->meta_id);

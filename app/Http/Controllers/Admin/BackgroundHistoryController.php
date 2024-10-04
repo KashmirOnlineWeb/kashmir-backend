@@ -70,8 +70,8 @@ class BackgroundHistoryController extends Controller
             $response = BackgroundHistory::create([
                                         'name'             => $data['name'],
                                         'title'            => $data['title'],
-                                        'image'            => $data['image'],
-                                        'image_alt'        => $data['image_alt'],
+                                        'image'            => isset($data['image']) ? $data['image'] : NULL,
+                                        'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
                                         'repeater_content' => json_encode($data['repeater_content']),
                                         'meta_id'          => $meta->id,
                                         'city_id'          => $data['city_id'],
@@ -97,7 +97,7 @@ class BackgroundHistoryController extends Controller
         
         $backgroundhistory->repeater_content = json_decode($backgroundhistory->repeater_content);
         
-        return view('Backgroundhistory.edit',compact('cities', 'backgroundhistory'));
+        return view('Backgroundhistory.edit',compact('cities', 'backgroundhistory','meta'));
     }
 
     /**
@@ -139,8 +139,8 @@ class BackgroundHistoryController extends Controller
                                 ->update([
                                         'name'             => $data['name'],
                                         'title'            => $data['title'],
-                                        'image'            => $data['image'],
-                                        'image_alt'        => $data['image_alt'],
+                                        'image'            => isset($data['image']) ? $data['image'] : NULL,
+                                        'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
                                         'repeater_content' => json_encode($data['repeater_content']),
                                         'meta_id'          => $backgroundhistory->meta_id,
                                         'city_id'          => $data['city_id']
@@ -162,7 +162,7 @@ class BackgroundHistoryController extends Controller
             $data = $request->all();
             $request->merge(['background_id' => $id]);
                 
-            $request->validate(['background_id' => 'required|integer|exists:backgroundhistories,id']);
+            $request->validate(['background_id' => 'required|integer|exists:background_histories,id']);
             $backgroundhistory = BackgroundHistory::find($id);
             if(!empty($backgroundhistory->meta_id)){
                 Meta::destroy($backgroundhistory->meta_id);

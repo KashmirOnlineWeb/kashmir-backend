@@ -70,8 +70,8 @@ class ReligiousPlaceController extends Controller
             $response = ReligiousPlace::create([
                                         'name'             => $data['name'],
                                         'title'            => $data['title'],
-                                        'image'            => $data['image'],
-                                        'image_alt'        => $data['image_alt'],
+                                        'image'            => isset($data['image']) ? $data['image'] : NULL,
+                                        'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
                                         'repeater_content' => json_encode($data['repeater_content']),
                                         'meta_id'          => $meta->id,
                                         'city_id'          => $data['city_id'],
@@ -97,7 +97,7 @@ class ReligiousPlaceController extends Controller
         
         $religious->repeater_content = json_decode($religious->repeater_content);
         
-        return view('Religiousplace.edit',compact('cities', 'religious'));
+        return view('Religiousplace.edit',compact('cities', 'religious','meta'));
     }
 
     /**
@@ -139,8 +139,8 @@ class ReligiousPlaceController extends Controller
                                 ->update([
                                         'name'             => $data['name'],
                                         'title'            => $data['title'],
-                                        'image'            => $data['image'],
-                                        'image_alt'        => $data['image_alt'],
+                                        'image'            => isset($data['image']) ? $data['image'] : NULL,
+                                        'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
                                         'repeater_content' => json_encode($data['repeater_content']),
                                         'meta_id'          => $religious->meta_id,
                                         'city_id'          => $data['city_id']
@@ -162,7 +162,7 @@ class ReligiousPlaceController extends Controller
             $data = $request->all();
             $request->merge(['religious_id' => $id]);
                 
-            $request->validate(['religious_id' => 'required|integer|exists:religious,id']);
+            $request->validate(['religious_id' => 'required|integer|exists:religious_places,id']);
             $religious = ReligiousPlace::find($id);
             if(!empty($religious->meta_id)){
                 Meta::destroy($religious->meta_id);

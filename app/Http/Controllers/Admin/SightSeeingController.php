@@ -21,8 +21,8 @@ class SightSeeingController extends Controller
     public function index()
     {
         try {
-            $sightseeing = SightSeeing::orderBy('id','desc')->paginate(12);
-            return view('Sightseeing.index')->with(['sightseeing' => $sightseeing]);
+            $sightseeings = SightSeeing::orderBy('id','desc')->paginate(12);
+            return view('Sightseeing.index')->with(['sightseeings' => $sightseeings]);
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in sightseeing index.');
         }
@@ -70,8 +70,8 @@ class SightSeeingController extends Controller
             $response = SightSeeing::create([
                                         'name'             => $data['name'],
                                         'title'            => $data['title'],
-                                        'image'            => $data['image'],
-                                        'image_alt'        => $data['image_alt'],
+                                        'image'            => isset($data['image']) ? $data['image'] : NULL,
+                                        'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
                                         'repeater_content' => json_encode($data['repeater_content']),
                                         'meta_id'          => $meta->id,
                                         'city_id'          => $data['city_id'],
@@ -97,7 +97,7 @@ class SightSeeingController extends Controller
         
         $sightseeing->repeater_content = json_decode($sightseeing->repeater_content);
         
-        return view('Sightseeing.edit',compact('cities', 'sightseeing'));
+        return view('Sightseeing.edit',compact('cities', 'sightseeing','meta'));
     }
 
     /**
@@ -139,8 +139,8 @@ class SightSeeingController extends Controller
                                 ->update([
                                         'name'             => $data['name'],
                                         'title'            => $data['title'],
-                                        'image'            => $data['image'],
-                                        'image_alt'        => $data['image_alt'],
+                                        'image'            => isset($data['image']) ? $data['image'] : NULL,
+                                        'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
                                         'repeater_content' => json_encode($data['repeater_content']),
                                         'meta_id'          => $sightseeing->meta_id,
                                         'city_id'          => $data['city_id']
@@ -162,7 +162,7 @@ class SightSeeingController extends Controller
             $data = $request->all();
             $request->merge(['sightseeing_id' => $id]);
                 
-            $request->validate(['sightseeing_id' => 'required|integer|exists:sight_seeing,id']);
+            $request->validate(['sightseeing_id' => 'required|integer|exists:sight_seeings,id']);
             $sightseeing = SightSeeing::find($id);
             if(!empty($sightseeing->meta_id)){
                 Meta::destroy($sightseeing->meta_id);
