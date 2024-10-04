@@ -31,7 +31,11 @@ return new class extends Migration
             $table->string('budget_type')->nullable();
             $table->string('currency')->nullable();
             $table->string('destination')->nullable();
-            $table->string('duration')->nullable();
+            $table->string('days')->nullable();
+            $table->string('nights')->nullable();
+
+            $table->dateTime('start_date')->nullable();
+            $table->dateTime('end_date')->nullable();
             
             $table->mediumText('exclusions_editor')->nullable();
             $table->mediumText('faqs_content')->nullable();
