@@ -50,16 +50,16 @@
         <x-nav-link href="{{ route('religiousplace.index') }}" :active="request()->routeIs('religiousplace.index')">
             • Religions Places
         </x-nav-link>
-        <x-nav-link href="#">
+        <x-nav-link href="{{ route('howtoreach.index') }}" :active="request()->routeIs('howtoreach.index')">
             • How to reach
         </x-nav-link>
-        <x-nav-link href="#">
+        <x-nav-link href="{{ route('safetyinformation.index') }}" :active="request()->routeIs('safetyinformation.index')">
             • Safety Information
         </x-nav-link>
-        <x-nav-link href="#">
+        <x-nav-link href="{{ route('generalinformation.index') }}" :active="request()->routeIs('generalinformation.index')">
             • General Information
         </x-nav-link>
-        <x-nav-link href="#">
+        <x-nav-link href="{{ route('location.index') }}" :active="request()->routeIs('location.index')">
             • Locations
         </x-nav-link>
     </nav>

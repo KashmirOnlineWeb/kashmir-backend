@@ -70,8 +70,8 @@ class HowToReachController extends Controller
             $response = HowToReach::create([
                                         'name'             => $data['name'],
                                         'title'            => $data['title'],
-                                        'image'            => $data['image'],
-                                        'image_alt'        => $data['image_alt'],
+                                        'image'            => isset($data['image']) ? $data['image'] : NULL,
+                                        'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
                                         'repeater_content' => json_encode($data['repeater_content']),
                                         'meta_id'          => $meta->id,
                                         'city_id'          => $data['city_id'],
@@ -97,7 +97,7 @@ class HowToReachController extends Controller
         
         $howtoreach->repeater_content = json_decode($howtoreach->repeater_content);
         
-        return view('Howtoreach.edit',compact('cities', 'howtoreach'));
+        return view('Howtoreach.edit',compact('cities', 'howtoreach','meta'));
     }
 
     /**
@@ -139,8 +139,8 @@ class HowToReachController extends Controller
                                 ->update([
                                         'name'             => $data['name'],
                                         'title'            => $data['title'],
-                                        'image'            => $data['image'],
-                                        'image_alt'        => $data['image_alt'],
+                                        'image'            => isset($data['image']) ? $data['image'] : NULL,
+                                        'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
                                         'repeater_content' => json_encode($data['repeater_content']),
                                         'meta_id'          => $howtoreach->meta_id,
                                         'city_id'          => $data['city_id']
@@ -162,7 +162,7 @@ class HowToReachController extends Controller
             $data = $request->all();
             $request->merge(['reach_id' => $id]);
                 
-            $request->validate(['reach_id' => 'required|integer|exists:how_to_reaches,id']);
+            $request->validate(['reach_id' => 'required|integer|exists:how_to_reachs,id']);
             $howtoreach = HowToReach::find($id);
             if(!empty($howtoreach->meta_id)){
                 Meta::destroy($howtoreach->meta_id);

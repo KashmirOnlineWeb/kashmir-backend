@@ -70,8 +70,8 @@ class LocationController extends Controller
             $response = Location::create([
                                         'name'             => $data['name'],
                                         'title'            => $data['title'],
-                                        'image'            => $data['image'],
-                                        'image_alt'        => $data['image_alt'],
+                                        'image'            => isset($data['image']) ? $data['image'] : NULL,
+                                        'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
                                         'repeater_content' => json_encode($data['repeater_content']),
                                         'meta_id'          => $meta->id,
                                         'city_id'          => $data['city_id'],
@@ -97,7 +97,7 @@ class LocationController extends Controller
         
         $location->repeater_content = json_decode($location->repeater_content);
         
-        return view('Location.edit',compact('cities', 'location'));
+        return view('Location.edit',compact('cities', 'location','meta'));
     }
 
     /**
@@ -139,8 +139,8 @@ class LocationController extends Controller
                                 ->update([
                                         'name'             => $data['name'],
                                         'title'            => $data['title'],
-                                        'image'            => $data['image'],
-                                        'image_alt'        => $data['image_alt'],
+                                        'image'            => isset($data['image']) ? $data['image'] : NULL,
+                                        'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
                                         'repeater_content' => json_encode($data['repeater_content']),
                                         'meta_id'          => $location->meta_id,
                                         'city_id'          => $data['city_id']

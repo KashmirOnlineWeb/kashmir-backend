@@ -70,8 +70,8 @@ class GeneralInformationController extends Controller
             $response = GeneralInformation::create([
                                         'name'             => $data['name'],
                                         'title'            => $data['title'],
-                                        'image'            => $data['image'],
-                                        'image_alt'        => $data['image_alt'],
+                                        'image'            => isset($data['image']) ? $data['image'] : NULL,
+                                        'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
                                         'repeater_content' => json_encode($data['repeater_content']),
                                         'meta_id'          => $meta->id,
                                         'city_id'          => $data['city_id'],
@@ -97,7 +97,7 @@ class GeneralInformationController extends Controller
         
         $generalinformation->repeater_content = json_decode($generalinformation->repeater_content);
         
-        return view('Generalinformation.edit',compact('cities', 'generalinformation'));
+        return view('Generalinformation.edit',compact('cities', 'generalinformation','meta'));
     }
 
     /**
@@ -139,8 +139,8 @@ class GeneralInformationController extends Controller
                                 ->update([
                                         'name'             => $data['name'],
                                         'title'            => $data['title'],
-                                        'image'            => $data['image'],
-                                        'image_alt'        => $data['image_alt'],
+                                        'image'            => isset($data['image']) ? $data['image'] : NULL,
+                                        'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
                                         'repeater_content' => json_encode($data['repeater_content']),
                                         'meta_id'          => $generalinformation->meta_id,
                                         'city_id'          => $data['city_id']
@@ -162,7 +162,7 @@ class GeneralInformationController extends Controller
             $data = $request->all();
             $request->merge(['general_id' => $id]);
                 
-            $request->validate(['general_id' => 'required|integer|exists:generalinformation,id']);
+            $request->validate(['general_id' => 'required|integer|exists:general_information,id']);
             $generalinformation = GeneralInformation::find($id);
             if(!empty($generalinformation->meta_id)){
                 Meta::destroy($generalinformation->meta_id);

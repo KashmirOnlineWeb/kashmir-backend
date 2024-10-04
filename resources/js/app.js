@@ -19,6 +19,7 @@ import { useSliderStore } from './stores/sliderStore';
 import ImageUploader from './components/ImageUploader.vue';
 import Restaurants from './components/Restaurants.vue';
 import ContentRepeater from './components/ContentRepeater.vue';
+import SafetyInfo from './components/SafetyInfo.vue';
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -104,7 +105,8 @@ const app = createApp({
         ImageUploader,
         CollegesAndSchools,
         Restaurants,
-        ContentRepeater
+        ContentRepeater,
+        SafetyInfo
     }
 });
 

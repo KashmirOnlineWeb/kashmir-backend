@@ -51,10 +51,13 @@ class SafetyInformationController extends Controller
                             'image'            => 'sometimes|string|nullable',
                             'image_alt'        => 'sometimes|string|nullable',
                             'repeater_content' => 'sometimes|array',
+                            'description'      => 'required|array',
                             'city_id'          => 'required|integer|exists:cities,id',
                             'meta_title'       => 'required|string|nullable',
                             'meta_description' => 'required|string|nullable',
                             'keywords'         => 'required|string|nullable'
+                        ],[
+                            'description' => 'Add atleat one safety number.'
                         ]);
 
             /* Insert Meta */
@@ -70,9 +73,9 @@ class SafetyInformationController extends Controller
             $response = SafetyInformation::create([
                                         'name'             => $data['name'],
                                         'title'            => $data['title'],
-                                        'image'            => $data['image'],
-                                        'image_alt'        => $data['image_alt'],
-                                        'description'      => $data['description'],
+                                        'image'            => isset($data['image']) ? $data['image'] : NULL,
+                                        'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
+                                        'description'      => json_encode($data['description']),
                                         'repeater_content' => json_encode($data['repeater_content']),
                                         'meta_id'          => $meta->id,
                                         'city_id'          => $data['city_id'],
@@ -97,8 +100,9 @@ class SafetyInformationController extends Controller
         }
         
         $safetyinformation->repeater_content = json_decode($safetyinformation->repeater_content);
+        $safetyinformation->description = json_decode($safetyinformation->description);
         
-        return view('Safetyinformation.edit',compact('cities', 'safetyinformation'));
+        return view('Safetyinformation.edit',compact('cities', 'safetyinformation','meta'));
     }
 
     /**
@@ -117,6 +121,7 @@ class SafetyInformationController extends Controller
                             'image'            => 'sometimes|string|nullable',
                             'image_alt'        => 'sometimes|string|nullable',
                             'repeater_content' => 'sometimes|array',
+                            'description'      => 'sometimes|array',
                             'city_id'          => 'required|integer|exists:cities,id',
                             'meta_title'       => 'required|string|nullable',
                             'meta_description' => 'required|string|nullable',
@@ -127,7 +132,7 @@ class SafetyInformationController extends Controller
 
             /* Insert Meta */
             if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
-                $meta = Meta::where('id',$hotel->meta_id)
+                $meta = Meta::where('id',$safetyinformation->meta_id)
                             ->update([
                                 'meta_title'       => $data['meta_title'],
                                 'meta_description' => $data['meta_description'],
@@ -141,9 +146,10 @@ class SafetyInformationController extends Controller
                                         'name'             => $data['name'],
                                         'title'            => $data['title'],
                                         'image'            => $data['image'],
-                                        'image_alt'        => $data['image_alt'],
-                                        'description'      => $data['description'],
+                                        'image'            => isset($data['image']) ? $data['image'] : NULL,
+                                        'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
                                         'repeater_content' => json_encode($data['repeater_content']),
+                                        'description' =>      json_encode($data['description']),
                                         'meta_id'          => $safetyinformation->meta_id,
                                         'city_id'          => $data['city_id']
                                     ]);
