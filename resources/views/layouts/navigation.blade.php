@@ -41,6 +41,9 @@
         <x-nav-link href="{{ route('thingstobenoted.index') }}" :active="request()->routeIs('thingstobenoted.index')">
             • Things to be noted
         </x-nav-link>
+        <x-nav-link href="{{ route('thingstodo.index') }}" :active="request()->routeIs('thingstodo.index')">
+            • Things to do
+        </x-nav-link>
         <x-nav-link href="{{ route('backgroundhistory.index') }}" :active="request()->routeIs('backgroundhistory.index')">
             • Background & History
         </x-nav-link>

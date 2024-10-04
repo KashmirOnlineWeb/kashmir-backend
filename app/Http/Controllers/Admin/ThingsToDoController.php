@@ -70,8 +70,8 @@ class ThingsToDoController extends Controller
             $response = ThingsToDo::create([
                                         'name'             => $data['name'],
                                         'title'            => $data['title'],
-                                        'image'            => $data['image'],
-                                        'image_alt'        => $data['image_alt'],
+                                        'image'            => isset($data['image']) ? $data['image'] : NULL,
+                                        'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
                                         'repeater_content' => json_encode($data['repeater_content']),
                                         'meta_id'          => $meta->id,
                                         'city_id'          => $data['city_id'],
@@ -97,7 +97,7 @@ class ThingsToDoController extends Controller
         
         $thingstodo->repeater_content = json_decode($thingstodo->repeater_content);
         
-        return view('Thingstodo.edit',compact('cities', 'thingstodo'));
+        return view('Thingstodo.edit',compact('cities', 'thingstodo','meta'));
     }
 
     /**
@@ -110,7 +110,7 @@ class ThingsToDoController extends Controller
             $request->merge(['thingstodo_id' => $id]);
             
             $request->validate([
-                            'thingstodo_id'    => 'required|integer|exists:things_to_do,id',
+                            'thingstodo_id'    => 'required|integer|exists:things_to_dos,id',
                             'name'             => 'required|string',
                             'title'            => 'required|string',
                             'image'            => 'sometimes|string|nullable',
@@ -139,8 +139,8 @@ class ThingsToDoController extends Controller
                                 ->update([
                                         'name'             => $data['name'],
                                         'title'            => $data['title'],
-                                        'image'            => $data['image'],
-                                        'image_alt'        => $data['image_alt'],
+                                        'image'            => isset($data['image']) ? $data['image'] : NULL,
+                                        'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
                                         'repeater_content' => json_encode($data['repeater_content']),
                                         'meta_id'          => $thingstodo->meta_id,
                                         'city_id'          => $data['city_id']
@@ -162,7 +162,7 @@ class ThingsToDoController extends Controller
             $data = $request->all();
             $request->merge(['thingstodo_id' => $id]);
                 
-            $request->validate(['thingstodo_id' => 'required|integer|exists:thingstodo,id']);
+            $request->validate(['thingstodo_id' => 'required|integer|exists:things_to_dos,id']);
             $thingstodo = ThingsToDo::find($id);
             if(!empty($thingstodo->meta_id)){
                 Meta::destroy($thingstodo->meta_id);
