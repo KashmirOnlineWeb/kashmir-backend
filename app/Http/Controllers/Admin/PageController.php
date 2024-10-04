@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Page;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use App\Models\City;
 
 class PageController extends Controller
 {
@@ -53,9 +55,23 @@ class PageController extends Controller
         return redirect()->route('page.index')->with('success', 'Page created successfully');
     }
 
-    public function edit(Page $page)
+    public function edit(Request $request, $slug)
     {
-        return view('Page.edit', compact('page'));
+        try {
+
+            $cities = City::select('id','name')->get();
+            $page   = Page::where('slug', $slug)->get();
+            $meta   = [];
+
+            if((isset($page->meta_id)) AND !empty($page->meta_id)){
+                $meta = Meta::findOrFail($page->meta_id);    
+            }
+            
+            return view('Page.edit',compact('meta','page'));
+
+        } catch (Exception $e) {
+            Log::error('Somethinng went wrong in page edit.');
+        }
     }
 
     public function update(Request $request, Page $page)
