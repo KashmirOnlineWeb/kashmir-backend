@@ -22,7 +22,7 @@ class BackgroundHistoryController extends Controller
     {
         try {
             $backgroundhistories = BackgroundHistory::orderBy('id','desc')->paginate(12);
-            return view('BackgroundHistory.index')->with(['backgroundhistories' => $backgroundhistories]);
+            return view('Backgroundhistory.index')->with(['backgroundhistories' => $backgroundhistories]);
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in BackgroundHistory index.');
         }
@@ -34,7 +34,7 @@ class BackgroundHistoryController extends Controller
     public function create(Request $request): View
     {
         $cities = City::select('id','name')->get();
-        return view('BackgroundHistory.edit',compact('cities'));
+        return view('Backgroundhistory.edit',compact('cities'));
     }
 
     /**
