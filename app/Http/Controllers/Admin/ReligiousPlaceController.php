@@ -110,7 +110,7 @@ class ReligiousPlaceController extends Controller
             $request->merge(['religious_id' => $id]);
             
             $request->validate([
-                            'religious_id'     => 'required|integer|exists:religious,id',
+                            'religious_id'     => 'required|integer|exists:religious_places,id',
                             'name'             => 'required|string',
                             'title'            => 'required|string',
                             'image'            => 'sometimes|string|nullable',

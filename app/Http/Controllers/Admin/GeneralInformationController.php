@@ -110,7 +110,7 @@ class GeneralInformationController extends Controller
             $request->merge(['general_id' => $id]);
             
             $request->validate([
-                            'general_id'       => 'required|integer|exists:generalinformation,id',
+                            'general_id'       => 'required|integer|exists:general_information,id',
                             'name'             => 'required|string',
                             'title'            => 'required|string',
                             'image'            => 'sometimes|string|nullable',

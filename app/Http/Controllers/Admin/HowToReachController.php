@@ -110,7 +110,7 @@ class HowToReachController extends Controller
             $request->merge(['reach_id' => $id]);
             
             $request->validate([
-                            'reach_id'       => 'required|integer|exists:how_to_reaches,id',
+                            'reach_id'       => 'required|integer|exists:how_to_reachs,id',
                             'name'             => 'required|string',
                             'title'            => 'required|string',
                             'image'            => 'sometimes|string|nullable',

@@ -110,7 +110,7 @@ class ThingsToBeNotedController extends Controller
             $request->merge(['thingstobenoted_id' => $id]);
             
             $request->validate([
-                            'thingstobenoted_id'=> 'required|integer|exists:things_to_be_noted,id',
+                            'thingstobenoted_id'=> 'required|integer|exists:things_to_be_noteds,id',
                             'name'              => 'required|string',
                             'title'             => 'required|string',
                             'image'             => 'sometimes|string|nullable',

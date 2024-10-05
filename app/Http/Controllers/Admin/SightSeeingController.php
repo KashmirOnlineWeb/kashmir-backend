@@ -110,7 +110,7 @@ class SightSeeingController extends Controller
             $request->merge(['sightseeing_id' => $id]);
             
             $request->validate([
-                            'sightseeing_id'   => 'required|integer|exists:sight_seeing,id',
+                            'sightseeing_id'   => 'required|integer|exists:sight_seeings,id',
                             'name'             => 'required|string',
                             'title'            => 'required|string',
                             'image'            => 'sometimes|string|nullable',

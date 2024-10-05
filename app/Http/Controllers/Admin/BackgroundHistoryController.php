@@ -110,7 +110,7 @@ class BackgroundHistoryController extends Controller
             $request->merge(['background_id' => $id]);
             
             $request->validate([
-                            'background_id'    => 'required|integer|exists:backgroundhistories,id',
+                            'background_id'    => 'required|integer|exists:background_histories,id',
                             'name'             => 'required|string',
                             'title'            => 'required|string',
                             'image'            => 'sometimes|string|nullable',
