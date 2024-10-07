@@ -9,6 +9,10 @@ use App\Models\Package;
 use App\Models\Category;
 use App\Models\City;
 use App\Models\Meta;
+use Illuminate\View\View;
+use App\Models\Destination;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 
 class PackageController extends Controller
 {
@@ -31,8 +35,9 @@ class PackageController extends Controller
     public function create(Request $request): View
     {
         $cities = City::select('id','name')->get();
+        $destinations = Destination::select('id','name')->get();
         $categories = Category::select('id','name')->get();
-        return view('Category.edit',compact('cities','categories'));
+        return view('Package.edit',compact('cities','categories','destinations'));
     }
 
     /**
@@ -54,8 +59,8 @@ class PackageController extends Controller
                             //'status'          => 'required|integer|digits_between:0,1',
                             'content'           => 'sometimes',
                             'addons_editor'     => 'sometimes',
-                            'start_time'        => 'required|date_format:Y-m-d H:i:s|before:end_time',
-                            'end_time'          => 'required|date_format:Y-m-d H:i:s|after:start_time',
+                            'start_date'        => 'required|date_format:Y-m-d|before:end_date',
+                            'end_date'          => 'required|date_format:Y-m-d|after:start_date',
                             'available_slots'   => 'sometimes|string',
                             'budget_type'       => 'sometimes|string',
                             //'currency'        => 'sometimes',
@@ -102,8 +107,8 @@ class PackageController extends Controller
                                         //'status'          => (isset($data['status']) ? $data['status']: NULL),
                                         'content'           => (isset($data['content']) ? $data['content']: NULL),
                                         'addons_editor'     => (isset($data['addons_editor']) ? $data['addons_editor']: NULL),
-                                        'start_time'        => (isset($data['start_time']) ? $data['start_time']: NULL),
-                                        'end_time'          => (isset($data['end_time']) ? $data['end_time']: NULL),
+                                        'start_date'        => (isset($data['start_date']) ? $data['start_date']: NULL),
+                                        'end_date'          => (isset($data['end_date']) ? $data['end_date']: NULL),
                                         'available_slots'   => (isset($data['available_slots']) ? $data['available_slots']: NULL),
                                         'budget_type'       => (isset($data['budget_type']) ? $data['budget_type']: NULL),
                                         //'currency'        => (isset($data['currency']) ? $data['currency']: NULL),
@@ -135,6 +140,8 @@ class PackageController extends Controller
     {
         $cities     = City::select('id','name')->get();
         $package    = Package::findOrFail($id);
+        $destinations = Destination::select('id','name')->get();
+        $categories = Category::select('id','name')->get();
         $meta       = [];
         if(!empty($package->meta_id)){
             $meta   = Meta::findOrFail($package->meta_id);    
@@ -143,6 +150,10 @@ class PackageController extends Controller
         if(!empty($package->category_id)){
             $category = Category::findOrFail($package->category_id);    
         }
+        $destination   = [];
+        if(!empty($package->destination)){
+            $destination = Destination::findOrFail($package->destination);    
+        }
 
         $package->package_content = json_decode($package->package_content);
         $package->faqs_content = json_decode($package->faqs_content);
@@ -150,7 +161,7 @@ class PackageController extends Controller
         $package->itenery_content = json_decode($package->itenery_content);
         $package->image_gallery = json_decode($package->image_gallery);
         
-        return view('Package.edit',compact('cities', 'package', 'meta', 'category'));
+        return view('Package.edit',compact('cities', 'package', 'meta', 'category','destinations','categories'));
     }
 
     /**
@@ -175,8 +186,8 @@ class PackageController extends Controller
                             //'status'          => 'required|integer|digits_between:0,1',
                             'content'           => 'sometimes',
                             'addons_editor'     => 'sometimes',
-                            'start_time'        => 'required|date_format:Y-m-d H:i:s|before:end_time',
-                            'end_time'          => 'required|date_format:Y-m-d H:i:s|after:start_time',
+                            'start_date'        => 'required|date_format:Y-m-d|before:end_date',
+                            'end_date'          => 'required|date_format:Y-m-d|after:start_date',
                             'available_slots'   => 'sometimes|string',
                             'budget_type'       => 'sometimes|string',
                             //'currency'        => 'sometimes',
@@ -212,7 +223,6 @@ class PackageController extends Controller
                                 'status'           => 1,
                             ]);
             }
-            
             $response = Package::where('id', $package->id)
                                 ->update([
                                         'name'              => $data['name'],
@@ -222,13 +232,13 @@ class PackageController extends Controller
                                         'season'            => (isset($data['season']) ? $data['season']: NULL),
                                         'category_id'       => $data['category_id'],
                                         'city_id'           => $data['city_id'],
-                                        'meta_id'           => (isset($meta->id) ? $meta->id: NULL),
+                                        'meta_id'           => (isset($package->meta_id) ? $package->meta_id: NULL),
                                         'accommodations'    => (isset($data['accommodations']) ? $data['accommodations']: NULL),
                                         //'status'          => (isset($data['status']) ? $data['status']: NULL),
                                         'content'           => (isset($data['content']) ? $data['content']: NULL),
                                         'addons_editor'     => (isset($data['addons_editor']) ? $data['addons_editor']: NULL),
-                                        'start_time'        => (isset($data['start_time']) ? $data['start_time']: NULL),
-                                        'end_time'          => (isset($data['end_time']) ? $data['end_time']: NULL),
+                                        'start_date'        => (isset($data['start_date']) ? $data['start_date']: NULL),
+                                        'end_date'          => (isset($data['end_date']) ? $data['end_date']: NULL),
                                         'available_slots'   => (isset($data['available_slots']) ? $data['available_slots']: NULL),
                                         'budget_type'       => (isset($data['budget_type']) ? $data['budget_type']: NULL),
                                         //'currency'        => (isset($data['currency']) ? $data['currency']: NULL),

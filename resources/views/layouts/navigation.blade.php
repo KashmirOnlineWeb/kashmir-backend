@@ -5,11 +5,11 @@
     <x-nav-link href="{{ route('page.index') }}" :active="request()->routeIs('page.index')">
         Pages
     </x-nav-link>
-    <x-nav-link href="#">
+    <x-nav-link href="{{ route('package.index') }}" :active="request()->routeIs('package.index')">
         Packages
     </x-nav-link>
     <nav class="grid items-start px-2 text-sm font-normal lg:pl-2">
-        <x-nav-link href="#">
+        <x-nav-link href="{{ route('category.index') }}" :active="request()->routeIs('category.index')">
             • Categories
         </x-nav-link>
     </nav>

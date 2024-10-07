@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Log;
 use App\Models\Category;
+use App\Models\Meta;
 
 class CategoryController extends Controller
 {
@@ -42,18 +43,27 @@ class CategoryController extends Controller
             $data = $request->all();
             $request->validate([
                             'name'      => 'required|string',
-                            'status'    => 'required|integer|digits_between:0,1',
+                            //'status'    => 'required|integer|digits_between:0,1',
                             'slug'      => 'required|string',
                             'min_price' => 'numeric',
                         ]);
-
+            /* Insert Meta */
+            if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
+                $meta = Meta::create([
+                            'meta_title'       => $data['meta_title'],
+                            'meta_description' => $data['meta_description'],
+                            'keywords'         => $data['keywords'],
+                            'status'           => 1,
+                        ]);
+            }
             $response = Category::create([
                                         'name'      => $data['name'],
-                                        'image'     => $data['image'],
-                                        'image_alt' => $data['image_alt'],
-                                        'status'    => $data['status'],
+                                        'image'            => isset($data['image']) ? $data['image'] : NULL,
+                                        'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
+                                        //'status'    => $data['status'],
                                         'slug'      => $data['slug'],
-                                        'min_price' => $data['min_price']
+                                        'min_price' => isset($data['min_price']) ? $data['min_price'] : 0,
+                                        'meta_id' => $meta->id,
                                     ]);
 
             return Redirect::route('category.edit',$response->id);
@@ -68,7 +78,11 @@ class CategoryController extends Controller
     public function edit(Request $request, $id): View
     {
         $category  = Category::findOrFail($id);
-        return view('Category.edit',compact('category'));
+        $meta               = [];
+        if(!empty($category->meta_id)){
+            $meta = Meta::findOrFail($category->meta_id);    
+        }
+        return view('Category.edit',compact('category','meta'));
     }
 
     /**
@@ -83,7 +97,7 @@ class CategoryController extends Controller
             $request->validate([
                             'category_id' => 'required|integer|exists:categories,id',
                             'name'        => 'required|string',
-                            'status'      => 'required|integer|digits_between:0,1',
+                            //'status'      => 'required|integer|digits_between:0,1',
                             'slug'        => 'required|string',
                             'min_price'   => 'numeric',
                         ]);
@@ -93,11 +107,11 @@ class CategoryController extends Controller
             $response = Category::where('id', $category->id)
                                 ->update([
                                         'name'      => $data['name'],
-                                        'image'     => $data['image'],
-                                        'image_alt' => $data['image_alt'],
-                                        'status'    => $data['status'],
+                                        'image'            => isset($data['image']) ? $data['image'] : NULL,
+                                        'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
+                                        //'status'    => $data['status'],
                                         'slug'      => $data['slug'],
-                                        'min_price' => $data['min_price']
+                                        'min_price' => isset($data['min_price']) ? $data['min_price'] : 0,
                                     ]);
 
 

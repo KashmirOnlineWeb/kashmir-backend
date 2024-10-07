@@ -41,6 +41,10 @@ class Package extends Model
                             'hotel_star',
                             'max_capacity',
                         ];
+    protected $casts = [
+        'start_date' => 'datetime',
+        'end_date' => 'datetime'
+    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

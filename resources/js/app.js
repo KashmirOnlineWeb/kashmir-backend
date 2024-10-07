@@ -22,6 +22,7 @@ import ContentRepeater from './components/ContentRepeater.vue';
 import SafetyInfo from './components/SafetyInfo.vue';
 import Faqs from './components/Faqs.vue';
 import Testimonials from './components/Testimonials.vue';
+import Itinerary from './components/Itinerary.vue';
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -110,7 +111,8 @@ const app = createApp({
         ContentRepeater,
         SafetyInfo,
         Faqs,
-        Testimonials
+        Testimonials,
+        Itinerary
     }
 });
 
