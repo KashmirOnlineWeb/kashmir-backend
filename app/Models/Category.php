@@ -18,4 +18,10 @@ class Category extends Model
                             'min_price',
                             'meta_id'
                         ];
+
+    /* Get count of packages */                        
+    public function packages()
+    {
+        return $this->hasMany(Package::class);
+    }                        
 }

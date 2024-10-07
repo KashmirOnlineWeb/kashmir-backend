@@ -20,6 +20,9 @@ use App\Models\ReligiousPlace;
 use App\Models\SightSeeing;
 use App\Models\ThingsToBeNoted;
 use App\Models\ThingsToDo;
+use App\Models\Category;
+use App\Models\Package;
+use App\Models\Page;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -372,4 +375,121 @@ Route::get('/thingstodo/{slug}', function (Request $request, $slug) {
                                 ->first();
 
     return response()->json(['thingstodo' => $thingstodo]);
+});
+
+/* Popular packages by category */
+Route::get('/popularpackages', function (Request $request) {
+    $categories = Category::where('status', 1)
+                                ->select(['id',
+                                          'name',
+                                          'slug',
+                                          'image',
+                                          'image_alt',
+                                          'min_price',
+                                          ])
+                                ->withCount(['packages'])
+                                ->paginate();
+
+    return response()->json(['categories' => $categories]);
+});
+
+/* Packages */
+Route::get('/packages', function (Request $request) {
+    $packages = Package::with(['city:id,name'])
+                        ->select([ 'id',
+                                  'name',
+                                  'price',
+                                  'image',
+                                  'image_alt',
+                                  'slug',
+                                  'city_id',
+                                  'days',
+                                  'nights'
+                                ])
+                                ->paginate();
+
+    return response()->json(['packages' => $packages]);
+});
+
+/* Special packages */
+Route::get('/specialpackages', function (Request $request) {
+    $packages = Package::where('is_special', 1)
+                        ->select([ 'id',
+                                  'name',
+                                  'price',
+                                  'image',
+                                  'image_alt',
+                                  'slug',
+                                  'city_id',
+                                  'days',
+                                  'nights',
+                                  'is_special'
+                                ])
+                                ->paginate();
+
+    return response()->json(['packages' => $packages]);
+});
+
+/* Top destinations */
+Route::get('/topdestinations', function (Request $request) {
+    $destinations = Destination::select([ 'id',
+                                  'name',
+                                  'slug',
+                                  'image',
+                                  'image_alt',
+                                ])
+                                ->paginate();
+
+    return response()->json(['destinations' => $destinations]);
+});
+
+/* Recommended hotels by travel experts */
+Route::get('/recommendedhotels', function (Request $request) {
+    $hotels = Hotel::with(['city:id,name'])
+                    ->select(['id',
+                              'name',
+                              'slug',
+                              'image',
+                              'image_alt',
+                              'price',
+                              'star',
+                              'tax',
+                              'breakfast',
+                              'location',
+                              'city_id',
+                            ])
+                            ->paginate();
+
+    return response()->json(['hotels' => $hotels]);
+});
+
+/* Top thingstodo */
+Route::get('/topthingstodo', function (Request $request) {
+    $thingstodo = ThingsToDo::select([ 'id',
+                                  'name',
+                                  'title',
+                                  'image',
+                                  'image_alt',
+                                ])
+                                ->paginate();
+
+    return response()->json(['thingstodo' => $thingstodo]);
+});
+
+/* Get page by slug */
+Route::get('/page/{slug}', function (Request $request, $slug) {
+    $slug  = strtolower($slug); // Convert slug to lowercase
+    $page = Page::where('slug', $slug)
+                                ->select(['id',
+                                          'name',
+                                          'slug',
+                                          'title',
+                                          //'meta_id',
+                                          'content1',
+                                          'content2',
+                                          'content3'
+                                ])
+                                ->first();
+
+    return response()->json(['page' => $page]);
 });
