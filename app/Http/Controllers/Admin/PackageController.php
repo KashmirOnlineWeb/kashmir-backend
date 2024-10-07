@@ -124,7 +124,8 @@ class PackageController extends Controller
                                         'image_alt'         => (isset($data['image_alt']) ? $data['image_alt']: NULL),
                                         'image_gallery'     => (isset($data['image_gallery']) ? json_encode($data['image_gallery']): NULL),
                                         'hotel_star'        => (isset($data['hotel_star']) ? $data['hotel_star']: NULL),
-                                        'max_capacity'      => (isset($data['max_capacity']) ? $data['max_capacity']: NULL)
+                                        'max_capacity'      => (isset($data['max_capacity']) ? $data['max_capacity']: NULL),
+                                        'is_special'        => (isset($data['is_special']) ? $data['is_special']: 0)
                                     ]);
 
             return Redirect::route('package.index',$response->id);
@@ -254,7 +255,8 @@ class PackageController extends Controller
                                         'image_alt'         => (isset($data['image_alt']) ? $data['image_alt']: NULL),
                                         'image_gallery'     => (isset($data['image_gallery']) ? json_encode($data['image_gallery']): NULL),
                                         'hotel_star'        => (isset($data['hotel_star']) ? $data['hotel_star']: NULL),
-                                        'max_capacity'      => (isset($data['max_capacity']) ? $data['max_capacity']: NULL)
+                                        'max_capacity'      => (isset($data['max_capacity']) ? $data['max_capacity']: NULL),
+                                        'is_special'        => (isset($data['is_special']) ? $data['is_special']: 0)
                                     ]);
 
 

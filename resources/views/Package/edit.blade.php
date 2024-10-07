@@ -372,6 +372,14 @@
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
+                    <div class="mb-4">
+                        <label for="is_specials" class="block text-md font-bold mb-1 text-gray-900">Special Package</label>
+                        <label for="is_special" class="block text-sm font-medium text-gray-900">
+                        <input type="checkbox" name="is_special" id="is_special" 
+                            value="1" {{ old('is_special', $package->is_special ?? false) ? 'checked' : '' }}
+                            class="mt-1"> Treat as Special Package?</input></label>
+                    </div>
+                    
                 </div>
             </div> 
 
