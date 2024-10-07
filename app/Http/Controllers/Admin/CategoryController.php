@@ -20,7 +20,7 @@ class CategoryController extends Controller
     {
         try {
             $categories = Category::orderBy('id','desc')->paginate(12);
-            return view('category.index')->with(['categories' => $categories]);
+            return view('Category.index')->with(['categories' => $categories]);
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in category index.');
         }
@@ -31,7 +31,7 @@ class CategoryController extends Controller
      */
     public function create(Request $request): View
     {
-        return view('category.edit');
+        return view('Category.edit');
     }
 
     /**
