@@ -39,52 +39,6 @@
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-                <tr>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm font-medium text-gray-900">Home</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-500">/</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-500">Active</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-500">N/A</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-500">N/A</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <div id="app-home" class="relative inline-block text-left">
-                            <dropdown-menu :edit-url="'{{ route('page.edit', 'home') }}'"
-                            ></dropdown-menu>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm font-medium text-gray-900">FAQs</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-500">/faqs</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-500">Active</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-500">N/A</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-500">N/A</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <div id="app-faqs" class="relative inline-block text-left">
-                            <dropdown-menu :edit-url="'{{ route('page.edit', 'faqs') }}'"
-                            ></dropdown-menu>
-                        </div>
-                    </td>
-                </tr>
                 @foreach ($pages as $page)
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">
@@ -106,7 +60,9 @@
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <div id="app-{{ $page->id }}" class="relative inline-block text-left">
                                 <dropdown-menu :edit-url="'{{ route('page.edit', $page->id) }}'"
-                                    :delete-url="'{{ route('page.destroy', $page->id) }}'"></dropdown-menu>
+                                    @if ($page->slug !== 'home' && $page->slug !== 'faqs' && $page->slug !== 'testimonials')
+                                        :delete-url="'{{ route('page.destroy', $page->id) }}'"
+                                    @endif></dropdown-menu>
                             </div>
                         </td>
                     </tr>

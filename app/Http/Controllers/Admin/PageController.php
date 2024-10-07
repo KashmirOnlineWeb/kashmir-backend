@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Models\City;
 use App\Models\Meta;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\View\View;
 
 class PageController extends Controller
 {
@@ -29,8 +32,8 @@ class PageController extends Controller
      */
     public function create(Request $request): View
     {
-        $cities = City::select('id','name')->get();
-        return view('Page.edit',compact('cities'));
+        //$cities = City::select('id','name')->get();
+        return view('Page.edit');
     }
 
     /**
@@ -44,8 +47,8 @@ class PageController extends Controller
                             'name'              => 'required|string',
                             'slug'              => 'required|string',
                             'title'             => 'sometimes|string',
-                            'status'            => 'required|integer|digits_between:0,1',
-                            'city_id'           => 'required|integer|exists:cities,id',
+                            //'status'            => 'required|integer|digits_between:0,1',
+                            //'city_id'           => 'required|integer|exists:cities,id',
                             'content1'          => 'sometimes|array',
                             'content2'          => 'sometimes|array',
                             'content3'          => 'sometimes|array',
@@ -57,18 +60,19 @@ class PageController extends Controller
             /* Insert Meta */
             if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
                 $meta = Meta::create([
-                            'meta_title'       => $data['meta_title'],
-                            'meta_description' => $data['meta_description'],
-                            'keywords'         => $data['keywords'],
-                            'status'           => 1,
-                        ]);
+                    'meta_title'       => $data['meta_title'],
+                    'meta_description' => $data['meta_description'],
+                    'keywords'         => $data['keywords'],
+                    'status'           => 1,
+                ]);
+                //$page->meta_id = $meta->id; // Assign the new meta_id to the page
             }
 
             $response = Page::create([
                                         'name'    => $data['name'],
                                         'slug'    => $data['slug'],
                                         'title'   => (isset($data['title']) ? $data['title']: NULL),
-                                        'status'  => $data['status'],
+                                        //'status'  => $data['status'],
                                         'content1'=> (isset($data['content1']) ? json_encode($data['content1']): NULL),
                                         'content2'=> (isset($data['content2']) ? json_encode($data['content2']): NULL),
                                         'content3'=> (isset($data['content3']) ? json_encode($data['content3']): NULL),
@@ -87,7 +91,7 @@ class PageController extends Controller
     public function edit(Request $request, $id)
     {
         try {
-            $cities = City::select('id','name')->get();
+            //$cities = City::select('id','name')->get();
             $page   = Page::findOrFail($id);
             $meta   = [];
 
@@ -120,8 +124,8 @@ class PageController extends Controller
                             'name'              => 'required|string',
                             'slug'              => 'required|string',
                             'title'             => 'sometimes|string',
-                            'status'            => 'required|integer|digits_between:0,1',
-                            'city_id'           => 'required|integer|exists:cities,id',
+                            //'status'            => 'required|integer|digits_between:0,1',
+                            //'city_id'           => 'required|integer|exists:cities,id',
                             'content1'          => 'sometimes|array',
                             'content2'          => 'sometimes|array',
                             'content3'          => 'sometimes|array',
@@ -134,13 +138,24 @@ class PageController extends Controller
 
             /* Insert Meta */
             if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
-                $meta = Meta::where('id',$page->meta_id)
-                            ->update([
-                                'meta_title'       => $data['meta_title'],
-                                'meta_description' => $data['meta_description'],
-                                'keywords'         => $data['keywords'],
-                                'status'           => 1,
-                            ]);
+                // Check if meta_id exists, if not create a new Meta
+                if (empty($page->meta_id)) {
+                    $meta = Meta::create([
+                        'meta_title'       => $data['meta_title'],
+                        'meta_description' => $data['meta_description'],
+                        'keywords'         => $data['keywords'],
+                        'status'           => 1,
+                    ]);
+                    $page->meta_id = $meta->id; // Assign the new meta_id to the page
+                } else {
+                    $meta = Meta::where('id', $page->meta_id)
+                                ->update([
+                                    'meta_title'       => $data['meta_title'],
+                                    'meta_description' => $data['meta_description'],
+                                    'keywords'         => $data['keywords'],
+                                    'status'           => 1,
+                                ]);
+                }
             }
             
             $response = Page::where('id', $page->id)
@@ -148,7 +163,7 @@ class PageController extends Controller
                                         'name'    => $data['name'],
                                         'slug'    => $data['slug'],
                                         'title'   => (isset($data['title']) ? $data['title']: NULL),
-                                        'status'  => $data['status'],
+                                        //'status'  => $data['status'],
                                         'content1'=> (isset($data['content1']) ? json_encode($data['content1']): NULL),
                                         'content2'=> (isset($data['content2']) ? json_encode($data['content2']): NULL),
                                         'content3'=> (isset($data['content3']) ? json_encode($data['content3']): NULL),

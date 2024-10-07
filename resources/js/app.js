@@ -20,6 +20,8 @@ import ImageUploader from './components/ImageUploader.vue';
 import Restaurants from './components/Restaurants.vue';
 import ContentRepeater from './components/ContentRepeater.vue';
 import SafetyInfo from './components/SafetyInfo.vue';
+import Faqs from './components/Faqs.vue';
+import Testimonials from './components/Testimonials.vue';
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -106,7 +108,9 @@ const app = createApp({
         CollegesAndSchools,
         Restaurants,
         ContentRepeater,
-        SafetyInfo
+        SafetyInfo,
+        Faqs,
+        Testimonials
     }
 });
 

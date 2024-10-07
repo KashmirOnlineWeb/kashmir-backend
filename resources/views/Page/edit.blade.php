@@ -13,6 +13,22 @@
             @if (isset($page))
                 @method('PUT')
             @endif
+
+            <!-- Display Errors -->
+            @if ($errors->any())
+                <div class="mb-4">
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                        <strong class="font-bold">Whoops! Something went wrong.</strong></br>
+                        <span class="block sm:inline">Please check the form for errors.</span>
+                        <ul class="mt-3 list-disc list-inside text-sm text-red-600">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            @endif
+
             <!-- Section 1 and Section 3 -->
             <div class="flex flex-wrap -mx-2 mb-4 border-gray-200">
                 <div class="w-full gap-4 px-2 mb-4">
@@ -33,7 +49,8 @@
                                 <label for="slug" class="block text-sm font-medium text-gray-700">Slug</label>
                                 <input type="text" name="slug" id="slug"
                                     value="{{ old('slug', $page->slug ?? '') }}"
-                                    class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
+                                    class="read-only:opacity-60 read-only:cursor-not-allowed mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1"
+                                    {{ isset($page) && ($page->slug == 'home' || $page->slug == 'faqs' || $page->slug == 'testimonials') ? 'readonly' : '' }}>
                                 @error('slug')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
@@ -43,18 +60,55 @@
                 </div>
             </div>
 
-            <!-- Section 2: Tabs for Content and Highlights -->
-            <div class="mb-4 p-4 border-b border-gray-200">
-                <h2 class="text-md font-semibold mb-2">Content</h2>
-                <content-repeater 
-                    :initialData="{{ json_encode(old('repeater_content', $shoppingplace->repeater_content ?? [])) }}"
-                    @update:contents="updateContents"
-                    name-prefix="repeater_content"
-                />
-                @error('contents')
-                    <span class="text-red-500 text-sm">{{ $message }}</span></br>
-                @enderror
-            </div>
+            @if(isset($page) && $page->slug == 'faqs')
+                <div class="mb-4 p-4 border-b border-gray-200">
+                    <h2 class="text-md font-semibold mb-2">FAQs</h2>
+                    <Faqs :initial-data="{{ json_encode(old('content1', $page->content1 ?? [])) }}"
+                        name-prefix="content1" />
+
+                    @error('content1')
+                        <span class="text-red-500 text-sm">{{ $message }}</span></br>
+                    @enderror
+                </div>
+            @elseif(isset($page) && $page->slug == 'testimonials')
+                <div class="mb-4 p-4 border-b border-gray-200">
+                    <h2 class="text-md font-semibold mb-2">Testimonials</h2>
+                    <Testimonials :initial-data="{{ json_encode(old('content1', $page->content1 ?? [])) }}"
+                        name-prefix="content1" />
+
+                    @error('content1')
+                        <span class="text-red-500 text-sm">{{ $message }}</span></br>
+                    @enderror
+                </div>
+            @else
+                <!-- Section 2: Tabs for Content and Highlights -->
+                <div class="mb-4 p-4 border-b border-gray-200">
+                    <h2 class="text-md font-semibold mb-2">Content</h2>
+                    <content-repeater 
+                        :initial-data="{{ json_encode(old('content1', $page->content1 ?? [])) }}"
+                        @update:contents="updateContents"
+                        name-prefix="content1"
+                    />
+                    @error('content1')
+                        <span class="text-red-500 text-sm">{{ $message }}</span></br>
+                    @enderror
+                </div>
+            @endif
+
+                <!-- Section 2 -->
+            @if(isset($page) && $page->slug == 'home')
+                <div class="mb-4 p-4 border-b border-gray-200">
+                    <h2 class="text-md font-semibold mb-2">Why Kashmir online?</h2>
+                    <content-repeater 
+                        :initial-data="{{ json_encode(old('content2', $page->content2 ?? [])) }}"
+                        @update:contents="updateContents"
+                        name-prefix="content2"
+                    />
+                    @error('content2')
+                        <span class="text-red-500 text-sm">{{ $message }}</span></br>
+                    @enderror
+                </div>
+            @endif
 
             <!-- SEO Fields Section -->
             <div id="seo-fields">
