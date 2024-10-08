@@ -64,7 +64,7 @@ class PackageController extends Controller
                             'available_slots'   => 'sometimes|string',
                             'budget_type'       => 'sometimes|string',
                             //'currency'        => 'sometimes',
-                            'destination'       => 'sometimes|string',
+                            'destination_id'    => 'required|integer|exists:destinations,id',
                             'days'              => 'sometimes|integer',
                             'nights'            => 'sometimes|integer',
                             'exclusions_editor' => 'sometimes',
@@ -112,7 +112,7 @@ class PackageController extends Controller
                                         'available_slots'   => (isset($data['available_slots']) ? $data['available_slots']: NULL),
                                         'budget_type'       => (isset($data['budget_type']) ? $data['budget_type']: NULL),
                                         //'currency'        => (isset($data['currency']) ? $data['currency']: NULL),
-                                        'destination'       => (isset($data['destination']) ? $data['destination']: NULL),
+                                        'destination_id'    => $data['destination_id'],
                                         'days'              => (isset($data['days']) ? $data['days']: NULL),
                                         'nights'            => (isset($data['nights']) ? $data['nights']: NULL),
                                         'exclusions_editor' => (isset($data['exclusions_editor']) ? $data['exclusions_editor']: NULL),
@@ -152,8 +152,8 @@ class PackageController extends Controller
             $category = Category::findOrFail($package->category_id);    
         }
         $destination   = [];
-        if(!empty($package->destination)){
-            $destination = Destination::findOrFail($package->destination);    
+        if(!empty($package->destination_id)){
+            $destination = Destination::findOrFail($package->destination_id);    
         }
 
         $package->package_content = json_decode($package->package_content);
@@ -192,7 +192,7 @@ class PackageController extends Controller
                             'available_slots'   => 'sometimes|string',
                             'budget_type'       => 'sometimes|string',
                             //'currency'        => 'sometimes',
-                            'destination'       => 'sometimes|string',
+                            'destination_id'    => 'required|integer|exists:destinations,id',
                             'days'              => 'sometimes|integer',
                             'nights'            => 'sometimes|integer',
                             'exclusions_editor' => 'sometimes',
@@ -243,7 +243,7 @@ class PackageController extends Controller
                                         'available_slots'   => (isset($data['available_slots']) ? $data['available_slots']: NULL),
                                         'budget_type'       => (isset($data['budget_type']) ? $data['budget_type']: NULL),
                                         //'currency'        => (isset($data['currency']) ? $data['currency']: NULL),
-                                        'destination'       => (isset($data['destination']) ? $data['destination']: NULL),
+                                        'destination_id'    => $data['destination_id'],
                                         'days'              => (isset($data['days']) ? $data['days']: NULL),
                                         'nights'            => (isset($data['nights']) ? $data['nights']: NULL),
                                         'exclusions_editor' => (isset($data['exclusions_editor']) ? $data['exclusions_editor']: NULL),

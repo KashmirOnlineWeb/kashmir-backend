@@ -246,11 +246,11 @@
                     </div>
                     <div class="mb-4">
                         <label for="destination" class="block text-sm font-medium text-gray-700">Destination</label>
-                        <select name="destination" id="destination"
+                        <select name="destination_id" id="destination_id"
                             class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
                             @foreach ($destinations as $destination)
                                 <option value="{{ $destination->id }}"
-                                    {{ isset($package) && $package->destination == $destination->id ? 'selected' : '' }}>
+                                    {{ isset($package) && $package->destination_id == $destination->id ? 'selected' : '' }}>
                                     {{ $destination->name }}</option>
                             @endforeach
                         </select>
