@@ -30,7 +30,7 @@ return new class extends Migration
             $table->string('available_slots')->nullable();
             $table->string('budget_type')->nullable();
             $table->string('currency')->nullable();
-            $table->string('destination')->nullable();
+            $table->bigInteger('destination_id')->nullable()->unsigned();
             $table->string('days')->nullable();
             $table->string('nights')->nullable();
 
@@ -53,6 +53,7 @@ return new class extends Migration
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
             $table->foreign('meta_id')->references('id')->on('metas')->onDelete('cascade');
+            $table->foreign('destination_id')->references('id')->on('destinations')->onDelete('cascade');
         });
     }
 
