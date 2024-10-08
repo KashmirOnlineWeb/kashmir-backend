@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('metas', function (Blueprint $table) {
             $table->id();
-            $table->string('meta_title')->nullable();
-            $table->string('meta_description')->nullable();
-            $table->string('keywords')->nullable();
+            $table->text('meta_title')->nullable();
+            $table->text('meta_description')->nullable();
+            $table->text('keywords')->nullable();
             $table->tinyInteger('status')->default(0)->comment('0=inactive,1=active');
             $table->timestamps();
         });
