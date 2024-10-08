@@ -27,7 +27,7 @@ class Package extends Model
                             'available_slots',
                             'budget_type',
                             'currency',
-                            'destination',
+                            'destination_id',
                             'days',
                             'nights',
                             'exclusions_editor',
@@ -68,5 +68,13 @@ class Package extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
-    }                        
+    }  
+    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function destination()
+    {
+        return $this->belongsTo(Destination::class);
+    }  
 }

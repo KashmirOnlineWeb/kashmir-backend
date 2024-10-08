@@ -395,8 +395,9 @@ Route::get('/popularpackages', function (Request $request) {
 
 /* Packages */
 Route::get('/packages', function (Request $request) {
-    $packages = Package::with(['city:id,name'])
+    $packages = Package::with(['city:id,name', 'destination:id,name,slug']) // Ensure destination relationship is included
                         ->select([ 'id',
+                                  'destination_id',
                                   'name',
                                   'price',
                                   'image',
@@ -407,8 +408,19 @@ Route::get('/packages', function (Request $request) {
                                   'nights'
                                 ])
                                 ->paginate();
+    // Prepare unique combinations of days and nights
+    $uniqueTabs = collect($packages->items())->groupBy(function ($item) {
+        return $item->days . '-' . $item->nights;
+    })->map(function ($group) {
+        $item = $group->first(); // Get the first item from the group
+        return [
+            'days' => $item->days,
+            'nights' => $item->nights,
+            'label' => "{$item->nights}N - {$item->days}D"
+        ];
+    })->values()->all();
 
-    return response()->json(['packages' => $packages]);
+    return response()->json(['packages' => $packages, 'tabs' => $uniqueTabs]);
 });
 
 /* Special packages */

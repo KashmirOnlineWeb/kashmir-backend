@@ -60,6 +60,19 @@
                 </div>
             </div>
 
+            @if(isset($page) && $page->slug == 'home')
+                <div class="mb-4 p-4 border-b border-gray-200">
+                    <h2 class="text-md font-semibold mb-2">Home Slider</h2>
+                    <home-slider 
+                        :initial-data="{{ json_encode(old('content3', $page->content3 ?? [])) }}"
+                        name-prefix="content3"
+                    />
+                    @error('content3')
+                        <span class="text-red-500 text-sm">{{ $message }}</span></br>
+                    @enderror
+                </div>
+            @endif
+
             @if(isset($page) && $page->slug == 'faqs')
                 <div class="mb-4 p-4 border-b border-gray-200">
                     <h2 class="text-md font-semibold mb-2">FAQs</h2>

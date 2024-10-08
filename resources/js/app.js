@@ -23,6 +23,7 @@ import SafetyInfo from './components/SafetyInfo.vue';
 import Faqs from './components/Faqs.vue';
 import Testimonials from './components/Testimonials.vue';
 import Itinerary from './components/Itinerary.vue';
+import HomeSlider from './components/HomeSlider.vue';
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -112,7 +113,8 @@ const app = createApp({
         SafetyInfo,
         Faqs,
         Testimonials,
-        Itinerary
+        Itinerary,
+        HomeSlider
     }
 });
 

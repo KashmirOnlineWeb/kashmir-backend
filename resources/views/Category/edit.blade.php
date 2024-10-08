@@ -32,11 +32,11 @@
 
             <!-- Section 1 and Section 3 -->
             <div class="flex flex-wrap -mx-2 mb-4 border-b border-gray-200">
-                <div class="w-full px-2 mb-4">
+                <div class="w-full md:w-1/2 px-2 mb-4">
                     <div class="p-4">
                         <h2 class="text-md font-semibold mb-2">Basic Information</h2>
                         <p class="text-sm text-gray-600 mb-4">Provide the basic details of the safety information.</p>
-                        <div class="flex flex-row w-full mb-4 border-b gap-4 border-gray-200">
+                        <div class="flex flex-col w-full mb-4 border-b gap-4 border-gray-200">
                             <div class="mb-4 w-full">
                                 <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
                                 <input type="text" name="name" id="name"
@@ -64,6 +64,25 @@
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 px-2 mb-4">
+                    <div class="p-4 border-b border-gray-200 rounded-md">
+                        <h2 class="text-md font-semibold mb-2">Featured Image</h2>
+                        <p class="text-sm text-gray-600 mb-4">To show in cards.</p>
+                        <div class="mb-4">
+                            <image-uploader name="image" id="image"
+                                v-bind:initial-file="'{{ old('image', $category->image ?? '') }}'"
+                                class="mt-1 block rounded-md border-gray-200 shadow-sm py-1"></image-uploader>
+                        </div>
+                        <div class="mb-4">
+                            <label for="image_alt" class="block text-sm font-medium text-gray-700">Featured Image
+                                Alt
+                                Text</label>
+                            <input type="text" name="image_alt" id="image_alt"
+                                value="{{ old('image_alt', $category->image_alt ?? '') }}"
+                                class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
                         </div>
                     </div>
                 </div>

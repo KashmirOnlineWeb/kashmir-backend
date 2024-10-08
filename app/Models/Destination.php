@@ -37,5 +37,11 @@ class Destination extends Model
     public function meta()
     {
         return $this->belongsTo(Meta::class);
-    }                                                
+    }
+    
+    /* Get count of packages */                        
+    public function packages()
+    {
+        return $this->hasMany(Package::class);
+    }  
 }
