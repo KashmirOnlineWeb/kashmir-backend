@@ -70,7 +70,7 @@
                     </div>
                 </div>
                 <div class="w-full md:w-1/2 px-2 mb-4">
-                    <!-- <div class="p-4 border-b border-gray-200 rounded-md">
+                    <div class="p-4 border-b border-gray-200 rounded-md">
                         <h2 class="text-md font-semibold mb-2">Featured Image</h2>
                         <p class="text-sm text-gray-600 mb-4">To show in cards.</p>
                         <div class="mb-4">
@@ -86,7 +86,7 @@
                                 value="{{ old('image_alt', $thingstodo->image_alt ?? '') }}"
                                 class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
 

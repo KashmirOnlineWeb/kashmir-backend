@@ -44,7 +44,7 @@
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
-                        <!-- <div class="mb-4">
+                        <div class="mb-4">
                             <label for="slug" class="block text-sm font-medium text-gray-700">Slug</label>
                             <input type="text" name="slug" id="slug"
                                 value="{{ old('slug', $hotel->slug ?? '') }}"
@@ -52,7 +52,7 @@
                             @error('slug')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
-                        </div> -->
+                        </div>
                         <div class="mb-4">
                             <label for="contact" class="block text-sm font-medium text-gray-700">Contact</label>
                             <input type="text" name="contact" id="contact"

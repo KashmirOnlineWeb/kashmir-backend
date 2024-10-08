@@ -426,6 +426,7 @@ Route::get('/packages', function (Request $request) {
 /* Special packages */
 Route::get('/specialpackages', function (Request $request) {
     $packages = Package::where('is_special', 1)
+                        ->with(['destination:id,name,slug'])
                         ->select([ 'id',
                                   'name',
                                   'price',
@@ -435,7 +436,9 @@ Route::get('/specialpackages', function (Request $request) {
                                   'city_id',
                                   'days',
                                   'nights',
-                                  'is_special'
+                                  'is_special',
+                                  'illusions_content',
+                                  'destination_id'
                                 ])
                                 ->paginate();
 
@@ -444,11 +447,14 @@ Route::get('/specialpackages', function (Request $request) {
 
 /* Top destinations */
 Route::get('/topdestinations', function (Request $request) {
-    $destinations = Destination::select([ 'id',
+    $destinations = Destination::with(['city:id,name,slug'])
+                                ->select([ 'id',
                                   'name',
                                   'slug',
                                   'image',
                                   'image_alt',
+                                  'destination_type',
+                                  'city_id'
                                 ])
                                 ->paginate();
 
@@ -469,6 +475,9 @@ Route::get('/recommendedhotels', function (Request $request) {
                               'breakfast',
                               'location',
                               'city_id',
+                              'total_rooms',
+                              'total_lobbys',
+                              'balcony',
                             ])
                             ->paginate();
 
@@ -477,11 +486,13 @@ Route::get('/recommendedhotels', function (Request $request) {
 
 /* Top thingstodo */
 Route::get('/topthingstodo', function (Request $request) {
-    $thingstodo = ThingsToDo::select([ 'id',
+    $thingstodo = ThingsToDo::with(['city:id,name,slug'])
+                                ->select([ 'id',
                                   'name',
                                   'title',
                                   'image',
                                   'image_alt',
+                                  'city_id'
                                 ])
                                 ->paginate();
 
