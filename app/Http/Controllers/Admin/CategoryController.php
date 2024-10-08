@@ -60,7 +60,7 @@ class CategoryController extends Controller
                                         'name'      => $data['name'],
                                         'image'            => isset($data['image']) ? $data['image'] : NULL,
                                         'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
-                                        //'status'    => $data['status'],
+                                        'status'    => 1,
                                         'slug'      => $data['slug'],
                                         'min_price' => isset($data['min_price']) ? $data['min_price'] : 0,
                                         'meta_id' => $meta->id,
@@ -109,7 +109,7 @@ class CategoryController extends Controller
                                         'name'      => $data['name'],
                                         'image'            => isset($data['image']) ? $data['image'] : NULL,
                                         'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
-                                        //'status'    => $data['status'],
+                                        'status'    => 1,
                                         'slug'      => $data['slug'],
                                         'min_price' => isset($data['min_price']) ? $data['min_price'] : 0,
                                     ]);
