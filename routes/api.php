@@ -583,3 +583,11 @@ Route::get('/packages/{slug}', function (Request $request, $slug) {
 
     return response()->json(['package' => $package]);
 });
+
+/* Get hotel by slug */
+Route::get('/hotel/{slug}', function (Request $request, $slug) {
+    $slug  = strtolower($slug); // Convert slug to lowercase
+    $hotel = Hotel::where('slug', $slug)->with('meta')->first();
+
+    return response()->json(['hotel' => $hotel]);
+});

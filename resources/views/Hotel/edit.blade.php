@@ -235,7 +235,7 @@
                             </div>
                         </div>
                     </tab>
-                    <!-- <tab name="Highlights">
+                    <tab name="Highlights">
                         <div class="py-4 border-t border-gray-200">
                             <div class="mb-4">
                                 <label for="highlights_content"
@@ -245,7 +245,7 @@
                                     class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1 tinymce">{{ old('highlights_content', $hotel->highlights_content ?? '') }}</textarea>
                             </div>
                         </div>
-                    </tab> -->
+                    </tab>
                 </tabs>
                 @error('content')
                     <span class="text-red-500 text-sm">{{ $message }}</span></br>
