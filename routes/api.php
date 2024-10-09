@@ -59,7 +59,7 @@ Route::get('/collage/{slug}', function (Request $request, $slug) {
                     'title'             => '',
                     'meta_title'        => '',
                     'meta_description'  => '',
-                    'meta_keywords'     => '', 
+                    'meta_keywords'     => '',
                 ];
     
     return response()->json(['collages' => $collages, 'other_data' => $other_data]);
@@ -92,7 +92,7 @@ Route::get('/hospital/{slug}', function (Request $request, $slug) {
                     'title' => '',
                     'meta_title'        => '',
                     'meta_description'  => '',
-                    'meta_keywords'     => '', 
+                    'meta_keywords'     => '',
                 ];
     
     return response()->json(['hospitals' => $hospitals, 'other_data' => $other_data]);
@@ -127,7 +127,7 @@ Route::get('/hotel/{slug}', function (Request $request, $slug) {
                     'title' => '',
                     'meta_title'        => '',
                     'meta_description'  => '',
-                    'meta_keywords'     => '', 
+                    'meta_keywords'     => '',
                 ];
     
     return response()->json(['hotels' => $hotels, 'other_data' => $other_data]);
@@ -153,7 +153,7 @@ Route::get('/pharmacy/{slug}', function (Request $request, $slug) {
                     'title' => '',
                     'meta_title'        => '',
                     'meta_description'  => '',
-                    'meta_keywords'     => '', 
+                    'meta_keywords'     => '',
                 ];
     
     return response()->json(['pharmacies' => $pharmacies, 'other_data' => $other_data]);
@@ -180,7 +180,7 @@ Route::get('/restaurant/{slug}', function (Request $request, $slug) {
                     'title' => '',
                     'meta_title'        => '',
                     'meta_description'  => '',
-                    'meta_keywords'     => '', 
+                    'meta_keywords'     => '',
                 ];
     
     return response()->json(['restaurants' => $restaurants, 'other_data' => $other_data]);
@@ -423,6 +423,65 @@ Route::get('/packages', function (Request $request) {
     return response()->json(['packages' => $packages, 'tabs' => $uniqueTabs]);
 });
 
+/* Packages by category */
+Route::post('/listing', function (Request $request) {
+
+    // Initialize the query
+    $query = Package::query();
+
+    // Check for category slug and fetch category
+    if ($request->input('category')) {
+        $categorySlug = strtolower($request->input('category')); // Get the category slug from the request
+        $category = Category::where('slug', $categorySlug)->first(); // Fetch the category by slug
+    }
+    // Check for category slug and fetch category
+    if ($request->input('category_name')) {
+        $categorySlug = strtolower($request->input('category_name')); // Get the category slug from the request
+        $category = Category::where('slug', $categorySlug)->first(); // Fetch the category by slug
+    }
+
+    // Apply filters based on query parameters
+    if (isset($request->price) && $request->input('price') !== '') {
+        $query->where('price', '<=', $request->input('price'));
+    }
+    if (isset($request->max_capacity) && $request->input('max_capacity') !== '') {
+        $query->where('max_capacity', '<=', $request->input('max_capacity'));
+    }
+    if (isset($request->available_slots) && $request->input('available_slots') !== '') {
+        $query->where('available_slots', '>=', $request->input('available_slots'));
+    }
+    if (isset($request->days) && $request->input('days') !== '') {
+        $query->where('days', '=', $request->input('days'));
+    }
+    if (isset($request->nights) && $request->input('nights') !== '') {
+        $query->where('nights', '=', $request->input('nights'));
+    }
+    if (isset($request->hotel_star) && $request->input('hotel_star') !== '') {
+        $query->whereIn('hotel_star', $request->input('hotel_star'));
+    }
+    if (isset($request->season) && $request->input('season') !== '') {
+        $query->where('season', '=', $request->input('season'));
+    }
+    if (isset($request->budget_type) && $request->input('budget_type') !== '') {
+        $query->where('budget_type', '=', $request->input('budget_type'));
+    }
+    if (isset($category) && $category) { // Check if category exists
+        $query->where('category_id', '=', $category->id);
+    }
+
+    // Get the limit from the request, default to 10 if not specified
+    $limit = $request->input('limit', 10); 
+    // Ensure limit is a valid integer
+    if (!is_numeric($limit) || $limit <= 0) {
+        $limit = 10; // Reset to default if invalid
+    }
+
+    // Execute the query with pagination
+    $packages = $query->with(['destination:id,name,slug','category:id,name,slug'])->paginate($limit); // Use the specified limit for pagination
+
+    return response()->json(['packages' => $packages]);
+});
+
 /* Special packages */
 Route::get('/specialpackages', function (Request $request) {
     $packages = Package::where('is_special', 1)
@@ -515,4 +574,12 @@ Route::get('/page/{slug}', function (Request $request, $slug) {
                                 ->first();
 
     return response()->json(['page' => $page]);
+});
+
+/* Get package by slug */
+Route::get('/packages/{slug}', function (Request $request, $slug) {
+    $slug  = strtolower($slug); // Convert slug to lowercase
+    $package = Package::where('slug', $slug)->with('meta')->first();
+
+    return response()->json(['package' => $package]);
 });
