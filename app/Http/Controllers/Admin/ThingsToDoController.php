@@ -46,7 +46,7 @@ class ThingsToDoController extends Controller
             $data = $request->all();
             
             $request->validate([
-                            'name'             => 'required|string',
+                            //'name'             => 'required|string',
                             'title'            => 'required|string',
                             'image'            => 'sometimes|string|nullable',
                             'image_alt'        => 'sometimes|string|nullable',
@@ -68,7 +68,7 @@ class ThingsToDoController extends Controller
             }
             
             $response = ThingsToDo::create([
-                                        'name'             => $data['name'],
+                                        'name'             => isset($data['name']) ? $data['name'] : NULL,
                                         'title'            => $data['title'],
                                         'image'            => isset($data['image']) ? $data['image'] : NULL,
                                         'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
@@ -111,7 +111,7 @@ class ThingsToDoController extends Controller
             
             $request->validate([
                             'thingstodo_id'    => 'required|integer|exists:things_to_dos,id',
-                            'name'             => 'required|string',
+                            //'name'             => 'required|string',
                             'title'            => 'required|string',
                             'image'            => 'sometimes|string|nullable',
                             'image_alt'        => 'sometimes|string|nullable',
@@ -137,7 +137,7 @@ class ThingsToDoController extends Controller
             
             $response = ThingsToDo::where('id', $thingstodo->id)
                                 ->update([
-                                        'name'             => $data['name'],
+                                        'name'             => isset($data['name']) ? $data['name'] : NULL,
                                         'title'            => $data['title'],
                                         'image'            => isset($data['image']) ? $data['image'] : NULL,
                                         'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,

@@ -393,7 +393,7 @@
 
             <div class="mb-4">
                 <button type="submit" :disabled="isUploading"
-                    class="bg-black text-white p-2 rounded disabled:opacity-50">{{ isset($destination) ? 'Update Destination' : 'Save Destination' }}</button>
+                    class="bg-black text-white p-2 rounded disabled:opacity-50">{{ isset($package) ? 'Update Package' : 'Save Package' }}</button>
             </div>
         </form>
     </div>
