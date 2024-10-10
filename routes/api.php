@@ -477,7 +477,7 @@ Route::post('/listing', function (Request $request) {
     }
 
     // Execute the query with pagination
-    $packages = $query->with(['destination:id,name,slug','category:id,name,slug'])->paginate($limit); // Use the specified limit for pagination
+    $packages = $query->with(['category:id,name,slug'])->paginate($limit); // Use the specified limit for pagination
 
     return response()->json(['packages' => $packages]);
 });
