@@ -9,13 +9,6 @@
           </div>
         </div>
         <div class="flex-grow w-full sm:w-auto">
-            <!-- Existing content textarea -->
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Highlight Content</label>
-            <textarea v-model="content.content" :id="`${namePrefix}-${content.id}`" :name="`${namePrefix}[${index}][content]`" class="tinymce"></textarea>
-          </div>
-          <div v-if="content.error" class="text-red-500 text-sm mt-2">{{ content.error }}</div>
-
           <div class="flex flex-wrap -mx-2">
             <!-- Itinerary Title -->
             <div class="w-full md:w-1/2 px-2 mb-4">
@@ -28,32 +21,32 @@
               <input type="text" v-model="content.itineraryDays" :name="`${namePrefix}[${index}][itineraryDays]`" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
             </div>
             <!-- Transfer -->
-            <div class="w-full md:w-1/2 px-2 mb-4">
+            <!-- <div class="w-full md:w-1/2 px-2 mb-4">
               <label class="block text-sm font-medium text-gray-700">Transfer</label>
               <input type="text" v-model="content.transfer" :name="`${namePrefix}[${index}][transfer]`" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
-            </div>
+            </div> -->
             <!-- Sightseeings -->
-            <div class="w-full md:w-1/2 px-2 mb-4">
+            <!-- <div class="w-full md:w-1/2 px-2 mb-4">
               <label class="block text-sm font-medium text-gray-700">Sightseeings</label>
               <input type="text" v-model="content.sightseeings" :name="`${namePrefix}[${index}][sightseeings]`" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
-            </div>
+            </div> -->
             <!-- Hotel -->
-            <div class="w-full md:w-1/2 px-2 mb-4">
+            <!-- <div class="w-full md:w-1/2 px-2 mb-4">
               <label class="block text-sm font-medium text-gray-700">Hotel</label>
               <input type="text" v-model="content.hotel" :name="`${namePrefix}[${index}][hotel]`" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
-            </div>
+            </div> -->
             <!-- Hotel Details -->
-            <div class="w-full md:w-1/2 px-2 mb-4">
+            <!-- <div class="w-full md:w-1/2 px-2 mb-4">
               <label class="block text-sm font-medium text-gray-700">Hotel Details</label>
               <input type="text" v-model="content.hotelDetails" :name="`${namePrefix}[${index}][hotelDetails]`" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
-            </div>
+            </div> -->
             <!-- Hotel Check-in Time -->
-            <div class="w-full md:w-1/2 px-2 mb-4">
+            <!-- <div class="w-full md:w-1/2 px-2 mb-4">
               <label class="block text-sm font-medium text-gray-700">Hotel Check-in Time</label>
               <input type="text" v-model="content.hotelCheckInTime" :name="`${namePrefix}[${index}][hotelCheckInTime]`" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
-            </div>
+            </div> -->
             <!-- Hotel Star Rating -->
-            <div class="w-full md:w-1/2 px-2 mb-4">
+            <!-- <div class="w-full md:w-1/2 px-2 mb-4">
               <label class="block text-sm font-medium text-gray-700">Hotel Star Rating</label>
               <select v-model="content.hotelStar" :name="`${namePrefix}[${index}][hotelStar]`" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
                 <option value="1">1 Star</option>
@@ -62,34 +55,41 @@
                 <option value="4">4 Stars</option>
                 <option value="5">5 Stars</option>
               </select>
-            </div>
+            </div> -->
             <!-- Car Detail -->
-            <div class="w-full md:w-1/2 px-2 mb-4">
+            <!-- <div class="w-full md:w-1/2 px-2 mb-4">
               <label class="block text-sm font-medium text-gray-700">Car Detail</label>
               <input type="text" v-model="content.carDetail" :name="`${namePrefix}[${index}][carDetail]`" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
-            </div>
+            </div> -->
             <!-- Car Transfer Detail -->
-            <div class="w-full md:w-1/2 px-2 mb-4">
+            <!-- <div class="w-full md:w-1/2 px-2 mb-4">
               <label class="block text-sm font-medium text-gray-700">Car Transfer Detail</label>
               <input type="text" v-model="content.carTransferDetail" :name="`${namePrefix}[${index}][carTransferDetail]`" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
-            </div>
+            </div> -->
             <!-- Car Type -->
-            <div class="w-full md:w-1/2 px-2 mb-4">
+            <!-- <div class="w-full md:w-1/2 px-2 mb-4">
               <label class="block text-sm font-medium text-gray-700">Car Type</label>
               <input type="text" v-model="content.carType" :name="`${namePrefix}[${index}][carType]`" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
-            </div>
+            </div> -->
             <!-- Car Time Duration -->
-            <div class="w-full md:w-1/2 px-2 mb-4">
+            <!-- <div class="w-full md:w-1/2 px-2 mb-4">
               <label class="block text-sm font-medium text-gray-700">Car Time Duration</label>
               <input type="text" v-model="content.carTimeDuration" :name="`${namePrefix}[${index}][carTimeDuration]`" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
-            </div>
+            </div> -->
             <!-- Adventures -->
-            <div class="w-full md:w-1/2 px-2 mb-4">
+            <!-- <div class="w-full md:w-1/2 px-2 mb-4">
               <label class="block text-sm font-medium text-gray-700">Adventures</label>
               <input type="text" v-model="content.adventures" :name="`${namePrefix}[${index}][adventures]`" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
-            </div>
+            </div> -->
           </div>
+            <!-- Existing content textarea -->
+            <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700">Itinerary Details</label>
+            <textarea v-model="content.content" :id="`${namePrefix}-${content.id}`" :name="`${namePrefix}[${index}][content]`" class="tinymce"></textarea>
+          </div>
+          <div v-if="content.error" class="text-red-500 text-sm mt-2">{{ content.error }}</div>
 
+          
         </div>
       </div>
       <button @click.prevent="addContent" class="bg-black/70 hover:bg-black text-white font-semibold text-sm py-1 px-3 rounded-lg flex items-center">
@@ -127,17 +127,17 @@
         //showImage: item.showImage === 'on' ? true : false,
         itineraryTitle: item.itineraryTitle || '',
         itineraryDays: item.itineraryDays || '',
-        transfer: item.transfer || '',
-        hotel: item.hotel || '',
-        sightseeings: item.sightseeings || '',
-        adventures: item.adventures || '',
-        hotelDetails: item.hotelDetails || '',
-        hotelCheckInTime: item.hotelCheckInTime || '',
-        carDetail: item.carDetail || '',
-        carTransferDetail: item.carTransferDetail || '',
-        carType: item.carType || '',
-        carTimeDuration: item.carTimeDuration || '',
-        hotelStar: item.hotelStar || '1', // Default to 1 star
+        // transfer: item.transfer || '',
+        // hotel: item.hotel || '',
+        // sightseeings: item.sightseeings || '',
+        // adventures: item.adventures || '',
+        // hotelDetails: item.hotelDetails || '',
+        // hotelCheckInTime: item.hotelCheckInTime || '',
+        // carDetail: item.carDetail || '',
+        // carTransferDetail: item.carTransferDetail || '',
+        // carType: item.carType || '',
+        // carTimeDuration: item.carTimeDuration || '',
+        // hotelStar: item.hotelStar || '1', // Default to 1 star
       })) 
     : props.initialData;
   
@@ -146,24 +146,22 @@
   const addContent = async () => {
     contents.value.push({ 
       id: idCounter++, 
-      file: null, 
+      //file: null, 
       content: '', 
-      imagePosition: 'left', 
-      showImage: true, 
       error: null,
       itineraryTitle: '',
       itineraryDays: '',
-      transfer: '',
-      hotel: '',
-      sightseeings: '',
-      adventures: '',
-      hotelDetails: '',
-      hotelCheckInTime: '',
-      carDetail: '',
-      carTransferDetail: '',
-      carType: '',
-      carTimeDuration: '',
-      hotelStar: '1' // Default to 1 star
+    //   transfer: '',
+    //   hotel: '',
+    //   sightseeings: '',
+    //   adventures: '',
+    //   hotelDetails: '',
+    //   hotelCheckInTime: '',
+    //   carDetail: '',
+    //   carTransferDetail: '',
+    //   carType: '',
+    //   carTimeDuration: '',
+    //   hotelStar: '1' // Default to 1 star
     });
     updateContents();
     await nextTick();

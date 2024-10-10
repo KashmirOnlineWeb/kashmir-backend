@@ -579,7 +579,7 @@ Route::get('/page/{slug}', function (Request $request, $slug) {
 /* Get package by slug */
 Route::get('/packages/{slug}', function (Request $request, $slug) {
     $slug  = strtolower($slug); // Convert slug to lowercase
-    $package = Package::where('slug', $slug)->with('meta')->first();
+    $package = Package::where('slug', $slug)->with('meta','category')->first();
 
     return response()->json(['package' => $package]);
 });

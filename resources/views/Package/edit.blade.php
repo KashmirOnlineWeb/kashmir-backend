@@ -104,8 +104,8 @@
                     <tab name="Itinerary">
                         <div class="py-4 border-t border-gray-200">
                             <div class="mb-4">
-                                <label for="itenery_content"
-                                    class="block text-sm font-medium text-gray-700">Itinerary</label>
+                                <!-- <label for="itenery_content"
+                                    class="block text-sm font-medium text-gray-700">Itinerary</label> -->
                                     <Itinerary :initial-data="{{ json_encode(old('itenery_content', $package->itenery_content ?? [])) }}"
                                         name-prefix="itenery_content" />
 
@@ -115,7 +115,7 @@
                             </div>
                         </div>
                     </tab>
-                    <tab name="Addons">
+                    <!-- <tab name="Addons">
                         <div class="py-4 border-t border-gray-200">
                             <div class="mb-4">
                                 <label for="addons_editor"
@@ -134,7 +134,7 @@
                                     class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1 tinymce">{{ old('exclusions_editor', $package->exclusions_editor ?? '') }}</textarea>
                             </div>
                         </div>
-                    </tab>
+                    </tab> -->
                     <tab name="Slider">
                         <div class="py-4 border-t border-gray-200">
                         <slider-component 
