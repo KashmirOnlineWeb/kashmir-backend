@@ -47,7 +47,7 @@ class ThingsToDoController extends Controller
             
             $request->validate([
                             //'name'             => 'required|string',
-                            'title'            => 'required|string',
+                            //'title'            => 'required|string',
                             'image'            => 'sometimes|string|nullable',
                             'image_alt'        => 'sometimes|string|nullable',
                             'repeater_content' => 'sometimes|array',
@@ -69,7 +69,7 @@ class ThingsToDoController extends Controller
             
             $response = ThingsToDo::create([
                                         'name'             => isset($data['name']) ? $data['name'] : NULL,
-                                        'title'            => $data['title'],
+                                        'title'            => isset($data['title']) ? $data['title'] : NULL,
                                         'image'            => isset($data['image']) ? $data['image'] : NULL,
                                         'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
                                         'repeater_content' => json_encode($data['repeater_content']),
@@ -112,7 +112,7 @@ class ThingsToDoController extends Controller
             $request->validate([
                             'thingstodo_id'    => 'required|integer|exists:things_to_dos,id',
                             //'name'             => 'required|string',
-                            'title'            => 'required|string',
+                            //'title'            => 'required|string',
                             'image'            => 'sometimes|string|nullable',
                             'image_alt'        => 'sometimes|string|nullable',
                             'repeater_content' => 'sometimes|array',
@@ -138,7 +138,7 @@ class ThingsToDoController extends Controller
             $response = ThingsToDo::where('id', $thingstodo->id)
                                 ->update([
                                         'name'             => isset($data['name']) ? $data['name'] : NULL,
-                                        'title'            => $data['title'],
+                                        'title'            => isset($data['title']) ? $data['title'] : NULL,
                                         'image'            => isset($data['image']) ? $data['image'] : NULL,
                                         'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
                                         'repeater_content' => json_encode($data['repeater_content']),

@@ -38,7 +38,7 @@
                 @foreach ($thingstodo as $item)
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm font-medium text-gray-900">{{ $item->title }}</div>
+                            <div class="text-sm font-medium text-gray-900">{{ $item->title ?? 'N/A' }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-500">{{ $item->city->name ?? 'N/A' }}</div>
