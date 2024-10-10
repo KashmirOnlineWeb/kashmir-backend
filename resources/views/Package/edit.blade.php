@@ -155,7 +155,7 @@
                 @enderror
             </div>
 
-            <div class="mb-4 p-4 border-b border-gray-200">
+            <!-- <div class="mb-4 p-4 border-b border-gray-200">
                 <h2 class="text-md font-semibold mb-2">FAQs</h2>
                 <div class="mb-4 p-4 border-b border-gray-200">
                     <label for="exclusions_editor" class="block text-sm font-medium text-gray-700">Package FAQs</label>
@@ -166,7 +166,7 @@
                         <span class="text-red-500 text-sm">{{ $message }}</span></br>
                     @enderror
                 </div>
-            </div>
+            </div> -->
             <!-- Section 4 -->
             <div class="mb-4 p-4 border-b border-gray-200">
                 <h2 class="text-md font-semibold mb-2">Location and Type</h2>
