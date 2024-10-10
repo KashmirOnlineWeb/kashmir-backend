@@ -169,11 +169,11 @@
             </div> -->
             <!-- Section 4 -->
             <div class="mb-4 p-4 border-b border-gray-200">
-                <h2 class="text-md font-semibold mb-2">Location and Type</h2>
-                <p class="text-sm text-gray-600 mb-4">Select the city where the package is located and it's type.
+                <h2 class="text-md font-semibold mb-2">Category, Budget and Type</h2>
+                <p class="text-sm text-gray-600 mb-4">Define more details about the package.
                 </p>
                 <div class="grid grid-cols-2 gap-2">
-                    <div class="mb-4">
+                    <!-- <div class="mb-4">
                         <label for="illusions_content" class="block text-sm font-medium text-gray-700">Inclusions</label>
                         <select name="illusions_content[]" id="illusions_content" multiple
                             class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1 select2">
@@ -232,8 +232,8 @@
                                 {{ in_array('bar', old('illusions_content', $package->illusions_content ?? [])) ? 'selected' : '' }}>
                                 Bar</option>
                         </select>
-                    </div>
-                    <div class="mb-4">
+                    </div> -->
+                    <!-- <div class="mb-4">
                         <label for="city_id" class="block text-sm font-medium text-gray-700">City</label>
                         <select name="city_id" id="city_id"
                             class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
@@ -243,8 +243,8 @@
                                     {{ $city->name }}</option>
                             @endforeach
                         </select>
-                    </div>
-                    <div class="mb-4">
+                    </div> -->
+                    <!-- <div class="mb-4">
                         <label for="destination" class="block text-sm font-medium text-gray-700">Destination</label>
                         <select name="destination_id" id="destination_id"
                             class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
@@ -254,7 +254,7 @@
                                     {{ $destination->name }}</option>
                             @endforeach
                         </select>
-                    </div>
+                    </div> -->
                     <div class="mb-4">
                         <label for="category_id" class="block text-sm font-medium text-gray-700">Category</label>
                         <select name="category_id" id="category_id"
@@ -266,7 +266,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="mb-4">
+                    <!-- <div class="mb-4">
                         <label for="season" class="block text-sm font-medium text-gray-700">Season</label>
                         <select name="season" id="season"
                             class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
@@ -276,17 +276,17 @@
                             <option value="autumn" {{ isset($package) && $package->season == 'autumn' ? 'selected' : '' }}>Autumn</option>
                             <option value="all" {{ isset($package) && $package->season == 'all' ? 'selected' : '' }}>All</option>
                         </select>
-                    </div>
+                    </div> -->
                     <div class="mb-4">
                         <label for="budget_type" class="block text-sm font-medium text-gray-700">Budget Type</label>
                         <select name="budget_type" id="budget_type"
                             class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
-                            <option value="low" {{ isset($package) && $package->budget_type == 'low' ? 'selected' : '' }}>Low</option>
+                            <option value="budget" {{ isset($package) && $package->budget_type == 'budget' ? 'selected' : '' }}>Budget</option>
+                            <option value="standard" {{ isset($package) && $package->budget_type == 'standard' ? 'selected' : '' }}>Standard</option>
                             <option value="luxery" {{ isset($package) && $package->budget_type == 'luxery' ? 'selected' : '' }}>Luxery</option>
-                            <option value="premium" {{ isset($package) && $package->budget_type == 'premium' ? 'selected' : '' }}>Premium</option>
                         </select>
                     </div>
-                    <div class="mb-4">
+                    <!-- <div class="mb-4">
                         <label for="accommodations" class="block text-sm font-medium text-gray-700">Accommodations</label>
                         <input type="text" name="accommodations" id="accommodations"
                             value="{{ old('accommodations', $package->accommodations ?? '') }}"
@@ -294,8 +294,8 @@
                         @error('accommodations')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
-                    </div>
-                    <div class="mb-4">
+                    </div> -->
+                    <!-- <div class="mb-4">
                         <label for="available_slots" class="block text-sm font-medium text-gray-700">Available Slots</label>
                         <input type="text" name="available_slots" id="available_slots"
                             value="{{ old('available_slots', $package->available_slots ?? '') }}"
@@ -303,7 +303,7 @@
                         @error('available_slots')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
-                    </div>
+                    </div> -->
                     <div class="mb-4">
                         <label for="days" class="block text-sm font-medium text-gray-700">Days</label>
                         <input type="text" name="days" id="days"
@@ -322,7 +322,7 @@
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
-                    <div class="mb-4">
+                    <!-- <div class="mb-4">
                         <label for="max_capacity" class="block text-sm font-medium text-gray-700">Max Capacity</label>
                         <input type="text" name="max_capacity" id="max_capacity"
                             value="{{ old('max_capacity', $package->max_capacity ?? '') }}"
@@ -330,8 +330,8 @@
                         @error('max_capacity')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
-                    </div>
-                    <div class="mb-4">
+                    </div> -->
+                    <!-- <div class="mb-4">
                         <label for="hotel_star" class="block text-sm font-medium text-gray-700">Hotel Star</label>
                         <select name="hotel_star" id="hotel_star"
                             class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
@@ -353,8 +353,8 @@
                         @error('star')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
-                    </div>
-                    <div class="mb-4">
+                    </div> -->
+                    <!-- <div class="mb-4">
                         <label for="start_date" class="block text-sm font-medium text-gray-700">Start Date</label>
                         <input type="date" name="start_date" id="start_date"
                             value="{{ old('start_date', isset($package) && $package->start_date ? $package->start_date->format('Y-m-d') : '') }}"
@@ -371,14 +371,14 @@
                         @error('end_date')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
-                    </div>
-                    <div class="mb-4">
+                    </div> -->
+                    <!-- <div class="mb-4">
                         <label for="is_specials" class="block text-md font-bold mb-1 text-gray-900">Special Package</label>
                         <label for="is_special" class="block text-sm font-medium text-gray-900">
                         <input type="checkbox" name="is_special" id="is_special" 
                             value="1" {{ old('is_special', $package->is_special ?? false) ? 'checked' : '' }}
                             class="mt-1"> Treat as Special Package?</input></label>
-                    </div>
+                    </div> -->
                     
                 </div>
             </div> 
