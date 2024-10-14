@@ -551,7 +551,8 @@ Route::get('/topthingstodo', function (Request $request) {
                                   'title',
                                   'image',
                                   'image_alt',
-                                  'city_id'
+                                  'city_id',
+                                  'repeater_content'
                                 ])
                                 ->paginate();
 
