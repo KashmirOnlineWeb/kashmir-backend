@@ -46,7 +46,7 @@ class ReligiousPlaceController extends Controller
             $data = $request->all();
             
             $request->validate([
-                            'name'             => 'required|string',
+                            //'name'             => 'required|string',
                             'title'            => 'required|string',
                             'image'            => 'sometimes|string|nullable',
                             'image_alt'        => 'sometimes|string|nullable',
@@ -68,7 +68,7 @@ class ReligiousPlaceController extends Controller
             }
             
             $response = ReligiousPlace::create([
-                                        'name'             => $data['name'],
+                                        'name'             => isset($data['name']) ? $data['name'] : NULL,
                                         'title'            => $data['title'],
                                         'image'            => isset($data['image']) ? $data['image'] : NULL,
                                         'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
@@ -111,7 +111,7 @@ class ReligiousPlaceController extends Controller
             
             $request->validate([
                             'religious_id'     => 'required|integer|exists:religious_places,id',
-                            'name'             => 'required|string',
+                            //'name'             => 'required|string',
                             'title'            => 'required|string',
                             'image'            => 'sometimes|string|nullable',
                             'image_alt'        => 'sometimes|string|nullable',
@@ -137,7 +137,7 @@ class ReligiousPlaceController extends Controller
             
             $response = ReligiousPlace::where('id', $religious->id)
                                 ->update([
-                                        'name'             => $data['name'],
+                                        'name'             => isset($data['name']) ? $data['name'] : NULL,
                                         'title'            => $data['title'],
                                         'image'            => isset($data['image']) ? $data['image'] : NULL,
                                         'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
