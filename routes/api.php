@@ -99,7 +99,7 @@ Route::get('/hospital/{slug}', function (Request $request, $slug) {
 });
 
 /* Hotels */
-Route::get('/hotel/{slug}', function (Request $request, $slug) {
+Route::get('/hotels/{slug}', function (Request $request, $slug) {
     $slug = strtolower($slug); // Convert slug to lowercase
     $city  = City::where('slug',$slug)->select('id','slug')->first();
     $hotels = Hotel::where('city_id', $city->id)
