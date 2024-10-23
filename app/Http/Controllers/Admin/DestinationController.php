@@ -46,7 +46,7 @@ class DestinationController extends Controller
         try {
             $data = $request->all();
             $request->validate([
-                            'name'             => 'required|string',
+                            //'name'             => 'required|string',
                             'slug'             => 'required|string',
                             //'title'            => 'required|string',
                             'image'           => 'sometimes|string|nullable',
@@ -72,7 +72,7 @@ class DestinationController extends Controller
             }
             
             $response = Destination::create([
-                                        'name'              => $data['name'],
+                                        'name'              => isset($data['name']) ? $data['name'] : NULL,
                                         'slug'              => $data['slug'],
                                         //'title'             => $data['title'],
                                         //'short_description' => $data['short_description'],
@@ -118,7 +118,7 @@ class DestinationController extends Controller
             
             $request->validate([
                             'destination_id'   => 'required|integer|exists:destinations,id',
-                            'name'             => 'required|string',
+                            //'name'             => 'required|string',
                             'slug'             => 'required|string',
                             //'title'            => 'required|string',
                             'image'           => 'sometimes|string|nullable',
@@ -146,7 +146,7 @@ class DestinationController extends Controller
             
             $response = Destination::where('id', $destination->id)
                                 ->update([
-                                        'name'              => $data['name'],
+                                        'name'              => isset($data['name']) ? $data['name'] : NULL,
                                         'slug'              => $data['slug'],
                                         //'title'             => $data['title'],
                                         //'short_description' => $data['short_description'],
