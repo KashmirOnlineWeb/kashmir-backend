@@ -23,4 +23,12 @@ class Restaurant extends Model
                             'city_id',
                             'meta_id'
                         ];
+    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
 }

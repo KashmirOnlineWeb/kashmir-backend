@@ -131,16 +131,14 @@
                         <select name="restaurant_type" id="type"
                             class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
                             <option value="" disabled>Select Restaurant Type</option>
-                            <option value="Asian restaurant">Asian restaurant</option>
-                            <option value="Cafe">Cafe</option>
-                            <option value="Family restaurant">Family restaurant</option>
-                            <option value="Fast food restaurant">Fast food restaurant</option>
-                            <option value="French restaurant">French restaurant</option>
-                            <option value="Kashmiri restaurant">Kashmiri restaurant</option>
-                            <option value="Mughlai restaurant">Mughlai restaurant</option>
-                            <option value="Mutton barbecue restaurant">Mutton barbecue restaurant</option>
-                            <option value="Restourant">Restourant</option>
-                            <option value="Pizza restaurant">Pizza restaurant</option>
+                            <option value="Indian">Indian</option>
+                            <option value="Pure Vegetarian Restaurant">Pure Vegetarian Restaurant</option>
+                            <option value="Chinese">Chinese</option>
+                            <option value="Multicuisine">Multicuisine</option>
+                            <option value="Cafes">Cafes</option>
+                            <option value="Continental">Continental</option>
+                            <option value="Fast Food">Fast Food</option>
+                            <option value="Others">Others</option>
                         </select>
                         @error('type')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
