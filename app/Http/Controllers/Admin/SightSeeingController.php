@@ -46,7 +46,7 @@ class SightSeeingController extends Controller
             $data = $request->all();
             
             $request->validate([
-                            'name'             => 'required|string',
+                            //'name'             => 'required|string',
                             'title'            => 'required|string',
                             'image'            => 'sometimes|string|nullable',
                             'image_alt'        => 'sometimes|string|nullable',
@@ -68,7 +68,7 @@ class SightSeeingController extends Controller
             }
             
             $response = SightSeeing::create([
-                                        'name'             => $data['name'],
+                                        'name'             => isset($data['name']) ? $data['name'] : NULL,
                                         'title'            => $data['title'],
                                         'image'            => isset($data['image']) ? $data['image'] : NULL,
                                         'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
@@ -111,7 +111,7 @@ class SightSeeingController extends Controller
             
             $request->validate([
                             'sightseeing_id'   => 'required|integer|exists:sight_seeings,id',
-                            'name'             => 'required|string',
+                            //'name'             => 'required|string',
                             'title'            => 'required|string',
                             'image'            => 'sometimes|string|nullable',
                             'image_alt'        => 'sometimes|string|nullable',
@@ -137,7 +137,7 @@ class SightSeeingController extends Controller
             
             $response = SightSeeing::where('id', $sightseeing->id)
                                 ->update([
-                                        'name'             => $data['name'],
+                                        'name'             => isset($data['name']) ? $data['name'] : NULL,
                                         'title'            => $data['title'],
                                         'image'            => isset($data['image']) ? $data['image'] : NULL,
                                         'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
