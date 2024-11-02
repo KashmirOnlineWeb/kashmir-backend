@@ -48,7 +48,7 @@ class SafetyInformationController extends Controller
             $request->validate([
                             //'name'             => 'required|string',
                             'title'            => 'required|string',
-                            'image'            => 'sometimes|string|nullable',
+                            //'image'            => 'sometimes|string|nullable',
                             'image_alt'        => 'sometimes|string|nullable',
                             'repeater_content' => 'sometimes|array',
                             'description'      => 'required|array',
@@ -118,7 +118,7 @@ class SafetyInformationController extends Controller
                             'safety_id'        => 'required|integer|exists:safety_information,id',
                             //'name'             => 'required|string',
                             'title'            => 'required|string',
-                            'image'            => 'sometimes|string|nullable',
+                            //'image'            => 'sometimes|string|nullable',
                             'image_alt'        => 'sometimes|string|nullable',
                             'repeater_content' => 'sometimes|array',
                             'description'      => 'sometimes|array',
@@ -145,7 +145,6 @@ class SafetyInformationController extends Controller
                                 ->update([
                                         'name'             => isset($data['name']) ? $data['name'] : NULL,
                                         'title'            => $data['title'],
-                                        'image'            => $data['image'],
                                         'image'            => isset($data['image']) ? $data['image'] : NULL,
                                         'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
                                         'repeater_content' => json_encode($data['repeater_content']),
