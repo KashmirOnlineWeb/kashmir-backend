@@ -283,7 +283,7 @@
                             class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
                             <option value="budget" {{ isset($package) && $package->budget_type == 'budget' ? 'selected' : '' }}>Budget</option>
                             <option value="standard" {{ isset($package) && $package->budget_type == 'standard' ? 'selected' : '' }}>Standard</option>
-                            <option value="luxery" {{ isset($package) && $package->budget_type == 'luxery' ? 'selected' : '' }}>Luxery</option>
+                            <option value="luxury" {{ isset($package) && $package->budget_type == 'luxury' ? 'selected' : '' }}>Luxury</option>
                         </select>
                     </div>
                     <!-- <div class="mb-4">
