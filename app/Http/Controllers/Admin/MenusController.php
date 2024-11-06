@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Page;
+use App\Models\Destination;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Models\City;
@@ -62,10 +63,15 @@ class MenusController extends Controller
     public function create(Request $request): View
     {
         //$cities = City::select('id','name')->get();
-        $pages = json_decode(Page::select('id', 'name', 'slug', 'title')
+        $menuItems = collect([
+            ...json_decode(Page::select('id', 'name', 'slug', 'title')
                 ->orderBy('id', 'desc')
-                ->get());
-        return view('Menus.edit')->with('pages',$pages);
+                ->get()),
+            ...json_decode(Destination::select('id', 'name', 'slug', 'title')
+                ->orderBy('id', 'desc')
+                ->get())
+        ]);
+        return view('Menus.edit')->with('pages',$menuItems);
     }
 
     /**
@@ -96,10 +102,15 @@ class MenusController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $pages = json_decode(Page::select('id', 'name', 'slug', 'title')
+        $menuItems = collect([
+            ...json_decode(Page::select('id', 'name', 'slug', 'title')
                 ->orderBy('id', 'desc')
-                ->get());
-        return view('Menus.edit')->with('pages',$pages);
+                ->get()),
+            ...json_decode(Destination::select('id', 'name', 'slug', 'title')
+                ->orderBy('id', 'desc')
+                ->get())
+        ]);
+        return view('Menus.edit')->with('pages',$menuItems);
     }
 
     /**
