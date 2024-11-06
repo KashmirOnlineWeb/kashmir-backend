@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\ReligiousPlaceController;
 use App\Http\Controllers\Admin\SightSeeingController;
 use App\Http\Controllers\Admin\ThingsToBeNotedController;
 use App\Http\Controllers\Admin\PackageController;
+use App\Http\Controllers\Admin\MenusController;
 
 Route::middleware(['auth'])->group(function () {
     /* Category */
@@ -84,6 +85,9 @@ Route::middleware(['auth'])->group(function () {
 
     /* Page */
     Route::resource('/page', PageController::class)->names('page');
+
+    /* Menus */
+    Route::resource('/menus', MenusController::class)->names('menus');
 
     /* Package */
     Route::resource('/package', PackageController::class)->names('package');

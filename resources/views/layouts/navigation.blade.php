@@ -2,6 +2,9 @@
     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
         Dashboard
     </x-nav-link>
+    <x-nav-link href="{{ route('menus.index') }}" :active="request()->routeIs('page.menus')">
+        Menus
+    </x-nav-link>
     <x-nav-link href="{{ route('page.index') }}" :active="request()->routeIs('page.index')">
         Pages
     </x-nav-link>
