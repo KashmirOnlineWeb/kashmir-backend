@@ -23,6 +23,7 @@ use App\Models\ThingsToDo;
 use App\Models\Category;
 use App\Models\Package;
 use App\Models\Page;
+use App\Models\Menu;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -591,4 +592,12 @@ Route::get('/hotel/{slug}', function (Request $request, $slug) {
     $hotel = Hotel::where('slug', $slug)->with('meta')->first();
 
     return response()->json(['hotel' => $hotel]);
+});
+
+/* Get menu by slug */
+Route::get('/menu/{slug}', function (Request $request, $slug) {
+    $slug  = strtolower($slug); // Convert slug to lowercase
+    $menu  = Menu::where('slug', $slug)->first();
+
+    return response()->json(['menu' => $menu]);
 });
