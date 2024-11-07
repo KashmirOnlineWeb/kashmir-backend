@@ -53,7 +53,7 @@ class MenusController extends Controller
             
             $request->validate([
                             'name' => 'required|string',
-                            'slug' => 'required|string|unique:menus,slug,'.$data->slug,
+                            'slug' => 'required|string|unique:menus,slug',
                             'data' => 'sometimes|array',
                         ]);
             
@@ -101,7 +101,7 @@ class MenusController extends Controller
             $request->validate([
                             'menu_id' => 'required|integer|exists:menus,id',
                             'name'    => 'required|string',
-                            'slug'    => 'required|string|unique:menus,slug,'.$data->slug,
+                            'slug'    => 'required|string|unique:menus,slug,'.$id,
                             'data'    => 'sometimes|array'
                         ]);
 
