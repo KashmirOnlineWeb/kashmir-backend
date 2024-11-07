@@ -63,7 +63,7 @@ class MenusController extends Controller
                                         'data' => (isset($data['data']) ? json_encode($data['data']) : NULL),
                                     ]);
 
-            return Redirect::route('menu.index',$response->id);
+            return Redirect::route('menus.index',$response->id);
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in menu store.');
         }
