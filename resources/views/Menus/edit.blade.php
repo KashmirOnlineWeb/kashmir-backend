@@ -35,10 +35,10 @@
                     @enderror
                 </div>
             </div>
-            <div class="rounded-lg border shadow-sm">
+            <div class="rounded-lg border shadow-sm">sdfsdf
                 <menu-builder
                     :pages="{{ json_encode($pages) }}"
-                    :existing-menu="{{ json_encode($existingMenu ?? []) }}"
+                    :existing-menu="{{ json_encode($menu->data ?? []) }}"
                 />
             </div>
         </form>

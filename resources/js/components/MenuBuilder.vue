@@ -209,8 +209,29 @@ const dragOptions = {
           </div>
         </div>
 
-        <!-- Hidden input to store menu structure -->
-        <input type="hidden" name="menu_items" :value="JSON.stringify(menuItems)">
+        <!-- Replace the single hidden input with a template that creates multiple inputs -->
+        <template v-for="(item, index) in menuItems" :key="item.id">
+          <input type="hidden" :name="`data[${index}][id]`" :value="item.id">
+          <input type="hidden" :name="`data[${index}][name]`" :value="item.name">
+          <input type="hidden" :name="`data[${index}][url]`" :value="item.url">
+          <input type="hidden" :name="`data[${index}][type]`" :value="item.type">
+          
+          <!-- Level 2 -->
+          <template v-for="(child, childIndex) in item.children" :key="child.id">
+            <input type="hidden" :name="`data[${index}][children][${childIndex}][id]`" :value="child.id">
+            <input type="hidden" :name="`data[${index}][children][${childIndex}][name]`" :value="child.name">
+            <input type="hidden" :name="`data[${index}][children][${childIndex}][url]`" :value="child.url">
+            <input type="hidden" :name="`data[${index}][children][${childIndex}][type]`" :value="child.type">
+            
+            <!-- Level 3 -->
+            <template v-for="(grandChild, grandChildIndex) in child.children" :key="grandChild.id">
+              <input type="hidden" :name="`data[${index}][children][${childIndex}][children][${grandChildIndex}][id]`" :value="grandChild.id">
+              <input type="hidden" :name="`data[${index}][children][${childIndex}][children][${grandChildIndex}][name]`" :value="grandChild.name">
+              <input type="hidden" :name="`data[${index}][children][${childIndex}][children][${grandChildIndex}][url]`" :value="grandChild.url">
+              <input type="hidden" :name="`data[${index}][children][${childIndex}][children][${grandChildIndex}][type]`" :value="grandChild.type">
+            </template>
+          </template>
+        </template>
 
         <!-- Nested Draggable Menu Items -->
         <div class="menu-items">
