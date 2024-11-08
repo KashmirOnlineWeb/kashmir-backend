@@ -13,10 +13,14 @@ const props = defineProps({
   }
 })
 
-const menuItems = ref(props.existingMenu.map(item => ({
-  ...item,
-  children: item.children || []
-})))
+const initializeChildren = (items) => {
+  return items.map(item => ({
+    ...item,
+    children: item.children ? initializeChildren(item.children) : [] // Recursively initialize children
+  }));
+}
+
+const menuItems = ref(initializeChildren(props.existingMenu));
 
 const searchQuery = ref('')
 const filteredPages = computed(() => {
@@ -98,7 +102,9 @@ const updateChildrenUrls = (items, parentUrl = '') => {
     
     // Update children recursively if they exist
     if (item.children && item.children.length > 0) {
-      updateChildrenUrls(item.children, item.url);
+      // For non-custom parents, pass the current item's URL as the new parent URL
+      const newParentUrl = item.type === 'custom' ? item.url : parentUrl + '/' + item.url.split('/').pop();
+      updateChildrenUrls(item.children, newParentUrl);
     }
   });
 }
@@ -180,6 +186,39 @@ const removeMenuItem = (items, index) => {
     items.splice(index, 1);
   }
 }
+
+const newChildCustomItem = ref({ name: '', url: '', type: 'custom', children: [] });
+
+const addCustomChildItem = (parentIndex) => {
+  if (!newChildCustomItem.value.name || !newChildCustomItem.value.url) {
+    return;
+  }
+
+  const slug = newChildCustomItem.value.url;
+  const fullUrl = normalizeUrl(slug);
+
+  // Ensure the children array exists
+  if (!menuItems.value[parentIndex].children) {
+    menuItems.value[parentIndex].children = [];
+  }
+
+  // Add the new custom child item
+  menuItems.value[parentIndex].children.push({
+    ...newChildCustomItem.value,
+    id: `custom-${Date.now()}`,
+    url: fullUrl,
+    slug: slug
+  });
+
+  // Reset the newChildCustomItem
+  newChildCustomItem.value = { name: '', url: '', type: 'custom', children: [] };
+};
+
+const showAddCustomChildForm = ref(null);
+
+const toggleAddCustomChildForm = (index) => {
+  showAddCustomChildForm.value = showAddCustomChildForm.value === index ? null : index;
+};
 </script>
 
 <template>
