@@ -35,7 +35,7 @@
                     @enderror
                 </div>
             </div>
-            <div class="rounded-lg border shadow-sm">sdfsdf
+            <div class="rounded-lg border shadow-sm">
                 <menu-builder
                     :pages="{{ json_encode($pages) }}"
                     :existing-menu="{{ json_encode($menu->data ?? []) }}"
