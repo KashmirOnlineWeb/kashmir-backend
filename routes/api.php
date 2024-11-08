@@ -25,6 +25,8 @@ use App\Models\Package;
 use App\Models\Page;
 use App\Models\Menu;
 
+use App\Http\Controllers\Api\Public\SearchController;
+
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
@@ -601,3 +603,6 @@ Route::get('/menu/{slug}', function (Request $request, $slug) {
 
     return response()->json(['menu' => $menu]);
 });
+
+/* Get records by search keyword: like (hotel, destination and restaurant name etc.) */
+Route::get('/search/{keyword}', [SearchController::class, 'mainSearch'])->middleware('throttle:60,1');
