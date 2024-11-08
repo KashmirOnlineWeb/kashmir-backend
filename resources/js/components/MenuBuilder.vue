@@ -56,6 +56,8 @@ const newChildItem = ref({ name: '', url: '', type: 'custom', children: [] })
 
 const showAddChildForm = (index) => {
   addChildIndex.value = index
+  showPageSelector.value = null // Reset page selector
+  childPageSearchQuery.value = '' // Reset search
 }
 
 const cancelAddChild = () => {
@@ -63,33 +65,37 @@ const cancelAddChild = () => {
   newChildItem.value = { name: '', url: '', type: 'custom', children: [] }
 }
 
-const addChildToMenu = (parentIndex) => {
+const addChildToMenu = (indexPath) => {
   if (!newChildItem.value.name && !newChildItem.value.url) {
-    return; // Block if both fields are empty
+    return
   }
-  const slug = newChildItem.value.url;
 
-  // Check if the new child item is a custom item
-  const isCustomChild = newChildItem.value.type === 'custom';
+  const [parentIndex, childIndex] = indexPath.toString().split('-').map(Number)
+  const parentItem = childIndex !== undefined 
+    ? menuItems.value[parentIndex].children[childIndex]
+    : menuItems.value[parentIndex]
+
+  const slug = newChildItem.value.url
+  const isCustomChild = newChildItem.value.type === 'custom'
   const fullUrl = isCustomChild 
     ? normalizeUrl(slug) // Use the slug directly for custom items
-    : normalizeUrl(menuItems.value[parentIndex].url + '/' + slug); // Use parent URL for non-custom items
+    : normalizeUrl(parentItem.url + '/' + slug.split('/').pop()) // Use parent URL for non-custom items
 
-  // Ensure the children array exists
-  if (!menuItems.value[parentIndex].children) {
-    menuItems.value[parentIndex].children = [];
+  // Ensure children array exists
+  if (!parentItem.children) {
+    parentItem.children = []
   }
 
   // Add the new child item
-  menuItems.value[parentIndex].children.push({
+  parentItem.children.push({
     ...newChildItem.value,
     id: `custom-${Date.now()}`,
     url: fullUrl,
     slug: slug
-  });
+  })
 
-  // Reset the newChildItem and hide the form
-  cancelAddChild();
+  // Reset states
+  cancelAddChild()
 }
 
 // Function to update URLs recursively when items are moved
@@ -219,6 +225,50 @@ const showAddCustomChildForm = ref(null);
 const toggleAddCustomChildForm = (index) => {
   showAddCustomChildForm.value = showAddCustomChildForm.value === index ? null : index;
 };
+
+// Add new refs for the page selection functionality
+const showPageSelector = ref(null) // Track which item is showing the page selector
+const childPageSearchQuery = ref('') // Separate search query for child page selection
+
+// Add computed for filtered pages in child selector
+const filteredChildPages = computed(() => {
+  return props.pages.filter(page => 
+    page.name.toLowerCase().includes(childPageSearchQuery.value.toLowerCase())
+  )
+})
+
+// Add method to handle adding a page as child
+const addPageAsChild = (indexPath, page) => {
+  if (!page || !page.slug) return
+
+  const [parentIndex, childIndex] = indexPath.toString().split('-').map(Number)
+  const parentItem = childIndex !== undefined 
+    ? menuItems.value[parentIndex].children[childIndex]
+    : menuItems.value[parentIndex]
+
+  const slug = page.slug.split('/').pop()
+  const fullUrl = normalizeUrl(parentItem.url + '/' + slug)
+
+  // Ensure children array exists
+  if (!parentItem.children) {
+    parentItem.children = []
+  }
+
+  // Add the page as child
+  parentItem.children.push({
+    ...page,
+    id: `page-${Date.now()}`,
+    url: fullUrl,
+    slug: slug,
+    type: 'page',
+    children: []
+  })
+
+  // Reset states
+  addChildIndex.value = null
+  showPageSelector.value = null
+  childPageSearchQuery.value = ''
+}
 </script>
 
 <template>
@@ -368,34 +418,91 @@ const toggleAddCustomChildForm = (index) => {
                   </button>
                 </div>
 
-                <!-- Add Child Form -->
+                <!-- Replace the existing Add Child Form with this -->
                 <div v-if="addChildIndex === index" class="mb-4 p-4 bg-gray-50 rounded-lg">
-                <div class="space-y-3">
+                  <!-- Show options if page selector is not active -->
+                  <div v-if="showPageSelector !== index" class="space-y-3">
+                    <h4 class="font-medium text-gray-700 mb-3">Add Child Item</h4>
+                    <div class="flex space-x-2">
+                      <button
+                        @click="showPageSelector = index"
+                        class="flex-1 py-2 px-4 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-md transition-colors"
+                      >
+                        Select from Pages
+                      </button>
+                      <button
+                        @click="showPageSelector = null"
+                        class="flex-1 py-2 px-4 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-md transition-colors"
+                      >
+                        Add Custom Link
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Page selector -->
+                  <div v-if="showPageSelector === index" class="space-y-3">
+                    <div class="flex items-center justify-between">
+                      <h4 class="font-medium text-gray-700">Select a Page</h4>
+                      <button
+                        @click="showPageSelector = null"
+                        class="text-sm text-gray-600 hover:text-gray-800"
+                      >
+                        Back
+                      </button>
+                    </div>
+                    
+                    <div class="mb-3">
+                      <input
+                        v-model="childPageSearchQuery"
+                        type="text"
+                        placeholder="Search pages..."
+                        class="w-full px-3 py-2 border rounded-md border-gray-300 shadow-sm focus:outline-none"
+                      >
+                    </div>
+
+                    <div class="max-h-48 overflow-y-auto space-y-2">
+                      <div
+                        v-for="page in filteredChildPages"
+                        :key="page.id"
+                        class="flex items-center justify-between p-2 bg-gray-50 hover:bg-gray-100 rounded cursor-pointer"
+                        @click="addPageAsChild(index, page)"
+                      >
+                        <span>{{ page.name }}</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 text-gray-600">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Existing custom item form -->
+                  <div v-if="addChildIndex === index && showPageSelector !== index" class="space-y-3">
+                    <!-- Your existing custom item form content -->
                     <div>
-                    <label class="block text-sm font-medium text-gray-700">Child Name *</label>
-                    <input v-model="newChildItem.name" type="text" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                      <label class="block text-sm font-medium text-gray-700">Child Name *</label>
+                      <input v-model="newChildItem.name" type="text" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
                     </div>
                     <div>
-                    <label class="block text-sm font-medium text-gray-700">Child URL *</label>
-                    <input v-model="newChildItem.url" type="text" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                      <label class="block text-sm font-medium text-gray-700">Child URL *</label>
+                      <input v-model="newChildItem.url" type="text" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
                     </div>
                     <div class="flex justify-end space-x-2">
-                    <button type="button" @click="cancelAddChild" class="text-sm text-gray-600 hover:text-gray-800">
+                      <button type="button" @click="cancelAddChild" class="text-sm text-gray-600 hover:text-gray-800">
                         Cancel
-                    </button>
-                    <button type="button" 
-                            @click="addChildToMenu(index)"
-                            :disabled="!newChildItem.name && !newChildItem.url"
-                            :class="[
+                      </button>
+                      <button type="button" 
+                              @click="addChildToMenu(index)"
+                              :disabled="!newChildItem.name && !newChildItem.url"
+                              :class="[
                                 'text-sm px-3 py-1 rounded transition-colors',
                                 (!newChildItem.name && !newChildItem.url)
-                                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                : 'bg-green-600 text-white hover:bg-green-500'
-                            ]">
+                                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                  : 'bg-green-600 text-white hover:bg-green-500'
+                              ]">
                         Add Child
-                    </button>
+                      </button>
                     </div>
-                </div>
+                  </div>
                 </div>
                 <!-- Edit Form for Parent -->
                 <div v-if="editId === element.id" class="mb-4 p-4 bg-gray-50 rounded-lg">
@@ -455,10 +562,100 @@ const toggleAddCustomChildForm = (index) => {
                                   class="ml-2 text-black hover:text-black/80 opacity-0 group-hover:opacity-100 transition-opacity">
                             Edit
                           </button>
+                          <button type="button" @click="showAddChildForm(index + '-' + childIndex)"
+                                  class="ml-2 text-blue-600 hover:text-blue-800 opacity-0 group-hover:opacity-100 transition-opacity">
+                            Add Child
+                          </button>
                           <button type="button" @click="removeMenuItem(element.children, childIndex)"
                                   class="ml-auto text-red-600 hover:text-red-800 opacity-0 group-hover:opacity-100 transition-opacity">
                             Remove
                           </button>
+                        </div>
+
+                        <!-- Add the child form here -->
+                        <div v-if="addChildIndex === index + '-' + childIndex" class="mb-4 p-4 bg-gray-50 rounded-lg">
+                          <!-- Show options if page selector is not active -->
+                          <div v-if="showPageSelector !== index + '-' + childIndex" class="space-y-3">
+                            <h4 class="font-medium text-gray-700 mb-3">Add Child Item</h4>
+                            <div class="flex space-x-2">
+                              <button
+                                @click="showPageSelector = index + '-' + childIndex"
+                                class="flex-1 py-2 px-4 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-md transition-colors"
+                              >
+                                Select from Pages
+                              </button>
+                              <button
+                                @click="showPageSelector = null"
+                                class="flex-1 py-2 px-4 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-md transition-colors"
+                              >
+                                Add Custom Link
+                              </button>
+                            </div>
+                          </div>
+
+                          <!-- Page selector -->
+                          <div v-if="showPageSelector === index + '-' + childIndex" class="space-y-3">
+                            <div class="flex items-center justify-between">
+                              <h4 class="font-medium text-gray-700">Select a Page</h4>
+                              <button
+                                @click="showPageSelector = null"
+                                class="text-sm text-gray-600 hover:text-gray-800"
+                              >
+                                Back
+                              </button>
+                            </div>
+                            
+                            <div class="mb-3">
+                              <input
+                                v-model="childPageSearchQuery"
+                                type="text"
+                                placeholder="Search pages..."
+                                class="w-full px-3 py-2 border rounded-md border-gray-300 shadow-sm focus:outline-none"
+                              >
+                            </div>
+
+                            <div class="max-h-48 overflow-y-auto space-y-2">
+                              <div
+                                v-for="page in filteredChildPages"
+                                :key="page.id"
+                                class="flex items-center justify-between p-2 bg-gray-50 hover:bg-gray-100 rounded cursor-pointer"
+                                @click="addPageAsChild(index + '-' + childIndex, page)"
+                              >
+                                <span>{{ page.name }}</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 text-gray-600">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                </svg>
+                              </div>
+                            </div>
+                          </div>
+
+                          <!-- Custom item form -->
+                          <div v-if="addChildIndex === index + '-' + childIndex && showPageSelector !== index + '-' + childIndex" class="space-y-3">
+                            <div>
+                              <label class="block text-sm font-medium text-gray-700">Child Name *</label>
+                              <input v-model="newChildItem.name" type="text" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                            </div>
+                            <div>
+                              <label class="block text-sm font-medium text-gray-700">Child URL *</label>
+                              <input v-model="newChildItem.url" type="text" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                            </div>
+                            <div class="flex justify-end space-x-2">
+                              <button type="button" @click="cancelAddChild" class="text-sm text-gray-600 hover:text-gray-800">
+                                Cancel
+                              </button>
+                              <button type="button" 
+                                      @click="addChildToMenu(index + '-' + childIndex)"
+                                      :disabled="!newChildItem.name && !newChildItem.url"
+                                      :class="[
+                                        'text-sm px-3 py-1 rounded transition-colors',
+                                        (!newChildItem.name && !newChildItem.url)
+                                          ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                          : 'bg-green-600 text-white hover:bg-green-500'
+                                      ]">
+                                Add Child
+                              </button>
+                            </div>
+                          </div>
                         </div>
 
                         <!-- Edit Form for Child -->
