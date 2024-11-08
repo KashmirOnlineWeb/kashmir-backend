@@ -24,7 +24,8 @@ import Faqs from './components/Faqs.vue';
 import Testimonials from './components/Testimonials.vue';
 import Itinerary from './components/Itinerary.vue';
 import HomeSlider from './components/HomeSlider.vue';
-import MenuBuilder from './Components/MenuBuilder.vue'
+import MenuBuilder from './components/MenuBuilder.vue'
+import ImageRepeater from './components/ImageRepeater.vue'
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -116,7 +117,8 @@ const app = createApp({
         Testimonials,
         Itinerary,
         HomeSlider,
-        MenuBuilder
+        MenuBuilder,
+        ImageRepeater
     }
 });
 

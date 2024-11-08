@@ -97,14 +97,33 @@
                 <!-- Section 2: Tabs for Content and Highlights -->
                 <div class="mb-4 p-4 border-b border-gray-200">
                     <h2 class="text-md font-semibold mb-2">Content</h2>
-                    <content-repeater 
-                        :initial-data="{{ json_encode(old('content1', $page->content1 ?? [])) }}"
-                        @update:contents="updateContents"
-                        name-prefix="content1"
-                    />
-                    @error('content1')
-                        <span class="text-red-500 text-sm">{{ $message }}</span></br>
-                    @enderror
+                    <p class="text-sm text-gray-600 mb-4">Add content or just images for parent page.</p>
+                    <tabs>
+                        <tab name="Content">
+                            <div class="py-4 border-t border-gray-200">
+                                <content-repeater 
+                                    :initial-data="{{ json_encode(old('content1', $page->content1 ?? [])) }}"
+                                    @update:contents="updateContents"
+                                    name-prefix="content1"
+                                />
+                                @error('content1')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span></br>
+                                @enderror
+                            </div>
+                        </tab>
+                        <tab name="Parent Page Images">
+                            <div class="py-4 border-t border-gray-200">
+                            <p class="text-sm text-gray-600 mb-4">If this is a parent page, then use this tab to add images.</p>
+                                <image-repeater 
+                                    :initial-data="{{ json_encode(old('content2', $page->content3 ?? [])) }}"
+                                    name-prefix="content3"
+                                />
+                                @error('content3')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span></br>
+                                @enderror
+                            </div>
+                        </tab>
+                    </tabs>
                 </div>
             @endif
 
