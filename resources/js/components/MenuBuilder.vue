@@ -64,7 +64,12 @@ const addChildToMenu = (parentIndex) => {
     return; // Block if both fields are empty
   }
   const slug = newChildItem.value.url;
-  const fullUrl = normalizeUrl(menuItems.value[parentIndex].url + '/' + slug);
+
+  // Check if the new child item is a custom item
+  const isCustomChild = newChildItem.value.type === 'custom';
+  const fullUrl = isCustomChild 
+    ? normalizeUrl(slug) // Use the slug directly for custom items
+    : normalizeUrl(menuItems.value[parentIndex].url + '/' + slug); // Use parent URL for non-custom items
 
   // Ensure the children array exists
   if (!menuItems.value[parentIndex].children) {
@@ -87,13 +92,16 @@ const addChildToMenu = (parentIndex) => {
 const updateChildrenUrls = (items, parentUrl = '') => {
   items.forEach(item => {
     // Update current item's URL
-    item.url = normalizeUrl(parentUrl + '/' + item.url.split('/').pop())
+    item.url = item.type === 'custom' 
+      ? normalizeUrl(item.url) // Use the item's URL directly for custom items
+      : normalizeUrl(parentUrl + '/' + item.url.split('/').pop()); // Use parent URL for non-custom items
     
     // Update children recursively if they exist
     if (item.children && item.children.length > 0) {
-      updateChildrenUrls(item.children, item.url)
+      updateChildrenUrls(item.children, item.url);
     }
-  })}
+  });
+}
 // Watch for changes in menuItems structure
 watch(menuItems, (newItems) => {
   // Update all URLs starting from top level
