@@ -38,7 +38,7 @@
             <div class="rounded-lg border shadow-sm">
                 <menu-builder
                     :pages="{{ json_encode($pages) }}"
-                    :existing-menu="{{ json_encode($existingMenu ?? []) }}"
+                    :existing-menu="{{ json_encode($menu->data ?? []) }}"
                 />
             </div>
         </form>
