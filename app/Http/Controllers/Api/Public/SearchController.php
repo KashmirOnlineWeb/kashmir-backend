@@ -27,32 +27,32 @@ class SearchController extends Controller
             $data = $request->validate(['keyword' => ['required']]);
 
             /* Request result as per model type */
-            $hotels       = Hotel::select('id','name', DB::raw('"hotel" as type'))
+            $hotels       = Hotel::select('id','name','city_id','slug', DB::raw('"hotel" as type'))
                                 ->where('name', 'like', '%' . $keyword . '%');
 
-            $restaurants  = Restaurant::select('id','name', DB::raw('"restaurant" as type'))
+            $restaurants  = Restaurant::select('id','name','city_id','slug', DB::raw('"restaurant" as type'))
                                 ->where('name', 'like', '%' . $keyword . '%')
                                 ->union($hotels);
 
-            $hospitals    = Hospital::select('id','name', DB::raw('"hospital" as type'))
+            $hospitals    = Hospital::select('id','name','city_id','slug', DB::raw('"hospital" as type'))
                                 ->where('name', 'like', '%' . $keyword . '%')
                                 ->union($restaurants);
 
-            $thingsToDo   = ThingsToDo::select('id','name', DB::raw('"thingsToDo" as type'))
+            $thingsToDo   = ThingsToDo::select('id','name','city_id', DB::raw('"" as slug'), DB::raw('"thingsToDo" as type'))
                                 ->where('name', 'like', '%' . $keyword . '%')
                                 ->union($hospitals);
             
-            $pharmacies   = Pharmacy::select('id','name', DB::raw('"pharmacy" as type'))
+            $pharmacies   = Pharmacy::select('id','name','city_id','slug', DB::raw('"pharmacy" as type'))
                                 ->where('name', 'like', '%' . $keyword . '%')
                                 ->union($thingsToDo);
 
-            $packages     = Package::select('id','name', DB::raw('"package" as type'))
+            $packages     = Package::select('id','name','city_id','slug', DB::raw('"package" as type'))
                                 ->where('name', 'like', '%' . $keyword . '%')
                                 ->union($pharmacies);                                
 
-            $destinations = Destination::select('id','name', DB::raw('"destination" as type'))
+            $destinations = Destination::select('id','name','city_id','slug', DB::raw('"destination" as type'))
                                 ->where('name', 'like', '%' . $keyword . '%')
-                                ->union($packages)
+                                ->union($packages)->with('city:id,name,slug')
                                 ->take(5)
                                 ->get();
  
