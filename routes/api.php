@@ -430,7 +430,11 @@ Route::get('/packages', function (Request $request) {
 Route::post('/listing', function (Request $request) {
 
     // Initialize the query
-    $query = Package::query();
+    if ($request->input('type') == 'package') {
+        $query = Package::query();
+    } else if ($request->input('type') == 'hotel') {
+        $query = Hotel::query();
+    }
 
     // Check for category slug and fetch category
     if ($request->input('category')) {
@@ -470,6 +474,20 @@ Route::post('/listing', function (Request $request) {
     }
     if (isset($category) && $category) { // Check if category exists
         $query->where('category_id', '=', $category->id);
+    }
+
+    /* Apply filter for hotel */
+    if (isset($request->balcony) && $request->input('balcony') !== '') {
+        $query->where('balcony', '=', $request->input('balcony'));
+    }
+    if (isset($request->breakfast) && $request->input('breakfast') !== '') {
+        $query->where('breakfast', '=', $request->input('breakfast'));
+    }
+    if (isset($request->location) && $request->input('location') !== '') {
+        $query->where('location', '=', $request->input('location'));
+    }
+    if (isset($request->star) && $request->input('star') !== '') {
+        $query->where('star', '=', $request->input('star'));
     }
 
     // Get the limit from the request, default to 10 if not specified
