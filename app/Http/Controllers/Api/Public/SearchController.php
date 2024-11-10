@@ -38,8 +38,8 @@ class SearchController extends Controller
                                 ->where('name', 'like', '%' . $keyword . '%')
                                 ->union($restaurants);
 
-            $thingsToDo   = ThingsToDo::select('id','name','city_id', DB::raw('"" as slug'), DB::raw('"thingsToDo" as type'))
-                                ->where('name', 'like', '%' . $keyword . '%')
+            $thingsToDo   = ThingsToDo::select('id','title','city_id', DB::raw('"" as slug'), DB::raw('"thingsToDo" as type'))
+                                ->where('title', 'like', '%' . $keyword . '%')
                                 ->union($hospitals);
             
             $pharmacies   = Pharmacy::select('id','name','city_id','slug', DB::raw('"pharmacy" as type'))
