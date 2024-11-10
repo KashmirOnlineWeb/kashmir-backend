@@ -441,15 +441,18 @@ Route::post('/listing', function (Request $request) {
         $categorySlug = strtolower($request->input('category')); // Get the category slug from the request
         $category = Category::where('slug', $categorySlug)->first(); // Fetch the category by slug
     }
-    // Check for category slug and fetch category
+    // Check for category name and filter by name
     if ($request->input('category_name')) {
-        $categorySlug = strtolower($request->input('category_name')); // Get the category slug from the request
-        $category = Category::where('slug', $categorySlug)->first(); // Fetch the category by slug
+        $categoryName = $request->input('category_name');
+        $category = Category::where('name', 'LIKE', "%{$categoryName}%")->first();
+        if ($category) {
+            $query->where('category_id', $category->id);
+        }
     }
 
     // Apply filters based on query parameters
     if (isset($request->price) && $request->input('price') !== '') {
-        $query->where('price', '<=', $request->input('price'));
+        $query->where('price', '>=', $request->input('price'));
     }
     if (isset($request->max_capacity) && $request->input('max_capacity') !== '') {
         $query->where('max_capacity', '<=', $request->input('max_capacity'));
@@ -498,7 +501,11 @@ Route::post('/listing', function (Request $request) {
     }
 
     // Execute the query with pagination
-    $packages = $query->with(['category:id,name,slug'])->paginate($limit); // Use the specified limit for pagination
+    if($request->input('type') == 'package'){
+        $packages = $query->with(['category:id,name,slug'])->paginate($limit); // Use the specified limit for pagination
+    }else{
+        $packages = $query->with(['city:id,name,slug'])->paginate($limit); // Use the specified limit for pagination
+    }
 
     return response()->json(['packages' => $packages]);
 });
