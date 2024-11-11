@@ -26,10 +26,22 @@ use App\Models\Page;
 use App\Models\Menu;
 
 use App\Http\Controllers\Api\Public\SearchController;
+use App\Http\Controllers\Api\AuthController;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+/* Kashmir api */
+Route::prefix('auth')->group(function(){
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('sendotp', [AuthController::class, 'sendOTP']);
+    Route::post('otpverify', [AuthController::class, 'OTPVerify']);
+});
+/* Auth token */
+Route::prefix('auth')->middleware('auth:sanctum')->group(function(){
+    /* Auth APIs */
+    Route::get('user', [AuthController::class, 'getAuthUser']);
+    Route::get('logout', [AuthController::class, 'logout']);
+    Route::get('logout/everywhere', [AuthController::class, 'logoutEveryWhere']);
+});
 
 /* Destinations nav */
 Route::get('/destinations', function (Request $request) {
