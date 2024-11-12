@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use App\Services\SMSService;
 use App\Models\User;
-use App\Models\roles;
 
 class AuthController extends Controller
 {   
