@@ -34,6 +34,7 @@ Route::prefix('auth')->group(function(){
     Route::post('register', [AuthController::class, 'register']);
     Route::post('sendotp', [AuthController::class, 'sendOTP']);
     Route::post('otpverify', [AuthController::class, 'OTPVerify']);
+    Route::post('verify/user', [AuthController::class, 'verifyUser']);
 });
 /* Auth token */
 Route::prefix('auth')->middleware('auth:sanctum')->group(function(){

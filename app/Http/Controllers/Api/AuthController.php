@@ -124,6 +124,30 @@ class AuthController extends Controller
     }
 
     /*
+    * Verify user in database.
+    **/
+    public function verifyUser(Request $request)
+    {
+        try {
+            $loginWith = $this->validateUsername(request()->input('username'));
+
+            $request->validate([
+                'username' => 'required|' .($loginWith == 'email' ? 'string|lowercase|email|max:255' : 'digits:10'),
+            ],[
+                'username' => 'The username field must be a valid email address or mobile number'
+            ]);
+
+            $user = User::where(($loginWith == 'email' ? 'email':'mobile'), request()->input('username'))->first();
+            /* True = 'Registration required' Falase = 'Can login.'*/
+            
+            $data = (is_null($user) ? true: false);
+            return ApiResponse::send(200, null, $data);
+        } catch (Exception $e) {
+            return ApiResponse->send(400, 'Something went wrong.');
+        }
+    }
+
+    /*
     * Register user
     **/
     public function register(Request $request)
@@ -132,7 +156,7 @@ class AuthController extends Controller
             $loginWith = $this->validateUsername(request()->input('username'));
 
             $request->validate([
-                'username' => 'required|' . ($loginWith == 'email' ? 'string|lowercase|email|max:255|unique:users' : 'digits:10|unique:users,mobile'),
+                'username' => 'required|' . ($loginWith == 'email' ? 'string|lowercase|email|max:255|unique:users,email' : 'digits:10|unique:users,mobile'),
                 'password' => ['required', 'confirmed', Rules\Password::defaults()],
             ],[
                 'username' => 'The username field must be a valid email address or mobile number'
