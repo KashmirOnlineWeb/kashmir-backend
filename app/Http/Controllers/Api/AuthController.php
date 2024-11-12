@@ -277,7 +277,7 @@ class AuthController extends Controller
                                     'first_name'    => 'required|string',
                                     'last_name'     => 'required|string',
                                     'dob'           => 'sometimes|date_format:Y-m-d',
-                                    'profile_image' => 'sometimes|string'
+                                    'profile_image' => 'sometimes|nullable|string'
                                 ]);
 //dd($data['id']);
             $response = User::where('id',$data['id'])
