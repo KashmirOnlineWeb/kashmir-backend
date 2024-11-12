@@ -156,16 +156,21 @@ class AuthController extends Controller
             $loginWith = $this->validateUsername(request()->input('username'));
 
             $request->validate([
-                'username' => 'required|' . ($loginWith == 'email' ? 'string|lowercase|email|max:255|unique:users,email' : 'digits:10|unique:users,mobile'),
-                'password' => ['required', 'confirmed', Rules\Password::defaults()],
+                'username'   => 'required|' . ($loginWith == 'email' ? 'string|lowercase|email|max:255|unique:users,email' : 'digits:10|unique:users,mobile'),
+                'password'   => ['required', 'confirmed', Rules\Password::defaults()],
+                'first_name' => 'sometimes|string',
+                'last_name'  => 'sometimes|string',
             ],[
                 'username' => 'The username field must be a valid email address or mobile number'
             ]);
+
+            $name = trim(($request->input('first_name') ?? '') . ' ' . ($request->input('last_name') ?? ''));
 
             $user = User::create([
                 'email'    => ($loginWith == 'email') ? $request->username : NULL,
                 'mobile'   => ($loginWith == 'mobile') ? $request->username : NULL,
                 'password' => Hash::make($request->password),
+                'name'     => $name,
             ]);
 
             $user->assignRole('customer');
@@ -177,7 +182,7 @@ class AuthController extends Controller
 
             return ApiResponse::send(200, null, $data);
         } catch (Exception $e) {
-            return ApiResponse->send(400, 'Something went wrong.');
+            return ApiResponse::send(400, 'Something went wrong.');
         }
     }
 
