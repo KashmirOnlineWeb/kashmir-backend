@@ -39,6 +39,7 @@ Route::prefix('auth')->group(function(){
 Route::prefix('auth')->middleware('auth:sanctum')->group(function(){
     /* Auth APIs */
     Route::get('user', [AuthController::class, 'getAuthUser']);
+    Route::put('profile/update', [AuthController::class, 'updateProfile']);
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('logout/everywhere', [AuthController::class, 'logoutEveryWhere']);
 });

@@ -8,10 +8,19 @@ use Illuminate\Validation\Rules;
 use App\Classes\ApiResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use App\Services\SMSService;
 use App\Models\User;
+use App\Models\roles;
 
 class AuthController extends Controller
 {   
+    protected $SMSService;
+
+    public function __construct(SMSService $SMSService)
+    {
+        $this->SMSService = $SMSService;
+    }
+
     /*
     * Create login
     **/
@@ -63,6 +72,8 @@ class AuthController extends Controller
                     'provider'    => (isset($request->provider) ? $request->provider : NULL),
                     'provider_id' => (isset($request->provider_id) ? $request->provider_id : NULL),
                 ]);
+                $user->assignRole('customer');
+                
             } else if (! $user || ! Hash::check($request->password, $user->password)) {
                 throw ValidationException::withMessages([
                     'email' => ['The provided credentials are incorrect.'],
@@ -134,6 +145,8 @@ class AuthController extends Controller
                 'password' => Hash::make($request->password),
             ]);
 
+            $user->assignRole('customer');
+
             $data = [
                 'token' => $user->createToken('web')->plainTextToken,
                 'user'  => $user->only('id','first_name', 'last_name', 'name', 'email', 'profile_image', 'mobile', 'created_at')
@@ -160,58 +173,16 @@ class AuthController extends Controller
                 ]);
             }
 
-            $OTP = $this->generateOTP();
-
+            $OTP       = $this->generateOTP();
             $user->otp = $OTP;
             $user->save();
-//dd($OTP);
-            /* Send otp to mobile number */
 
-            // Replace with your username
-            $user = "your_user_name";
-            // Replace with your API KEY (We have sent API KEY on activation email, also available on panel)
-            $password = "your_password";
-            // Replace with the destination mobile Number to which you want to send sms
-            $msisdn = $request->mobile;
-            // Replace if you have your own Six character Sender ID, or check with our support team.
-            $sid = "AREPLY";
-            // Replace with client name
-            //$name = "Anurag Sharrma";
-            // Replace if you have OTP in your template.
-            //$OTP = "6765R";
-            // Replace with your Message content
+            /* Let setup text. */
             $msg = "Your One Time Password is ".$OTP.". Thanks SMSINDIAHUB";
             $msg = urlencode($msg);
 
-            $fl = "0";
-            // if you are using transaction sms api then keep gwid = 2 or if promotional then remove this parameter
-            $gwid = "2";
-            // For Plain Text, use "txt" ; for Unicode symbols or regional Languages like hindi/tamil/kannada use "uni"
-            $type = "txt";
-
-            //--------------------------------------
-            //http://cloud.smsindiahub.in/vendorsms/pushsms.aspx?APIKey=7OaWXe6a9E6VYi9HWQ66KA&msisdn=9878512185&sid=AREPLY&msg=Your One Time Password is 12121. Thanks SMSINDIAHUB&fl=0&gwid=2
-            //step1
-            $cSession = curl_init(); 
-            //step2
-            $url = "http://cloud.smsindiahub.in/vendorsms/pushsms.aspx?APIKey=7OaWXe6a9E6VYi9HWQ66KA&msisdn=".$msisdn."&sid=".$sid."&msg=".$msg."&fl=0&gwid=2";
-            //$response = Http::get('http://test.com');
-            //dd($url);
-            curl_setopt($cSession,CURLOPT_URL,$url);
-            curl_setopt($cSession,CURLOPT_RETURNTRANSFER,true);
-            curl_setopt($cSession,CURLOPT_HEADER, false); 
-            //step3
-            $result=curl_exec($cSession);
-            //step4
-            curl_close($cSession);
-            //step5
-            //echo $result;
-            $result = json_decode($result);
-
-            $response = false;
-            if(isset($result->JobId) AND !empty($result->JobId)){
-                $response = true;
-            }
+            /* Send otp to client. */
+            $response = $this->SMSService->sendText($request->mobile, $msg);
 
             return ApiResponse::send(200, null, $response);
 
@@ -267,6 +238,34 @@ class AuthController extends Controller
                 return ApiResponse::send(400, 'Something went wrong.', $response);
             }
 
+        } catch (Exception $e) {
+            return ApiResponse::send(400, 'Something went wrong.');
+        }
+    }
+
+    /*
+    * Update user profile data.
+    **/
+    public function updateProfile(Request $request)
+    {
+        try {
+            $data = $request->validate([
+                                    'id'            => 'required|integer|exists:users',
+                                    'first_name'    => 'required|string',
+                                    'last_name'     => 'required|string',
+                                    'dob'           => 'sometimes|string|date_format:Y-m-d',
+                                    'profile_image' => 'sometimes|string'
+                                ]);
+//dd($data['id']);
+            $response = User::where('id',$data['id'])
+                            ->update([
+                                'first_name'    => (isset($data['first_name']) ? $data['first_name']: NULL),
+                                'last_name'     => (isset($data['last_name']) ? $data['last_name']: NULL),
+                                'dob'           => (isset($data['dob']) ? $data['dob']: NULL),
+                                'profile_image' => (isset($data['profile_image']) ? $data['profile_image']: NULL)
+                            ]);
+
+            return ApiResponse::send(200, 'User has been updated successfully.', $response);
         } catch (Exception $e) {
             return ApiResponse::send(400, 'Something went wrong.');
         }
