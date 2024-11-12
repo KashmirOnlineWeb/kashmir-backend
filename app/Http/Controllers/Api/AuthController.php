@@ -252,7 +252,7 @@ class AuthController extends Controller
                                     'id'            => 'required|integer|exists:users',
                                     'first_name'    => 'required|string',
                                     'last_name'     => 'required|string',
-                                    'dob'           => 'sometimes|string|date_format:Y-m-d',
+                                    'dob'           => 'sometimes|date_format:Y-m-d',
                                     'profile_image' => 'sometimes|string'
                                 ]);
 //dd($data['id']);
