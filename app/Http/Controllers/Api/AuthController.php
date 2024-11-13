@@ -278,24 +278,33 @@ class AuthController extends Controller
     {
         try {
             $data = $request->validate([
-                                    'id'            => 'required|integer|exists:users',
-                                    'first_name'    => 'required|string',
-                                    'last_name'     => 'required|string',
-                                    'dob'           => 'sometimes|date_format:Y-m-d',
-                                    'profile_image' => 'sometimes|nullable|string',
-                                    'mobile'        => 'sometimes|nullable|digits:10'
-                                ]);
-//dd($data['id']);
-            $response = User::where('id',$data['id'])
-                            ->update([
-                                'first_name'    => (isset($data['first_name']) ? $data['first_name']: NULL),
-                                'last_name'     => (isset($data['last_name']) ? $data['last_name']: NULL),
-                                'dob'           => (isset($data['dob']) ? $data['dob']: NULL),
-                                'profile_image' => (isset($data['profile_image']) ? $data['profile_image']: NULL),
-                                'mobile'        => (isset($data['mobile']) ? $data['mobile']: NULL)
-                            ]);
+                'id'            => 'required|integer|exists:users',
+                'first_name'    => 'required|string',
+                'last_name'     => 'required|string',
+                'dob'           => 'sometimes|date_format:Y-m-d',
+                'profile_image' => 'sometimes|nullable|string',
+                'mobile'        => 'sometimes|nullable|digits:10',
+                'email'         => 'sometimes|nullable|email'
+            ]);
 
-            return ApiResponse::send(200, 'User has been updated successfully.', $response);
+            $user = User::find($data['id']);
+            $updateData = [
+                'first_name'    => $data['first_name'] ?? null,
+                'last_name'     => $data['last_name'] ?? null,
+                'dob'           => $data['dob'] ?? null,
+                'profile_image' => $data['profile_image'] ?? null,
+                'mobile'        => $data['mobile'] ?? null,
+            ];
+
+            if (empty($user->email) && !empty($data['email'])) {
+                $updateData['email'] = $data['email'];
+            }
+
+            $user->update($updateData);
+            
+            $userData = $user->only('id', 'first_name', 'last_name', 'name', 'email', 'profile_image', 'mobile', 'created_at');
+            
+            return ApiResponse::send(200, 'User has been updated successfully.', $userData);
         } catch (Exception $e) {
             return ApiResponse::send(400, 'Something went wrong.');
         }
