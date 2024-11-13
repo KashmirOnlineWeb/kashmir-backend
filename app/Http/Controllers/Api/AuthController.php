@@ -282,7 +282,8 @@ class AuthController extends Controller
                                     'first_name'    => 'required|string',
                                     'last_name'     => 'required|string',
                                     'dob'           => 'sometimes|date_format:Y-m-d',
-                                    'profile_image' => 'sometimes|nullable|string'
+                                    'profile_image' => 'sometimes|nullable|string',
+                                    'mobile'        => 'sometimes|nullable|digits:10'
                                 ]);
 //dd($data['id']);
             $response = User::where('id',$data['id'])
@@ -290,7 +291,8 @@ class AuthController extends Controller
                                 'first_name'    => (isset($data['first_name']) ? $data['first_name']: NULL),
                                 'last_name'     => (isset($data['last_name']) ? $data['last_name']: NULL),
                                 'dob'           => (isset($data['dob']) ? $data['dob']: NULL),
-                                'profile_image' => (isset($data['profile_image']) ? $data['profile_image']: NULL)
+                                'profile_image' => (isset($data['profile_image']) ? $data['profile_image']: NULL),
+                                'mobile'        => (isset($data['mobile']) ? $data['mobile']: NULL)
                             ]);
 
             return ApiResponse::send(200, 'User has been updated successfully.', $response);
