@@ -38,7 +38,7 @@ class CityController extends Controller
             'keywords' => ''
         ];
 
-        return view('City.edit', compact('meta', 'city'));
+        return view('City.edit', compact('meta'));
     }
 
     /**
@@ -72,7 +72,7 @@ class CityController extends Controller
                                     //'time_to_visit'      => $data['time_to_visit'],
                                 ]);
 
-            return Redirect::route('City.edit',$response->id);
+            return Redirect::route('city.edit',$response->id);
         } catch (Exception $e) {
             Log::error('Somethinng went wrong in city store.');
         }
@@ -83,17 +83,36 @@ class CityController extends Controller
      */
     public function edit(Request $request, $id): View
     {
+        // update the city form
         $city = City::findOrFail($id);
         $meta = Meta::findOrFail($city->meta_id);
-        return view('City.edit', compact('city'));
+        return view('City.edit', compact('city', 'meta'));
     }
 
     /**
      * Update the city information.
      */
-    public function update(): RedirectResponse
+    public function update(Request $request, $id): RedirectResponse
     {
-        
+        // update the city information
+        $data = $request->all();
+        $city = City::findOrFail($id);
+        // validate the city information
+        $request->validate([
+            'name'      => 'required|string',
+            'slug'      => 'required|string',
+            'zip_code'  => 'required|string'
+        ]);
+        // update the meta information
+        $meta = Meta::findOrFail($city->meta_id);
+        $meta->update([
+            'meta_title' => $data['meta_title'],
+            'meta_description' => $data['meta_description'],
+            'keywords' => $data['keywords'],
+        ]);
+        // update the city information
+        $city->update($data);
+        return Redirect::route('city.edit',$city->id);
     }
 
     /**
