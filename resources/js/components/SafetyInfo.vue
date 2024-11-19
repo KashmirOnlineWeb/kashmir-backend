@@ -18,7 +18,7 @@
           <!-- Number -->
           <div class="mb-4">
             <label class="block text-sm font-medium text-gray-700">Number</label>
-            <input required type="number" v-model="info.number" :name="`${namePrefix}[${index}][number]`" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
+            <input required type="text" v-model="info.number" :name="`${namePrefix}[${index}][number]`" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
           </div>
         </div>
       </div>
