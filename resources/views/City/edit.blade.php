@@ -6,6 +6,22 @@
             </h1>
         </div>
     </div>
+
+    <!-- Add Error Display Section -->
+    @if ($errors->any())
+        <div class="mb-4">
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold">Whoops! Something went wrong.</strong></br>
+                <span class="block sm:inline">Please check the form for errors.</span>
+                <ul class="mt-3 list-disc list-inside text-sm text-red-600">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    @endif
+
     <form action="{{ isset($city) ? route('city.update', $city->id) : route('city.store') }}" method="POST"
         enctype="multipart/form-data">
         @csrf
