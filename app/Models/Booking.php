@@ -16,4 +16,16 @@ class Booking extends Model
     const CONFIRMED = 'confirmed';
     const CANCELLED = 'cancelled';
     const REFUNDED  = 'refunded';
+
+    /* Get package */
+    public function package()
+    {
+        return $this->belongsTo(Package::class);
+    }
+
+    /* Get user */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

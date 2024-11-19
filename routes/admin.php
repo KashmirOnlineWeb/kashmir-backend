@@ -24,6 +24,8 @@ use App\Http\Controllers\Admin\SightSeeingController;
 use App\Http\Controllers\Admin\ThingsToBeNotedController;
 use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Admin\MenusController;
+use App\Http\Controllers\Admin\BookingController;
+use App\Http\Controllers\Admin\PaymentController;
 
 Route::middleware(['auth'])->group(function () {
     /* Category */
@@ -91,6 +93,12 @@ Route::middleware(['auth'])->group(function () {
 
     /* Package */
     Route::resource('/package', PackageController::class)->names('package');
+
+    /* Booking */
+    Route::resource('/booking', BookingController::class)->names('booking');
+
+    /* Payment */
+    Route::resource('/payment', PaymentController::class)->names('payment');
 });
 
 Route::prefix('api')->middleware(['auth'])->group(function () {
