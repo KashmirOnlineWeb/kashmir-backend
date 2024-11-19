@@ -87,7 +87,7 @@ class AuthController extends Controller
             return ApiResponse::send(200, null, $data);
 
         } catch (Exception $e) {
-            return ApiResponse->send(400, 'Something went wrong.');
+            return ApiResponse::send(400, 'Something went wrong.');
         }
     }
 

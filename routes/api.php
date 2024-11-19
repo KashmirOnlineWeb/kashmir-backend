@@ -27,8 +27,9 @@ use App\Models\Menu;
 
 use App\Http\Controllers\Api\Public\SearchController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\PaymentController;
 
-/* Kashmir api */
+/* Kashmir API */
 Route::prefix('auth')->group(function(){
     Route::post('login', [AuthController::class, 'login']);
     Route::post('register', [AuthController::class, 'register']);
@@ -43,6 +44,14 @@ Route::prefix('auth')->middleware('auth:sanctum')->group(function(){
     Route::put('profile/update', [AuthController::class, 'updateProfile']);
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('logout/everywhere', [AuthController::class, 'logoutEveryWhere']);
+});
+
+/* Payments API */
+Route::prefix('payment')->middleware('auth:sanctum')->group(function(){
+    /* Razorpay and payments */
+    Route::post('create/order', [PaymentController::class, 'createRazorpayOrder']);
+    Route::post('success', [PaymentController::class, 'onSuccess']);
+    Route::post('failed', [PaymentController::class, 'onFailed']);
 });
 
 /* Destinations nav */
