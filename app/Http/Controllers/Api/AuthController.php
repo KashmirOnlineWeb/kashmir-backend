@@ -35,7 +35,7 @@ class AuthController extends Controller
                 'password' => 'required',
                 'name'     => 'sometimes|string',
                 'provider' => 'sometimes|string|in:google',
-                'provider_id' => 'sometimes|integer'
+                'provider_id' => 'sometimes|string'
             ],[
                 'username' => 'The username field must be a valid email address or mobile number'
             ]);
@@ -46,11 +46,13 @@ class AuthController extends Controller
                                 ->where('provider_id', $request->provider_id)
                                 ->first();
                     if(!$user){
-                        $user = User::where('email', $request->username)->first();
-                        if(!$user){
-                            $isRegister = true;
+                        $existingUser = User::where('email', $request->username)->first();
+                        if($existingUser){
+                            throw ValidationException::withMessages([
+                                'email' => ['This email is already registered. Please login with email and password instead of Google.'],
+                            ]);
                         }
-                        
+                        $isRegister = true;
                     } else {
                         $isLogin = true;
                     }                                
@@ -70,6 +72,7 @@ class AuthController extends Controller
                     'name'        => (isset($request->name) ? $request->name : NULL),
                     'provider'    => (isset($request->provider) ? $request->provider : NULL),
                     'provider_id' => (isset($request->provider_id) ? $request->provider_id : NULL),
+                    'profile_image' => (isset($request->profile_image) ? $request->profile_image : NULL),
                 ]);
                 $user->assignRole('customer');
                 
