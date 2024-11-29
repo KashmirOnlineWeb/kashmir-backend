@@ -14,6 +14,8 @@
     <script src="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/font.min.js"></script>
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://unpkg.com/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
 </head>
 
 <body class="min-h-screen bg-background font-geist antialiased">
