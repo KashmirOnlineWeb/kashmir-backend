@@ -158,9 +158,10 @@ class PaymentController extends Controller
                                 ->update([
                                         'status' => Booking::PAID
                                     ]);
+                    $booking = Booking::where('razorpay_order_id',$payment->order_id)
+                                    ->get();                                
                 }
-                
-                return ApiResponse::send(200, null, ['id' => $paymentData->id]);
+                return ApiResponse::send(200, null, ['booking' => $booking,'payment_id' => $paymentData->id]);
             }
             
         } catch (Exception $e) {
