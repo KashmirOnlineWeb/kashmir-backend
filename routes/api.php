@@ -28,6 +28,7 @@ use App\Models\Menu;
 use App\Http\Controllers\Api\Public\SearchController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PaymentController;
+use App\Http\Controllers\Api\BookingController;
 
 /* Kashmir API */
 Route::prefix('auth')->group(function(){
@@ -52,6 +53,15 @@ Route::prefix('payment')->middleware('auth:sanctum')->group(function(){
     Route::post('create/order', [PaymentController::class, 'createRazorpayOrder']);
     Route::post('success', [PaymentController::class, 'onSuccess']);
     Route::post('failed', [PaymentController::class, 'onFailed']);
+});
+
+/* Bookings API */
+Route::prefix('booking')->middleware('auth:sanctum')->group(function(){
+    /* Booking detail for user */
+    Route::get('/', [BookingController::class, 'index']);
+    Route::get('{booking_id}', [BookingController::class, 'getBookingByID']);
+    //Route::post('success', [PaymentController::class, 'onSuccess']);
+    //Route::post('failed', [PaymentController::class, 'onFailed']);
 });
 
 /* Destinations nav */
