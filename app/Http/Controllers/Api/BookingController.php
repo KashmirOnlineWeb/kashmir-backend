@@ -17,8 +17,10 @@ class BookingController extends Controller
     {
         try {
             $user     = $request->user();
+            // show latest bookings first
             $bookings = Booking::where('user_id', $user->id)
                                 ->with('package')
+                                ->orderBy('created_at', 'desc')
                                 ->paginate(12);
 
             return ApiResponse::send(200, null, ['bookings' => $bookings]);
