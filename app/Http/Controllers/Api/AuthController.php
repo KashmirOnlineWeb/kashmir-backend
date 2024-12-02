@@ -84,7 +84,7 @@ class AuthController extends Controller
 
             $data = [
                 'token' => $user->createToken('web')->plainTextToken,
-                'user'  => $user->only('id','first_name', 'last_name', 'name', 'email', 'profile_image', 'mobile', 'created_at')
+                'user'  => $user->only('id','first_name', 'last_name', 'name', 'email', 'profile_image', 'mobile', 'dob', 'created_at')
             ];
 
             return ApiResponse::send(200, null, $data);
@@ -305,7 +305,7 @@ class AuthController extends Controller
 
             $user->update($updateData);
             
-            $userData = $user->only('id', 'first_name', 'last_name', 'name', 'email', 'profile_image', 'mobile', 'created_at');
+            $userData = $user->only('id', 'first_name', 'last_name', 'name', 'email', 'profile_image', 'mobile', 'dob', 'created_at');
             
             return ApiResponse::send(200, 'User has been updated successfully.', $userData);
         } catch (Exception $e) {
