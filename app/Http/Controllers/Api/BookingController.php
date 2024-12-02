@@ -17,7 +17,9 @@ class BookingController extends Controller
     {
         try {
             $user     = $request->user();
-            $bookings = Booking::where('user_id', $user->id)->paginate(12);
+            $bookings = Booking::where('user_id', $user->id)
+                                ->with('package')
+                                ->paginate(12);
 
             return ApiResponse::send(200, null, ['bookings' => $bookings]);
         } catch (Exception $e) {
@@ -36,6 +38,7 @@ class BookingController extends Controller
             $user     = $request->user();
             $booking  = Booking::where('user_id', $user->id)
                             ->where('id', $data['booking_id'])
+                            ->with('package')
                             ->get();
 
             return ApiResponse::send(200, null, ['booking' => $booking]);
