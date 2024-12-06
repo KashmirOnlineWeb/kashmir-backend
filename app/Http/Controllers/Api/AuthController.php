@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use App\Services\SMSService;
 use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\WelcomeEmail;
 
 class AuthController extends Controller
 {   
@@ -177,6 +179,14 @@ class AuthController extends Controller
             ]);
 
             $user->assignRole('customer');
+
+            /* Send welcome email to user. */
+            $mailData = ['name' => (!empty($user->name))? $user->name : strtok($user->email, '@'),
+                         'message' => 'Welcome to Kashmir Online.',
+                        ];
+            if(!empty($user->email)){
+                Mail::to($user->email)->send(new WelcomeEmail($mailData));    
+            }
 
             $data = [
                 'token' => $user->createToken('web')->plainTextToken,

@@ -664,3 +664,13 @@ Route::get('/menu/{slug}', function (Request $request, $slug) {
 
 /* Get records by search keyword: like (hotel, destination and restaurant name etc.) */
 Route::get('/search/{keyword}', [SearchController::class, 'mainSearch'])->middleware('throttle:60,1');
+
+/* Test things */
+use App\Mail\TestEmail;
+
+Route::get('test', function(){
+    $data = ['message' => 'This is a test!'];
+    $o = Mail::to('john@example.com')->send(new TestEmail($data));
+    //return $o;
+});
+/*****/

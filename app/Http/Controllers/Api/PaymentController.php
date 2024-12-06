@@ -13,6 +13,8 @@ use App\Models\Package;
 use App\Models\Booking;
 use App\Models\BookingPackages;
 use App\Models\Payment;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\BookingEmail;
 
 
 class PaymentController extends Controller
@@ -91,6 +93,21 @@ class PaymentController extends Controller
                                     'max_capacity'    => $package->max_capacity,
                                     'is_special'      => $package->is_special,
                                 ]);
+
+            if($booking){
+                $mailData = ['name'    => (!empty($user->name))? $user->name : strtok($user->email, '@'),
+                             'message' => 'Your package has been booked.',
+                             'booking' => [ 'status'            => $booking->status,
+                                            'adults'            => $booking->adults,
+                                            'children'          => $booking->children,
+                                            'amount'            => $booking->amount,
+                                            'package_name'      => $package->name,
+                                            'packageStartDate'  => $package->start_date,
+                                            'packageEndDate'    => $package->end_date,
+                                        ]
+                        ];
+                Mail::to($user->email)->send(new BookingEmail($mailData));
+            }
 
             return ApiResponse::send(200, null, ['order_id' => $order['id']]);
         } catch (Exception $e) {
