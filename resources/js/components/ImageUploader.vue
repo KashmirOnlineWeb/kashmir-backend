@@ -1,9 +1,15 @@
 <template>
   <div class="relative cursor-pointer w-24" @click="triggerFileInput">
-    <input type="file" :id="inputId" @change="onFileChange" class="hidden" ref="fileInput">
-    <img v-if="file" :src="file.startsWith('http') ? file : '/' + file" alt="Preview" class="w-24 h-24 rounded-md border border-gray-200">
+    <input type="file" :id="inputId" @change="onFileChange" class="hidden" ref="fileInput" accept="image/*,video/*">
+    <template v-if="file">
+      <img v-if="isImage(file)" :src="file.startsWith('http') ? file : '/' + file" alt="Preview" class="w-24 h-24 rounded-md border border-gray-200 object-cover">
+      <video v-else controls class="w-24 h-24 rounded-md border border-gray-200 object-cover">
+        <source :src="file.startsWith('http') ? file : '/' + file" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </template>
     <div v-else class="w-24 h-24 flex items-center justify-center border border-dashed border-gray-300 rounded-md px-2">
-      <span class="text-gray-500 text-xs">Click to upload image</span>
+      <span class="text-gray-500 text-xs">Click to upload image or video</span>
     </div>
     <div v-if="file" class="absolute top-0 right-0 p-1 bg-white border border-gray-500 rounded-full">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-black" viewBox="0 0 20 20" fill="currentColor" @click.stop="removeImage">
@@ -46,11 +52,22 @@ const uploading = ref(false);
 const inputId = `image-${props.name}`;
 const errorMessage = ref(null);
 
+// Helper to check if file is image
+function isImage(fileUrlOrFile) {
+  if (!fileUrlOrFile) return false;
+  // If it's a File object
+  if (typeof fileUrlOrFile === 'object' && fileUrlOrFile.type) {
+    return fileUrlOrFile.type.startsWith('image/');
+  }
+  // If it's a string (URL or path)
+  return /\.(jpg|jpeg|png|gif|bmp|webp|svg)$/i.test(fileUrlOrFile);
+}
+
 const onFileChange = async (event) => {
   const selectedFile = event.target.files[0];
   if (selectedFile) {
-    if (selectedFile.size > 5 * 1024 * 1024) { // Check if file size is greater than 5 MB
-      errorMessage.value = 'File size exceeds 5 MB';
+    if (selectedFile.size > 50 * 1024 * 1024) { // Check if file size is greater than 50 MB
+      errorMessage.value = 'File size exceeds 50 MB';
       return;
     }
     emit('update:file', selectedFile);
@@ -59,7 +76,7 @@ const onFileChange = async (event) => {
     errorMessage.value = null; // Reset error message
     try {
       const formData = new FormData();
-      formData.append('image', selectedFile);
+      formData.append('file', selectedFile); // Use generic 'file' key for both image and video
 
       const response = await axios.post('/api/image', formData, {
         headers: {
