@@ -21,11 +21,12 @@ use App\Models\SightSeeing;
 use App\Models\ThingsToBeNoted;
 use App\Models\ThingsToDo;
 use App\Models\Category;
-use App\Models\Package;
+use App\Models\Package;/* Remove after package testing */
 use App\Models\Page;
 use App\Models\Menu;
 
 use App\Http\Controllers\Api\Public\SearchController;
+use App\Http\Controllers\Api\Public\PackageController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\BookingController;
@@ -430,34 +431,7 @@ Route::get('/popularpackages', function (Request $request) {
 });
 
 /* Packages */
-Route::get('/packages', function (Request $request) {
-    $packages = Package::with(['city:id,name', 'destination:id,name,slug']) // Ensure destination relationship is included
-                        ->select([ 'id',
-                                  'destination_id',
-                                  'name',
-                                  'price',
-                                  'image',
-                                  'image_alt',
-                                  'slug',
-                                  'city_id',
-                                  'days',
-                                  'nights'
-                                ])
-                                ->paginate();
-    // Prepare unique combinations of days and nights
-    $uniqueTabs = collect($packages->items())->groupBy(function ($item) {
-        return $item->days . '-' . $item->nights;
-    })->map(function ($group) {
-        $item = $group->first(); // Get the first item from the group
-        return [
-            'days' => $item->days,
-            'nights' => $item->nights,
-            'label' => "{$item->nights}N - {$item->days}D"
-        ];
-    })->values()->all();
-
-    return response()->json(['packages' => $packages, 'tabs' => $uniqueTabs]);
-});
+Route::get('/packages', [PackageController::class, 'index']);
 
 /* Packages by category */
 Route::post('/listing', function (Request $request) {
