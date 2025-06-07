@@ -433,6 +433,17 @@ Route::get('/popularpackages', function (Request $request) {
 /* Packages */
 Route::get('/packages', [PackageController::class, 'index']);
 
+/* Packages by category slug */
+Route::get('/packages/{category_slug}', [PackageController::class, 'getPackagesByCategorySlug']);
+
+/* Get package by slug */
+Route::get('/packages/{slug}', function (Request $request, $slug) {
+    $slug  = strtolower($slug); // Convert slug to lowercase
+    $package = Package::where('slug', $slug)->with('meta','category')->first();
+
+    return response()->json(['package' => $package]);
+});
+
 /* Packages by category */
 Route::post('/listing', function (Request $request) {
 
@@ -610,14 +621,6 @@ Route::get('/page/{slug}', function (Request $request, $slug) {
                                 ->first();
 
     return response()->json(['page' => $page]);
-});
-
-/* Get package by slug */
-Route::get('/packages/{slug}', function (Request $request, $slug) {
-    $slug  = strtolower($slug); // Convert slug to lowercase
-    $package = Package::where('slug', $slug)->with('meta','category')->first();
-
-    return response()->json(['package' => $package]);
 });
 
 /* Get hotel by slug */
