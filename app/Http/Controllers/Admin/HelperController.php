@@ -11,18 +11,24 @@ class HelperController extends Controller
     public function uploadImage(Request $request)
     {
         try {
+            
             $request->validate([
-                            'image' => 'required|image|mimes:jpg,jpeg,png,webp|max:5120'
-                        ]);
+                'file' => 'required|file|mimes:jpg,jpeg,png,webp,mp4,webm,mov,avi,mkv|max:51200' // 50MB max
+            ]);
 
-            $file     = $request->file('image');
-            $fileName = time().uniqid().'.'.$file->extension();
-            $response = Storage::put('images/'.$fileName, file_get_contents($file->getRealPath()));
+            $file = $request->file('file');
+            //dd($file);
+            $extension = $file->extension();
+            $isImage = in_array($extension, ['jpg', 'jpeg', 'png', 'webp']);
+            $isVideo = in_array($extension, ['mp4', 'webm', 'mov', 'avi', 'mkv']);
+            //$folder = $isImage ? 'images/' : ($isVideo ? 'videos/' : 'files/');
+            $folder = 'images/';
+            $fileName = time().uniqid().'.'.$extension;
+            $response = $file->storeAs($folder, $fileName);
 
-            $data = ['status' => $response, 'path' => ''];
+            $data = ['status' => (bool)$response, 'path' => ''];
             if($response){
-                $path = Storage::get($fileName);
-                $data['path'] = 'images/'.$fileName;
+                $data['path'] = $folder.$fileName;
                 return response()->json($data, 200);
             }
             return response()->json($data, 200);

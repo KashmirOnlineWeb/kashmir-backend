@@ -35,6 +35,21 @@
             <label class="block text-sm font-medium text-gray-700">Subtitle Color</label>
             <input type="text" v-model="content.subtitleColor" :name="`${namePrefix}[${index}][subtitleColor]`" placeholder="#ffffff" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1" required>
           </div>
+          <!-- CTA Button Text (optional) -->
+          <div class="w-full mb-4">
+            <label class="block text-sm font-medium text-gray-700">CTA Button Text (optional)</label>
+            <input type="text" v-model="content.ctaText" :name="`${namePrefix}[${index}][ctaText]`" placeholder="Enter CTA text" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
+          </div>
+          <!-- CTA Link (optional) -->
+          <div class="w-full mb-4">
+            <label class="block text-sm font-medium text-gray-700">CTA Link (optional)</label>
+            <input type="text" v-model="content.ctaLink" :name="`${namePrefix}[${index}][ctaLink]`" placeholder="Enter CTA link (https://...)" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
+          </div>
+          <!-- Tab Text (optional) -->
+          <div class="w-full mb-4">
+            <label class="block text-sm font-medium text-gray-700">Tab Text (optional)</label>
+            <input type="text" required v-model="content.tabText" :name="`${namePrefix}[${index}][tabText]`" placeholder="Enter tab text" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
+          </div>
         </div>
       </div>
       <button @click.prevent="addContent" class="bg-black/70 hover:bg-black text-white font-semibold text-sm py-1 px-3 rounded-lg flex items-center">
@@ -73,6 +88,9 @@
         subtitle: item.subtitle || '',
         titleColor: item.titleColor || '#ffffff',
         subtitleColor: item.subtitleColor || '#ffffff',
+        ctaText: item.ctaText || '', // Ensure ctaText is initialized
+        ctaLink: item.ctaLink || '', // Ensure ctaLink is initialized
+        tabText: item.tabText || '', // Ensure tabText is initialized
       })) 
     : props.initialData.map(item => ({
         ...item,
@@ -80,6 +98,9 @@
         subtitle: item.subtitle || '',
         titleColor: item.titleColor || '#ffffff',
         subtitleColor: item.subtitleColor || '#ffffff',
+        ctaText: item.ctaText || '', // Ensure ctaText is initialized
+        ctaLink: item.ctaLink || '', // Ensure ctaLink is initialized
+        tabText: item.tabText || '', // Ensure tabText is initialized
       }));
   
   const contents = ref(initialData.map(item => ({ ...item, id: idCounter++ }))); // Initialize new fields
@@ -93,6 +114,9 @@
       subtitle: '',
       titleColor: '#ffffff', // Default value
       subtitleColor: '#ffffff', // Default value
+      ctaText: '', // Default value
+      ctaLink: '', // Default value
+      tabText: '', // Default value
     });
     updateContents();
     await nextTick();
@@ -120,6 +144,9 @@
       titleColor: item.titleColor,
       subtitleColor: item.subtitleColor,
       imageAltText: item.imageAltText, // Include image alt text
+      ctaText: item.ctaText, // Include CTA text
+      ctaLink: item.ctaLink, // Include CTA link
+      tabText: item.tabText, // Include tab text
     }));
     emit('update:contents', JSON.stringify(transformedContents));
   };
