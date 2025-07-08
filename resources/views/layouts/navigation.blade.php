@@ -35,6 +35,7 @@
     </x-nav-link>
     @if(request()->routeIs([
         'destination.index',
+        'activity.index',
         'hotel.index',
         'pharmacy.index',
         'hospital.index',
@@ -52,6 +53,9 @@
         'location.index'
     ]))
         <nav class="grid items-start px-2 text-sm font-normal lg:pl-2">
+            <x-nav-link href="{{ route('activity.index') }}" :active="request()->routeIs('activity.index')">
+                • Activites
+            </x-nav-link>
             <x-nav-link href="{{ route('hotel.index') }}" :active="request()->routeIs('hotel.index')">
                 • Hotels
             </x-nav-link>

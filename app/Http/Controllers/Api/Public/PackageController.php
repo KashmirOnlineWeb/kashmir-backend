@@ -27,7 +27,8 @@ class PackageController extends Controller
                                       'slug',
                                       'city_id',
                                       'days',
-                                      'nights'
+                                      'nights',
+                                      'exclusions_editor'
                                     ])
                                     ->paginate(12);
             // Prepare unique combinations of days and nights
@@ -71,7 +72,8 @@ class PackageController extends Controller
                                       'city_id',
                                       'days',
                                       'nights',
-                                      'category_id'
+                                      'category_id',
+                                      'exclusions_editor'
                                     ])
                                     ->paginate(12);
 

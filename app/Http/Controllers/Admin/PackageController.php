@@ -57,6 +57,7 @@ class PackageController extends Controller
                             //'city_id'           => 'required|integer|exists:cities,id',
                             //'accommodations'    => 'sometimes|string',
                             //'status'          => 'required|integer|digits_between:0,1',
+                            'short_description' => 'sometimes',
                             'content'           => 'sometimes',
                             'addons_editor'     => 'sometimes',
                             //'start_date'        => 'required|date_format:Y-m-d|before:end_date',
@@ -105,6 +106,7 @@ class PackageController extends Controller
                                         'meta_id'           => (isset($meta->id) ? $meta->id: NULL),
                                         //'accommodations'    => (isset($data['accommodations']) ? $data['accommodations']: NULL),
                                         //'status'          => (isset($data['status']) ? $data['status']: NULL),
+                                        'short_description' => (isset($data['short_description']) ? $data['short_description']: NULL),
                                         'content'           => (isset($data['content']) ? $data['content']: NULL),
                                         'addons_editor'     => (isset($data['addons_editor']) ? $data['addons_editor']: NULL),
                                         //'start_date'        => (isset($data['start_date']) ? $data['start_date']: NULL),
@@ -139,11 +141,11 @@ class PackageController extends Controller
      */
     public function edit(Request $request, $id): View
     {
-        $cities     = City::select('id','name')->get();
-        $package    = Package::findOrFail($id);
+        $cities       = City::select('id','name')->get();
+        $package      = Package::findOrFail($id);
         $destinations = Destination::select('id','name')->get();
-        $categories = Category::select('id','name')->get();
-        $meta       = [];
+        $categories   = Category::select('id','name')->get();
+        $meta         = [];
         if(!empty($package->meta_id)){
             $meta   = Meta::findOrFail($package->meta_id);    
         }
@@ -185,6 +187,7 @@ class PackageController extends Controller
                             //'city_id'           => 'required|integer|exists:cities,id',
                             //'accommodations'    => 'sometimes|string',
                             //'status'          => 'required|integer|digits_between:0,1',
+                            'short_description' => 'sometimes',
                             'content'           => 'sometimes',
                             'addons_editor'     => 'sometimes',
                             //'start_date'        => 'required|date_format:Y-m-d|before:end_date',
@@ -236,6 +239,7 @@ class PackageController extends Controller
                                         'meta_id'           => (isset($package->meta_id) ? $package->meta_id: NULL),
                                         //'accommodations'    => (isset($data['accommodations']) ? $data['accommodations']: NULL),
                                         //'status'          => (isset($data['status']) ? $data['status']: NULL),
+                                        'short_description' => (isset($data['short_description']) ? $data['short_description']: NULL),
                                         'content'           => (isset($data['content']) ? $data['content']: NULL),
                                         'addons_editor'     => (isset($data['addons_editor']) ? $data['addons_editor']: NULL),
                                         //'start_date'        => (isset($data['start_date']) ? $data['start_date']: NULL),

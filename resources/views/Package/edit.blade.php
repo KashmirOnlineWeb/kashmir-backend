@@ -91,6 +91,16 @@
                 <h2 class="text-md font-semibold mb-2">Content & Highlights</h2>
                 <p class="text-sm text-gray-600 mb-4">Add detailed descriptions and highlights of the package.</p>
                 <tabs>
+                    <tab name="Short description">
+                        <div class="py-4 border-t border-gray-200">
+                            <div class="mb-4">
+                                <label for="short_description"
+                                    class="block text-sm font-medium text-gray-700">Short description</label>
+                                <textarea name="short_description" id="short_description"
+                                    class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1 tinymce">{{ old('short_description', $package->short_description ?? '') }}</textarea>
+                            </div>
+                        </div>
+                    </tab>
                     <tab name="Content">
                         <div class="py-4 border-t border-gray-200">
                             <div class="mb-4">
@@ -125,7 +135,7 @@
                                     class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1 tinymce">{{ old('addons_editor', $package->addons_editor ?? '') }}</textarea>
                             </div>
                         </div>
-                    </tab>
+                    </tab> -->
                     <tab name="Exclusions">
                         <div class="py-4 border-t border-gray-200">
                             <div class="mb-4">
@@ -134,7 +144,7 @@
                                     class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1 tinymce">{{ old('exclusions_editor', $package->exclusions_editor ?? '') }}</textarea>
                             </div>
                         </div>
-                    </tab> -->
+                    </tab>
                     <tab name="Slider">
                         <div class="py-4 border-t border-gray-200">
                         <slider-component 

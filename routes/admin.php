@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\DestinationController;
 use App\Http\Controllers\Admin\MetaController;
+use App\Http\Controllers\Admin\ActivityController;
 use App\Http\Controllers\Admin\HotelController;
 use App\Http\Controllers\Admin\HospitalController;
 use App\Http\Controllers\Admin\PharmacyController;
@@ -39,6 +40,9 @@ Route::middleware(['auth'])->group(function () {
 
     /* Destination */
     Route::resource('/destination', DestinationController::class)->names('destination');
+
+    /* Activity */
+    Route::resource('/activity', ActivityController::class)->names('activity');
 
     /* Hotel */
     Route::resource('/hotel', HotelController::class)->names('hotel');
