@@ -27,6 +27,7 @@ use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Admin\MenusController;
 use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Admin\UserController;
 
 Route::middleware(['auth'])->group(function () {
     /* Category */
@@ -103,6 +104,9 @@ Route::middleware(['auth'])->group(function () {
 
     /* Payment */
     Route::resource('/payment', PaymentController::class)->names('payment');
+
+    /* User */
+    Route::resource('/user', UserController::class)->names('user');
 });
 
 Route::prefix('api')->middleware(['auth'])->group(function () {
