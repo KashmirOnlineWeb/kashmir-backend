@@ -108,10 +108,18 @@
     <span class="text-gray-500 text-xs font-semibold mt-10 border-t border-gray-300 pt-4">
         Planned for future
     </span>
-    
-    <a href="#" class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 font-semibold hover:bg-gray-200 transition-all hover:text-primary">
+
+    <x-nav-link href="{{ route('user.index') }}" :active="request()->routeIs('user.index')">
         Users
-    </a>
+    </x-nav-link>
+
+    <x-nav-link href="{{ route('booking.index') }}" :active="request()->routeIs('booking.index')">
+        Bookings
+    </x-nav-link>
+
+    <x-nav-link href="{{ route('payment.index') }}" :active="request()->routeIs('payment.index')">
+        Payments
+    </x-nav-link>
     
     <!-- Shop Section -->
     <a href="#" class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 font-semibold hover:bg-gray-200 transition-all hover:text-primary">

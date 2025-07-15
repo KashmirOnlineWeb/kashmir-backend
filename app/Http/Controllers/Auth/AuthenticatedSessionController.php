@@ -26,9 +26,15 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
-        $request->session()->regenerate();
-
-        return redirect()->intended(route('dashboard', absolute: false));
+        if(auth()->user()->hasRole('admin')){
+            $request->session()->regenerate();
+            return redirect()->intended(route('dashboard', absolute: false));    
+        }
+        
+        $this->destroy($request);
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);
     }
 
     /**

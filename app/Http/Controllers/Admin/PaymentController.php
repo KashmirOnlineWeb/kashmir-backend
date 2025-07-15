@@ -20,6 +20,7 @@ class PaymentController extends Controller
                         'payment_id',
                         'order_id',
                         'status',
+                        'amount',
                         'method',
                         'email',
                         'created_at',
