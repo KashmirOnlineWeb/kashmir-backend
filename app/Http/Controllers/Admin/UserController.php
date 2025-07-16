@@ -72,7 +72,7 @@ class UserController extends Controller
                 'password'      => ['required', 'confirmed', Rules\Password::defaults()],
                 'first_name'    => 'required|string',
                 'last_name'     => 'required|string',
-                'dob'           => 'sometimes|date_format:Y-m-d',
+                'dob'           => 'sometimes|nullable|date_format:Y-m-d',
                 'profile_image' => 'sometimes|nullable|string',
                 'role'          => 'required|exists:roles,name',
             ]);
@@ -125,7 +125,7 @@ class UserController extends Controller
                             //'password'      => ['required', 'confirmed', Rules\Password::defaults()],
                             'first_name'    => 'required|string',
                             'last_name'     => 'required|string',
-                            'dob'           => 'sometimes|date_format:Y-m-d',
+                            'dob'           => 'sometimes|nullable|date_format:Y-m-d',
                             'profile_image' => 'sometimes|nullable|string',
                             'role'          => 'required|exists:roles,name',
                         ]);
