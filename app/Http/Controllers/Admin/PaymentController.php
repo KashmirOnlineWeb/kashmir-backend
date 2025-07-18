@@ -64,6 +64,6 @@ class PaymentController extends Controller
                 ];   
         $payment  = Payment::select($select)->findOrFail($id);
         
-        return view('Payment.edit',compact('payment'));
+        return view('Payment.show',compact('payment'));
     }
 }

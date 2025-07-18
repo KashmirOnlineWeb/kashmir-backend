@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 
 use App\Models\Booking;
 
@@ -16,7 +17,7 @@ class BookingController extends Controller
     public function index(Request $request)
     {
         try {
-            $bookings = Booking::with(['package:id,name','user:id,name'])
+            $bookings = Booking::with(['bookingPackages:id,booking_id,name','user:id,name'])
                             ->orderBy('id','desc')
                             ->paginate(12);
             
@@ -27,4 +28,22 @@ class BookingController extends Controller
     }
     /* End of index */
     
+    /*
+    * Show booked booking.
+    **/
+    public function show(Request $request, $id): View
+    {
+        try {
+            $booking = Booking::with(['bookingPackages' => function($booking){
+                                                $booking->with(['category:id,name','destination:id,name']);
+                                            },
+                                        'payment'
+                                    ])
+                                ->findOrFail($id);
+            return view('Booking.show',compact('booking'));
+
+        } catch (Exception $e) {
+            Log::error('Somethinng went wrong in booking show.');   
+        }
+    }
 }

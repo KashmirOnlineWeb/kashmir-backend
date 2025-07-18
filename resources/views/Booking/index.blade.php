@@ -46,7 +46,7 @@
                             <div class="text-sm font-medium text-gray-900">{{ ucfirst($booking->status) }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-500">{{ $booking->package->name ?? 'N/A' }}</div>
+                            <div class="text-sm text-gray-500">{{ $booking->bookingPackages->name ?? 'N/A' }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-500">{{ $booking->user->name }}</div>
@@ -57,12 +57,19 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-500">{{ $booking->updated_at }}</div>
                         </td>
-                        <!-- <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-500 cursor-pointer">
+                                <a href="{{ route('booking.show', $booking->id) }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M12 5c-6.307 0-9.367 5.683-9.91 6.808a.44.44 0 0 0 0 .384C2.632 13.317 5.692 19 12 19s9.367-5.683 9.91-6.808a.44.44 0 0 0 0-.384C21.368 10.683 18.308 5 12 5"/><circle cx="12" cy="12" r="3"/></g></svg>
+                                </a>    
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <div id="app-{{ $booking->id }}" class="relative inline-block text-left">
                                 <dropdown-menu :edit-url="'{{ route('booking.edit', $booking->id) }}'"
                                     :delete-url="'{{ route('booking.destroy', $booking->id) }}'"></dropdown-menu>
                             </div>
-                        </td> -->
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
