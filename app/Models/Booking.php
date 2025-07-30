@@ -28,4 +28,20 @@ class Booking extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /*
+    * Get booked package.
+    **/
+    public function bookingPackages()
+    {
+        return $this->hasOne(BookingPackages::class);
+    }
+
+    /*
+    * Get payment detail.
+    **/
+    public function payment()
+    {
+        return $this->hasOne(Payment::class,'order_id','razorpay_order_id');
+    }
 }

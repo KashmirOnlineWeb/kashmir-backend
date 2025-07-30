@@ -12,4 +12,20 @@ class BookingPackages extends Model
     protected $table   = 'booking_packages';
     protected $guarded = [];
 
+    /*
+    * Get category.
+    **/
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    /*
+    * Get destination.
+    **/
+    public function destination()
+    {
+        return $this->belongsTo(Destination::class);
+    }
+
 }
