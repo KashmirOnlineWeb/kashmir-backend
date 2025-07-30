@@ -433,9 +433,6 @@ Route::get('/popularpackages', function (Request $request) {
 /* Packages */
 Route::get('/packages', [PackageController::class, 'index']);
 
-/* Packages by category slug */
-Route::get('/packages/{category_slug}', [PackageController::class, 'getPackagesByCategorySlug']);
-
 /* Get package by slug */
 Route::get('/packages/{slug}', function (Request $request, $slug) {
     $slug  = strtolower($slug); // Convert slug to lowercase
@@ -443,6 +440,9 @@ Route::get('/packages/{slug}', function (Request $request, $slug) {
 
     return response()->json(['package' => $package]);
 });
+
+/* Packages by category slug */
+Route::get('/packages/category/{category_slug}', [PackageController::class, 'getPackagesByCategorySlug']);
 
 /* Packages by category */
 Route::post('/listing', function (Request $request) {
