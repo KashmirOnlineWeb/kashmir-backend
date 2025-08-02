@@ -14,8 +14,8 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <!-- Left Column - Fields and Amenities -->
           <div>
-            <!-- First Row - Three Fields -->
-            <div class="grid grid-cols-3 gap-2 mb-3">
+            <!-- First Row - Four Fields -->
+            <div class="grid grid-cols-4 gap-2 mb-3">
               <!-- Room Type -->
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Room Type *</label>
@@ -59,6 +59,19 @@
                   required
                   class="w-full rounded border-gray-300 shadow-sm py-2 px-3 text-sm"
                 >
+              </div>
+
+              <!-- Availability -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Availability</label>
+                <select 
+                  v-model="room.availability" 
+                  :name="`${namePrefix}[${index}][availability]`"
+                  class="w-full rounded border-gray-300 shadow-sm py-2 px-3 text-sm"
+                >
+                  <option value="available">Available</option>
+                  <option value="unavailable">Unavailable</option>
+                </select>
               </div>
             </div>
 
@@ -165,6 +178,7 @@ const initializeRooms = () => {
       room_type: item.room_type || '',
       room_size: item.room_size || '',
       price: item.price || '',
+      availability: item.availability || 'available', // Add availability field
       amenities: Array.isArray(item.amenities) ? item.amenities : [],
       gallery: Array.isArray(item.gallery) ? item.gallery : []
     }));
@@ -175,6 +189,7 @@ const initializeRooms = () => {
       room_type: '',
       room_size: '',
       price: '',
+      availability: 'available', // Default availability
       amenities: [],
       gallery: []
     });
@@ -187,6 +202,7 @@ const jsonData = computed(() => {
     room_type: room.room_type,
     room_size: room.room_size,
     price: room.price,
+    availability: room.availability, // Include availability in JSON
     amenities: room.amenities,
     gallery: room.gallery
   })));
@@ -218,6 +234,7 @@ const addRoom = () => {
     room_type: '',
     room_size: '',
     price: '',
+    availability: 'available', // Default availability for new rooms
     amenities: [],
     gallery: []
   });
