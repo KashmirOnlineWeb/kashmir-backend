@@ -1,14 +1,14 @@
 <template>
-  <div class="relative cursor-pointer w-24" @click="triggerFileInput">
+  <div class="relative cursor-pointer w-20" @click="triggerFileInput">
     <input type="file" :id="inputId" @change="onFileChange" class="hidden" ref="fileInput" accept="image/*,video/*">
     <template v-if="file">
-      <img v-if="isImage(file)" :src="file.startsWith('http') ? file : '/' + file" alt="Preview" class="w-24 h-24 rounded-md border border-gray-200 object-cover">
-      <video v-else controls class="w-24 h-24 rounded-md border border-gray-200 object-cover">
+      <img v-if="isImage(file)" :src="file.startsWith('http') ? file : '/' + file" alt="Preview" class="w-20 h-20 rounded-md border border-gray-200 object-cover">
+      <video v-else controls class="w-20 h-20 rounded-md border border-gray-200 object-cover">
         <source :src="file.startsWith('http') ? file : '/' + file" type="video/mp4">
         Your browser does not support the video tag.
       </video>
     </template>
-    <div v-else class="w-24 h-24 flex items-center justify-center border border-dashed border-gray-300 rounded-md px-2">
+    <div v-else class="w-20 h-20 flex items-center justify-center border border-dashed border-gray-300 rounded-md px-2">
       <span class="text-gray-500 text-xs">Click to upload image or video</span>
     </div>
     <div v-if="file" class="absolute top-0 right-0 p-1 bg-white border border-gray-500 rounded-full">

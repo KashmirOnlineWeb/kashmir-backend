@@ -42,7 +42,8 @@
                 v-model="item.url" 
                 :name="`${namePrefix}[${index}][url]`" 
                 placeholder="/path/to/page"
-                class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1"
+                readonly
+                class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1 bg-gray-100"
               >
             </div>
           </div>
@@ -53,7 +54,7 @@
       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
         <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
       </svg>
-      Add More
+      {{ images.length === 0 ? 'Add' : 'Add More' }}
     </button>
   </div>
 </template>
@@ -98,7 +99,8 @@ if (Array.isArray(initialData) && initialData.length > 0) {
     url: item.url || ''
   }));
 } else {
-  images.value.push({ id: idCounter++, title: '', file: null, url: '' }); // Default entry
+  // No default entry - start with empty array
+  images.value = [];
 }
 
 const addImage = () => {
