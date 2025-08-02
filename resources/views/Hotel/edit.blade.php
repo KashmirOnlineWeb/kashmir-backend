@@ -255,7 +255,28 @@
                 @enderror
             </div>
 
-            <!-- Section 3: Amenities and Pricing -->
+            <!-- Section 3: Rooms -->
+            <div class="mb-4 p-4 border-b border-gray-200">
+                <div class="flex items-center gap-4 mb-2">
+                    <h2 class="text-md font-semibold">Rooms</h2>
+                    <div class="text-sm text-gray-600">
+                        Price Range: ₹<span id="min-price">{{ old('min_price', $hotel->min_price ?? 0) }}</span> - ₹<span id="max-price">{{ old('max_price', $hotel->max_price ?? 0) }}</span>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-600 mb-4">Add and manage hotel rooms with their details, amenities, and gallery.</p>
+                <rooms-repeater 
+                    :initial-data="'{{ old('rooms', $hotel->rooms ?? '[]') }}'"
+                    name-prefix="rooms"
+                    @update:prices="updatePriceRange"
+                    ref="roomsRepeater">
+                </rooms-repeater>
+                
+                <!-- Hidden fields for min and max prices -->
+                <input type="hidden" name="min_price" value="{{ old('min_price', $hotel->min_price ?? 0) }}">
+                <input type="hidden" name="max_price" value="{{ old('max_price', $hotel->max_price ?? 0) }}">
+            </div>
+
+            <!-- Section 4: Location and Pricing -->
             <div class="flex flex-wrap -mx-2 mb-4 border-b border-gray-200">
                 <div class="w-full md:w-1/2 px-2 mb-4">
                     <div class="p-4">
@@ -327,7 +348,22 @@
             tags: true,
             tokenSeparators: [',', ' ']
         });
+        
+        // Listen for price range updates from the Vue component
+        document.addEventListener('priceRangeUpdated', function(event) {
+            updatePriceRange(event.detail);
+        });
     });
+
+    // Function to update price range display - make it globally accessible
+    window.updatePriceRange = function(prices) {
+        document.getElementById('min-price').textContent = prices.minPrice;
+        document.getElementById('max-price').textContent = prices.maxPrice;
+        
+        // Also update the hidden input fields
+        document.querySelector('input[name="min_price"]').value = prices.minPrice;
+        document.querySelector('input[name="max_price"]').value = prices.maxPrice;
+    }
 </script>
 
 <script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
