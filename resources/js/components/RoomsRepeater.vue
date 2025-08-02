@@ -119,10 +119,8 @@
       Add Room
     </button>
 
-    <!-- Hidden inputs for JSON data and price range -->
+    <!-- Hidden input for JSON data -->
     <input type="hidden" :name="namePrefix" :value="jsonData">
-    <input type="hidden" name="min_price" :value="minPrice">
-    <input type="hidden" name="max_price" :value="maxPrice">
   </div>
 </template>
 
