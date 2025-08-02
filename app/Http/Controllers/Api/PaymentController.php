@@ -12,9 +12,11 @@ use Razorpay\Api\Api;
 use App\Models\Package;
 use App\Models\Booking;
 use App\Models\BookingPackages;
+use App\Models\BookingHotels;
 use App\Models\Payment;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\BookingEmail;
+use App\Mail\BookingHotelEmail;
 
 
 class PaymentController extends Controller
@@ -33,80 +35,174 @@ class PaymentController extends Controller
     {
         try {
             $data = $request->validate([
-                                    'package_id' => 'required|exists:packages,id',
-                                    'amount'     => 'required|numeric',
+                                    'booking_type' => 'required|in:package,hotel',
+                                    'package_id'   => 'required_if:booking_type,package|exists:packages,id',
+                                    'hotel_id'     => 'required_if:booking_type,hotel|exists:hotels,id|nullable',
+                                    'room_type'    => 'required_if:booking_type,hotel|string|nullable',
+                                    'room_price'   => 'required_if:booking_type,hotel|numeric|nullable',
+                                    'start_date'   => 'required_if:booking_type,hotel|date_format:Y-m-d|nullable',
+                                    'end_date'     => 'required_if:booking_type,hotel|date_format:Y-m-d|nullable',
+                                    'no_of_rooms'  => 'required_if:booking_type,hotel|integer|nullable',
+                                    'amount'       => 'required|numeric',
                                     'adults'     => 'required|integer|min:0',
                                     'children'   => 'required|integer|min:0'
                                 ]);
 
-            /* Get package */
-            $package = Package::where('id',$data['package_id'])->first();
-
             /* Get user */
             $user = $request->user();
 
-            /* Create razorpay order */
-            $order = $this->razorpay
-                            ->order
-                            ->create(array('amount'   => ($data['amount']*100),
-                                           'currency' => 'INR',
-                                           'notes'    => array('package_name'=> $package->name)
-                                       )
-                            );
+            /* If package is booked */
+            if($data['booking_type'] == 'package'){
+                /* Get package */
+                $package = Package::where('id',$data['package_id'])->first();
 
-            $booking = Booking::create([
-                                    'package_id'        => $package->id,
-                                    'user_id'           => $user->id,
-                                    'razorpay_order_id' => $order['id'],
-                                    'status'            => $order['status'],
-                                    'adults'            => $data['adults'],
-                                    'children'          => $data['children'],
-                                    'amount'            => $data['amount'],
-                                    //'gst' => $package->id,
-                                ]);
+                /* Create razorpay order */
+                $order = $this->razorpay
+                                ->order
+                                ->create(array('amount'   => ($data['amount']*100),
+                                               'currency' => 'INR',
+                                               'notes'    => array('package_name'=> $package->name)
+                                           )
+                                );
 
-            $booking_packages = BookingPackages::create([
-                                    'booking_id'      => $booking->id,
-                                    'package_id'      => $package->id,
-                                    'name'            => $package->name,
-                                    'package_content' => $package->package_content,
-                                    'price'           => $package->price,
-                                    'slug'            => $package->slug,
-                                    'season'          => $package->season,
-                                    'category_id'     => $package->category_id,
-                                    'city_id'         => $package->city_id,
-                                    
-                                    'accommodations'  => $package->accommodations,
-                                    'status'          => $package->status,
-                                    'content'         => $package->content,
-                                    
-                                    'start_date'      => $package->start_date,
-                                    'end_date'        => $package->end_date,
-                                    'available_slots' => $package->available_slots,
-                                    'budget_type'     => $package->budget_type,
-                                    'currency'        => $package->currency,
-                                    'destination_id'  => $package->destination_id,
-                                    'days'            => $package->days,
-                                    'nights'          => $package->nights,
-                                    'itenery_content' => $package->itenery_content,
-                                    'hotel_star'      => $package->hotel_star,
-                                    'max_capacity'    => $package->max_capacity,
-                                    'is_special'      => $package->is_special,
-                                ]);
+                $booking = Booking::create([
+                                        'package_id'        => $package->id,
+                                        'user_id'           => $user->id,
+                                        'razorpay_order_id' => $order['id'],
+                                        'status'            => $order['status'],
+                                        'booking_type'      => $data['booking_type'],
+                                        'adults'            => $data['adults'],
+                                        'children'          => $data['children'],
+                                        'amount'            => $data['amount'],
+                                        //'gst' => $package->id,
+                                    ]);
 
-            if($booking){
-                $mailData = ['name'    => (!empty($user->name))? $user->name : strtok($user->email, '@'),
-                             'message' => 'Your package has been booked.',
-                             'booking' => [ 'status'            => $booking->status,
-                                            'adults'            => $booking->adults,
-                                            'children'          => $booking->children,
-                                            'amount'            => $booking->amount,
-                                            'package_name'      => $package->name,
-                                            'packageStartDate'  => $package->start_date,
-                                            'packageEndDate'    => $package->end_date,
-                                        ]
-                        ];
-                Mail::to($user->email)->send(new BookingEmail($mailData));
+                $booking_packages = BookingPackages::create([
+                                        'booking_id'      => $booking->id,
+                                        'package_id'      => $package->id,
+                                        'name'            => $package->name,
+                                        'package_content' => $package->package_content,
+                                        'price'           => $package->price,
+                                        'slug'            => $package->slug,
+                                        'season'          => $package->season,
+                                        'category_id'     => $package->category_id,
+                                        'city_id'         => $package->city_id,
+                                        
+                                        'accommodations'  => $package->accommodations,
+                                        'status'          => $package->status,
+                                        'content'         => $package->content,
+                                        
+                                        'start_date'      => $package->start_date,
+                                        'end_date'        => $package->end_date,
+                                        'available_slots' => $package->available_slots,
+                                        'budget_type'     => $package->budget_type,
+                                        'currency'        => $package->currency,
+                                        'destination_id'  => $package->destination_id,
+                                        'days'            => $package->days,
+                                        'nights'          => $package->nights,
+                                        'itenery_content' => $package->itenery_content,
+                                        'hotel_star'      => $package->hotel_star,
+                                        'max_capacity'    => $package->max_capacity,
+                                        'is_special'      => $package->is_special,
+                                    ]);
+
+                if($booking){
+                    $mailData = ['name'    => (!empty($user->name))? $user->name : strtok($user->email, '@'),
+                                 'message' => 'Your package has been booked.',
+                                 'booking' => [ 'status'            => $booking->status,
+                                                'adults'            => $booking->adults,
+                                                'children'          => $booking->children,
+                                                'amount'            => $booking->amount,
+                                                'package_name'      => $package->name,
+                                                'packageStartDate'  => $package->start_date,
+                                                'packageEndDate'    => $package->end_date,
+                                            ]
+                            ];
+                    Mail::to($user->email)->send(new BookingEmail($mailData));
+                }
+
+            } else if($data['booking_type'] == 'hotel'){
+                /* Get hotel */
+                $hotel = Hotel::where('id',$data['hotel_id'])->first();
+
+                /* Set rooms json data according to booking */
+                $bookingRoomsData = [];
+                if(isset($hotel['rooms'])){
+                    $roomsData = json_decode($hotel['rooms']);
+                    if(in_array($data['room_type'], $roomsData)){
+
+                    }
+                }
+                /** End of set rooms json data **/
+
+                /* Create razorpay order */
+                $order = $this->razorpay
+                                ->order
+                                ->create(array('amount'   => ($data['amount']*100),
+                                               'currency' => 'INR',
+                                               'notes'    => array('hotel_name'=> $hotel->name)
+                                           )
+                                );
+
+                $booking = Booking::create([
+                                        'hotel_id'          => $hotel->id,
+                                        'user_id'           => $user->id,
+                                        'razorpay_order_id' => $order['id'],
+                                        'status'            => $order['status'],
+                                        'booking_type'      => $data['booking_type'],
+
+                                        'hotel_id'          => $data['hotel_id'],
+                                        'rooms'             => $bookingRoomsData,
+                                        'start_date'        => $data['start_date'],
+                                        'end_date'          => $data['end_date'],
+                                        'no_of_rooms'       => $data['no_of_rooms'],
+
+                                        'adults'            => $data['adults'],
+                                        'children'          => $data['children'],
+                                        'amount'            => $data['amount'],
+                                        //'gst' => $package->id,
+                                    ]);
+
+                $booking_hotels = BookingHotels::create([
+                                        'booking_id'         => $booking->id,
+                                        'hotel_id'           => $hotel->id,
+                                        'name'               => $hotel->name,
+                                        'slug'               => $slug->slug,
+                                        'amenities'          => $hotel->amenities,
+                                        'balcony'            => $hotel->balcony,
+                                        'breakfast'          => $hotel->breakfast,
+                                        'contact'            => $hotel->contact,
+                                        'content'            => $hotel->content,
+                                        'image'              => $hotel->image,
+                                        'image_alt'          => $hotel->image_alt,
+                                        'location'           => $hotel->location,
+                                        'min_price'          => $hotel->min_price,
+                                        'max_price'          => $hotel->max_price,
+                                        'rooms'              => $hotel->rooms,
+                                        'star'               => $hotel->star,
+                                        'tax'                => $hotel->tax,
+                                        'total_lobbys'       => $hotel->total_lobbys,
+                                        'total_rooms'        => $hotel->total_rooms,
+                                        'total_washrooms'    => $hotel->total_washrooms,
+                                        'highlights_content' => $hotel->highlights_content,
+                                        'status'             => $hotel->status,
+                                        'city_id'            => $hotel->city_id,
+                                    ]);
+
+                if($booking){
+                    $mailData = ['name'    => (!empty($user->name))? $user->name : strtok($user->email, '@'),
+                                 'message' => 'Your hotel has been booked.',
+                                 'booking' => [ 'status'     => $booking->status,
+                                                'adults'     => $booking->adults,
+                                                'children'   => $booking->children,
+                                                'amount'     => $booking->amount,
+                                                'hotel_name' => $hotel->name,
+                                                'start_date' => $booking->start_date,
+                                                'end_date'   => $booking->end_date,
+                                            ]
+                            ];
+                    Mail::to($user->email)->send(new BookingHotelEmail($mailData));
+                }
             }
 
             return ApiResponse::send(200, null, ['order_id' => $order['id']]);
