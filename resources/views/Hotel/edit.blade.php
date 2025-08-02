@@ -298,18 +298,9 @@
 
                 <div class="w-full md:w-1/2 px-2 mb-4">
                     <div class="p-4">
-                        <h2 class="text-md font-semibold mb-2">Pricing</h2>
-                        <p class="text-sm text-gray-600 mb-4">Provide the pricing details and status of the hotel.
+                        <h2 class="text-md font-semibold mb-2">Tax</h2>
+                        <p class="text-sm text-gray-600 mb-4">Provide the tax details for the hotel.
                         </p>
-                        <div class="mb-4">
-                            <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
-                            <input type="text" name="price" id="price"
-                                value="{{ old('price', $hotel->price ?? '') }}"
-                                class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
-                            @error('price')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
                         <div class="mb-4">
                             <label for="tax" class="block text-sm font-medium text-gray-700">Tax</label>
                             <input type="text" name="tax" id="tax"
