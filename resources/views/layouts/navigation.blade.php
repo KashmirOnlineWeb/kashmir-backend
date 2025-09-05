@@ -10,25 +10,6 @@
         Pages
     </x-nav-link>
 
-    <!-- Packages Section -->
-    <x-nav-link href="{{ route('package.index') }}" :active="request()->routeIs('package.index')">
-        Packages
-    </x-nav-link>
-    @if(request()->routeIs(['package.index', 'category.index']))
-        <nav class="grid items-start px-2 text-sm font-normal lg:pl-2">
-            <x-nav-link href="{{ route('category.index') }}" :active="request()->routeIs('category.index')">
-                • Categories
-            </x-nav-link>
-            <x-nav-link href="{{ route('category.index') }}" :active="request()->routeIs('category.index')">
-                • Bookings
-            </x-nav-link>
-        </nav>
-    @endif
-
-    <x-nav-link href="#" :active="false">
-        Payments
-    </x-nav-link>
-
     <!-- Destinations Section -->
     <x-nav-link href="{{ route('destination.index') }}" :active="request()->routeIs('destination.index')">
         Destinations
@@ -103,15 +84,22 @@
             </x-nav-link>
         </nav>
     @endif
-
-    <!-- Future Section -->
-    <span class="text-gray-500 text-xs font-semibold mt-10 border-t border-gray-300 pt-4">
-        Planned for future
+    
+    
+    <span class="text-gray-500 text-xs font-semibold mt-2 border-gray-300 pt-2 pb-2">
+        Packages
     </span>
-
-    <x-nav-link href="{{ route('user.index') }}" :active="request()->routeIs('user.index')">
-        Users
+    <!-- Packages Section -->
+    <x-nav-link href="{{ route('package.index') }}" :active="request()->routeIs('package.index')">
+        Packages
     </x-nav-link>
+        @if(request()->routeIs(['package.index', 'category.index']))
+            <nav class="grid items-start px-2 text-sm font-normal lg:pl-2">
+                <x-nav-link href="{{ route('category.index') }}" :active="request()->routeIs('category.index')">
+                    • Categories
+                </x-nav-link>
+            </nav>
+        @endif
 
     <x-nav-link href="{{ route('booking.index') }}" :active="request()->routeIs('booking.index')">
         Bookings
@@ -120,6 +108,18 @@
     <x-nav-link href="{{ route('payment.index') }}" :active="request()->routeIs('payment.index')">
         Payments
     </x-nav-link>
+    
+    <span class="text-gray-500 text-xs font-semibold mt-2 border-gray-300 pt-2 pb-2">
+        Settings & Users
+    </span>
+    <x-nav-link href="{{ route('user.index') }}" :active="request()->routeIs('user.index')">
+        Users
+    </x-nav-link>
+
+    <!-- Future Section -->
+    <span class="text-gray-500 text-xs font-semibold mt-32 border-t border-gray-300 pt-4">
+        Planned for future
+    </span>
     
     <!-- Shop Section -->
     <a href="#" class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 font-semibold hover:bg-gray-200 transition-all hover:text-primary">
