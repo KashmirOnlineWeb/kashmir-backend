@@ -17,7 +17,7 @@ class BookingController extends Controller
     public function index(Request $request)
     {
         try {
-            $bookings = Booking::with(['bookingPackages:id,booking_id,name','user:id,name'])
+            $bookings = Booking::with(['bookingPackages:id,booking_id,name','user:id,name', 'bookingHotels:id,booking_id,name'])
                             ->orderBy('id','desc')
                             ->paginate(12);
             
@@ -37,6 +37,7 @@ class BookingController extends Controller
             $booking = Booking::with(['bookingPackages' => function($booking){
                                                 $booking->with(['category:id,name','destination:id,name']);
                                             },
+                                        'bookingHotels', 
                                         'payment'
                                     ])
                                 ->findOrFail($id);

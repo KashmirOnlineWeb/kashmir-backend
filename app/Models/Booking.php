@@ -38,6 +38,14 @@ class Booking extends Model
     }
 
     /*
+    * Get booked hotel.
+    **/
+    public function bookingHotels()
+    {
+        return $this->hasOne(BookingHotels::class);
+    }
+
+    /*
     * Get payment detail.
     **/
     public function payment()
