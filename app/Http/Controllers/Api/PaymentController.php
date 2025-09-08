@@ -10,6 +10,7 @@ use Illuminate\Validation\Rule;
 
 use Razorpay\Api\Api;
 use App\Models\Package;
+use App\Models\Hotel;
 use App\Models\Booking;
 use App\Models\BookingPackages;
 use App\Models\BookingHotels;
@@ -34,6 +35,7 @@ class PaymentController extends Controller
     public function createRazorpayOrder(Request $request)
     {
         try {
+
             $data = $request->validate([
                                     'booking_type' => 'required|in:package,hotel',
                                     'package_id'   => 'required_if:booking_type,package|exists:packages,id',
@@ -129,9 +131,16 @@ class PaymentController extends Controller
                 $bookingRoomsData = [];
                 if(isset($hotel['rooms'])){
                     $roomsData = json_decode($hotel['rooms']);
-                    if(in_array($data['room_type'], $roomsData)){
+                    $results   = array_values(array_filter($roomsData, function($rooms) use ($data){
+                      return $rooms->room_type == $data['room_type'];
+                    }));
 
+                    if(empty($results)){
+                        return ApiResponse::send(400, 'Error: selected room type not available.');
                     }
+                    
+                    unset($results[0]->amenities, $results[0]->gallery, $results[0]->availability);
+                    $bookingRoomsData = json_encode($results);
                 }
                 /** End of set rooms json data **/
 
@@ -167,7 +176,7 @@ class PaymentController extends Controller
                                         'booking_id'         => $booking->id,
                                         'hotel_id'           => $hotel->id,
                                         'name'               => $hotel->name,
-                                        'slug'               => $slug->slug,
+                                        'slug'               => $hotel->slug,
                                         'amenities'          => $hotel->amenities,
                                         'balcony'            => $hotel->balcony,
                                         'breakfast'          => $hotel->breakfast,
