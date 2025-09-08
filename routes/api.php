@@ -157,7 +157,7 @@ Route::get('/hotels/{slug}', function (Request $request, $slug) {
                                           'image',
                                           'image_alt',
                                           'location',
-                                          'price',
+                                          'min_price',
                                           'star',
                                           'tax',
                                           'total_lobbys',
