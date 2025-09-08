@@ -67,8 +67,14 @@ Route::prefix('booking')->middleware('auth:sanctum')->group(function(){
 
 /* Destinations nav */
 Route::get('/destinations', function (Request $request) {
-    $destinations = Destination::select(['id','name','slug','image','image_alt','destination_type'])
-                                ->get();
+    $query = Destination::select(['id','name','slug','image','image_alt','destination_type']);
+    
+    // Filter by type if 'religious' is passed
+    if ($request->has('type') && $request->type === 'religious') {
+        $query->where('destination_type', 2);
+    }
+    
+    $destinations = $query->get();
     
     return response()->json($destinations);
 });
