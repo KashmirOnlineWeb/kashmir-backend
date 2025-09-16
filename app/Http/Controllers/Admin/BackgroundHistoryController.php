@@ -126,7 +126,7 @@ class BackgroundHistoryController extends Controller
 
             /* Insert Meta */
             if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
-                $meta = Meta::where('id',$hotel->meta_id)
+                $meta = Meta::where('id',$backgroundhistory->meta_id)
                             ->update([
                                 'meta_title'       => $data['meta_title'],
                                 'meta_description' => $data['meta_description'],
