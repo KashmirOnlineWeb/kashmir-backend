@@ -113,12 +113,12 @@
             </div>
 
             <!-- SEO Fields Section -->
-            <div id="seo-fields">
+            <!-- <div id="seo-fields">
                 <seo-fields :meta-title="{{ json_encode(old('meta_title', $meta->meta_title ?? '')) }}"
                     :meta-description="{{ json_encode(old('meta_description', $meta->meta_description ?? '')) }}"
                     :keywords="{{ json_encode(old('keywords', $meta->keywords ?? '')) }}">
                 </seo-fields>
-            </div>
+            </div> -->
 
             <div class="mb-4">
                 <button type="submit" :disabled="isUploading"
