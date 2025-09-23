@@ -53,22 +53,22 @@ class SafetyInformationController extends Controller
                             'repeater_content' => 'sometimes|array',
                             'description'      => 'required|array',
                             'city_id'          => 'required|integer|exists:cities,id',
-                            'meta_title'       => 'required|string|nullable',
-                            'meta_description' => 'required|string|nullable',
-                            'keywords'         => 'required|string|nullable'
+                            // 'meta_title'       => 'required|string|nullable',
+                            // 'meta_description' => 'required|string|nullable',
+                            // 'keywords'         => 'required|string|nullable'
                         ],[
                             'description' => 'Add atleat one safety number.'
                         ]);
 
             /* Insert Meta */
-            if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
-                $meta = Meta::create([
-                            'meta_title'       => $data['meta_title'],
-                            'meta_description' => $data['meta_description'],
-                            'keywords'         => $data['keywords'],
-                            'status'           => 1,
-                        ]);
-            }
+            // if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
+            //     $meta = Meta::create([
+            //                 'meta_title'       => $data['meta_title'],
+            //                 'meta_description' => $data['meta_description'],
+            //                 'keywords'         => $data['keywords'],
+            //                 'status'           => 1,
+            //             ]);
+            // }
             
             $response = SafetyInformation::create([
                                         'name'             => isset($data['name']) ? $data['name'] : NULL,
@@ -77,7 +77,7 @@ class SafetyInformationController extends Controller
                                         'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
                                         'description'      => json_encode($data['description']),
                                         'repeater_content' => json_encode($data['repeater_content']),
-                                        'meta_id'          => $meta->id,
+                                        //'meta_id'          => $meta->id,
                                         'city_id'          => $data['city_id'],
                                     ]);
 
@@ -123,23 +123,23 @@ class SafetyInformationController extends Controller
                             'repeater_content' => 'sometimes|array',
                             'description'      => 'sometimes|array',
                             'city_id'          => 'required|integer|exists:cities,id',
-                            'meta_title'       => 'required|string|nullable',
-                            'meta_description' => 'required|string|nullable',
-                            'keywords'         => 'required|string|nullable'
+                            // 'meta_title'       => 'required|string|nullable',
+                            // 'meta_description' => 'required|string|nullable',
+                            // 'keywords'         => 'required|string|nullable'
                         ]);
 
             $safetyinformation = SafetyInformation::find($id);
 
             /* Insert Meta */
-            if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
-                $meta = Meta::where('id',$safetyinformation->meta_id)
-                            ->update([
-                                'meta_title'       => $data['meta_title'],
-                                'meta_description' => $data['meta_description'],
-                                'keywords'         => $data['keywords'],
-                                'status'           => 1,
-                            ]);
-            }
+            // if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
+            //     $meta = Meta::where('id',$safetyinformation->meta_id)
+            //                 ->update([
+            //                     'meta_title'       => $data['meta_title'],
+            //                     'meta_description' => $data['meta_description'],
+            //                     'keywords'         => $data['keywords'],
+            //                     'status'           => 1,
+            //                 ]);
+            // }
             
             $response = SafetyInformation::where('id', $safetyinformation->id)
                                 ->update([
@@ -149,7 +149,7 @@ class SafetyInformationController extends Controller
                                         'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
                                         'repeater_content' => json_encode($data['repeater_content']),
                                         'description' =>      json_encode($data['description']),
-                                        'meta_id'          => $safetyinformation->meta_id,
+                                        //'meta_id'          => $safetyinformation->meta_id,
                                         'city_id'          => $data['city_id']
                                     ]);
 

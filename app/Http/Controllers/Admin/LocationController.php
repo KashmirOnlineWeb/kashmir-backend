@@ -52,20 +52,20 @@ class LocationController extends Controller
                             'image_alt'        => 'sometimes|string|nullable',
                             'repeater_content' => 'sometimes|array',
                             'city_id'          => 'required|integer|exists:cities,id',
-                            'meta_title'       => 'required|string|nullable',
-                            'meta_description' => 'required|string|nullable',
-                            'keywords'         => 'required|string|nullable'
+                            // 'meta_title'       => 'required|string|nullable',
+                            // 'meta_description' => 'required|string|nullable',
+                            // 'keywords'         => 'required|string|nullable'
                         ]);
 
             /* Insert Meta */
-            if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
-                $meta = Meta::create([
-                            'meta_title'       => $data['meta_title'],
-                            'meta_description' => $data['meta_description'],
-                            'keywords'         => $data['keywords'],
-                            'status'           => 1,
-                        ]);
-            }
+            // if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
+            //     $meta = Meta::create([
+            //                 'meta_title'       => $data['meta_title'],
+            //                 'meta_description' => $data['meta_description'],
+            //                 'keywords'         => $data['keywords'],
+            //                 'status'           => 1,
+            //             ]);
+            // }
             
             $response = Location::create([
                                         'name'             => $data['name'],
@@ -73,7 +73,7 @@ class LocationController extends Controller
                                         'image'            => isset($data['image']) ? $data['image'] : NULL,
                                         'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
                                         'repeater_content' => json_encode($data['repeater_content']),
-                                        'meta_id'          => $meta->id,
+                                        //'meta_id'          => $meta->id,
                                         'city_id'          => $data['city_id'],
                                     ]);
 
@@ -117,23 +117,23 @@ class LocationController extends Controller
                             'image_alt'        => 'sometimes|string|nullable',
                             'repeater_content' => 'sometimes|array',
                             'city_id'          => 'required|integer|exists:cities,id',
-                            'meta_title'       => 'required|string|nullable',
-                            'meta_description' => 'required|string|nullable',
-                            'keywords'         => 'required|string|nullable'
+                            // 'meta_title'       => 'required|string|nullable',
+                            // 'meta_description' => 'required|string|nullable',
+                            // 'keywords'         => 'required|string|nullable'
                         ]);
 
             $location = Location::find($id);
 
             /* Insert Meta */
-            if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
-                $meta = Meta::where('id',$location->meta_id)
-                            ->update([
-                                'meta_title'       => $data['meta_title'],
-                                'meta_description' => $data['meta_description'],
-                                'keywords'         => $data['keywords'],
-                                'status'           => 1,
-                            ]);
-            }
+            // if((!empty($data['meta_title'])) || (!empty($data['meta_description'])) || (!empty($data['keywords']))){
+            //     $meta = Meta::where('id',$location->meta_id)
+            //                 ->update([
+            //                     'meta_title'       => $data['meta_title'],
+            //                     'meta_description' => $data['meta_description'],
+            //                     'keywords'         => $data['keywords'],
+            //                     'status'           => 1,
+            //                 ]);
+            // }
             
             $response = Location::where('id', $location->id)
                                 ->update([
@@ -142,7 +142,7 @@ class LocationController extends Controller
                                         'image'            => isset($data['image']) ? $data['image'] : NULL,
                                         'image_alt'        => isset($data['image_alt']) ? $data['image_alt'] : NULL,
                                         'repeater_content' => json_encode($data['repeater_content']),
-                                        'meta_id'          => $location->meta_id,
+                                        //'meta_id'          => $location->meta_id,
                                         'city_id'          => $data['city_id']
                                     ]);
 
