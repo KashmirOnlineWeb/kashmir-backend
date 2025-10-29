@@ -220,8 +220,8 @@ class HotelController extends Controller
             $request->merge(['hotel_id' => $id]);
                 
             $request->validate(['hotel_id'        => 'required|integer|exists:hotels,id']);       
-            /*$hotel = Hotel::find($id);
-            if(!empty($hotel->meta_id)){
+            $hotel = Hotel::find($id);
+            /*if(!empty($hotel->meta_id)){
                 Meta::destroy($hotel->meta_id);
             }*/
             $response = $hotel->destroy($id);
