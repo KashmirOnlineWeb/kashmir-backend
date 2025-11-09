@@ -18,6 +18,7 @@ class Hotel extends Model
                             'content',
                             'image',
                             'image_alt',
+                            'gallery_images',
                             'location',
                             'min_price',
                             'max_price',
