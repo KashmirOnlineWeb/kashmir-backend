@@ -54,6 +54,7 @@ class HotelController extends Controller
                             //'contact'         => 'sometimes|digits:10',
                             'image'           => 'sometimes|string|nullable',
                             'image_alt'       => 'sometimes|string|nullable',
+                            'gallery_images'  => 'sometimes|array',
                             'location'        => 'sometimes|string',
                             'min_price'       => 'required|numeric',
                             'max_price'       => 'required|numeric',
@@ -91,6 +92,7 @@ class HotelController extends Controller
                                         'image'             => $data['image'],
                                         'image_alt'         => $data['image_alt'],
                                         'location'          => $data['location'],
+                                        'gallery_images'    => isset($data['gallery_images']) ? json_encode($data['gallery_images']) : null,
                                         'min_price'         => $data['min_price'],
                                         'max_price'         => $data['max_price'],
                                         'rooms'             => $data['rooms'],
@@ -125,6 +127,7 @@ class HotelController extends Controller
         }*/
         
         $hotel->amenities = json_decode($hotel->amenities);
+        $hotel->gallery_images = $hotel->gallery_images ? json_decode($hotel->gallery_images, true) : [];
         
         return view('Hotel.edit',compact('cities', 'hotel'));
     }
@@ -148,6 +151,7 @@ class HotelController extends Controller
                             //'contact'         => 'sometimes|digits:10',
                             'image'           => 'sometimes|string|nullable',
                             'image_alt'       => 'sometimes|string|nullable',
+                            'gallery_images'  => 'sometimes|array',
                             'location'        => 'sometimes|string',
                             'min_price'       => 'required|numeric',
                             'max_price'       => 'required|numeric',
@@ -189,6 +193,7 @@ class HotelController extends Controller
                                         'image'             => $data['image'],
                                         'image_alt'         => $data['image_alt'],
                                         'location'          => $data['location'],
+                                        'gallery_images'    => isset($data['gallery_images']) ? json_encode($data['gallery_images']) : null,
                                         'min_price'         => $data['min_price'],
                                         'max_price'         => $data['max_price'],
                                         'rooms'             => $data['rooms'],
