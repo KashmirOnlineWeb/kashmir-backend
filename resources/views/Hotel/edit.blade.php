@@ -159,21 +159,6 @@
                         </div> -->
                     </div>
                     <div class="p-4">
-                        <h2 class="text-md font-semibold mb-2">Gallery Images</h2>
-                        <p class="text-sm text-gray-600 mb-4">Add optional gallery images for the hotel.</p>
-                        @php
-                            $galleryImagesData = old('gallery_images');
-                            if (is_null($galleryImagesData) && isset($hotel)) {
-                                $galleryImagesData = $hotel->gallery_images ?? [];
-                            }
-                            $galleryImagesData = $galleryImagesData ?? [];
-                        @endphp
-                        <image-repeater
-                            :initial-data='@json($galleryImagesData)'
-                            name-prefix="gallery_images"
-                        ></image-repeater>
-                    </div>
-                    <div class="p-4">
                         <h2 class="text-md font-semibold mb-2">Amenities</h2>
                         <p class="text-sm text-gray-600 mb-4">Select the amenities and features available at the
                             hotel.
@@ -235,6 +220,22 @@
                     </div>
 
                 </div>
+                <div class="w-full px-2 mb-4">
+                    <h2 class="text-md font-semibold mb-2">Gallery Images</h2>
+                    <p class="text-sm text-gray-600 mb-4">Add optional gallery images for the hotel.</p>
+                    @php
+                        $galleryImagesData = old('gallery_images');
+                        if (is_null($galleryImagesData) && isset($hotel)) {
+                            $galleryImagesData = $hotel->gallery_images ?? [];
+                        }
+                        $galleryImagesData = $galleryImagesData ?? [];
+                    @endphp
+                    <image-repeater
+                        :initial-data='@json($galleryImagesData)'
+                        name-prefix="gallery_images"
+                    ></image-repeater>
+                </div>
+                    
             </div>
 
             <!-- Section 2: Tabs for Content and Highlights -->
