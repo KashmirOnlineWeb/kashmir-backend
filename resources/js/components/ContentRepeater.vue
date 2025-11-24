@@ -1,6 +1,6 @@
 <template>
     <div>
-      <div v-for="(content, index) in contents" :key="content.id" class="relative mb-4 p-4 border rounded-md flex items-start py-4">
+      <div v-for="(content, index) in contents" :key="content.id" class="relative mb-4 p-4 border rounded-md">
         <div class="absolute -top-2 -right-2 p-1 cursor-pointer" @click.prevent="removeContent(index)">
           <div class="bg-black rounded-full p-1 shadow">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" viewBox="0 0 20 20" fill="currentColor">
@@ -8,30 +8,40 @@
             </svg>
           </div>
         </div>
-        <div class="flex-shrink-0 w-full sm:w-auto">
-          <ImageUploader v-if="content.showImage" :name="`${namePrefix}[${index}][file]`" :initialFile="content.file" @update:file="updateFile(index, $event)" />
-          <div v-if="content.showImage" class="mt-2">
-            <label class="block text-sm font-medium text-gray-700">Image Position</label>
-            <select v-model="content.imagePosition" :name="`${namePrefix}[${index}][imagePosition]`" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
-              <option value="left">Left</option>
-              <option value="right">Right</option>
-            </select>
+        <div class="flex items-start py-4">
+          <div class="flex-shrink-0 w-full sm:w-auto">
+            <ImageUploader v-if="content.showImage" :name="`${namePrefix}[${index}][file]`" :initialFile="content.file" @update:file="updateFile(index, $event)" />
+            <div v-if="content.showImage" class="mt-2">
+              <label class="block text-sm font-medium text-gray-700">Image Position</label>
+              <select v-model="content.imagePosition" :name="`${namePrefix}[${index}][imagePosition]`" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
+                <option value="left">Left</option>
+                <option value="right">Right</option>
+              </select>
+            </div>
+            <div class="mt-2">
+              <label class="block text-sm font-medium text-gray-700">Show Image</label>
+              <input type="checkbox" v-model="content.showImage" :name="`${namePrefix}[${index}][showImage]`" class="mt-1">
+            </div>
           </div>
-          <div class="mt-2">
-            <label class="block text-sm font-medium text-gray-700">Show Image</label>
-            <input type="checkbox" v-model="content.showImage" :name="`${namePrefix}[${index}][showImage]`" class="mt-1">
+          <div class="flex-grow pl-4 w-full sm:w-auto">
+            <!-- title -->
+          <div class="w-full mb-4">
+            <label class="block text-sm font-medium text-gray-700">Title</label>
+            <input type="text" v-model="content.title" :name="`${namePrefix}[${index}][title]`" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
+          </div>
+            <div class="mb-4">
+              <textarea v-model="content.content" :id="`${namePrefix}-${content.id}`" :name="`${namePrefix}[${index}][content]`" class="tinymce"></textarea>
+            </div>
+            <div v-if="content.error" class="text-red-500 text-sm mt-2">{{ content.error }}</div>
           </div>
         </div>
-        <div class="flex-grow pl-4 w-full sm:w-auto">
-          <!-- title -->
-        <div class="w-full mb-4">
-          <label class="block text-sm font-medium text-gray-700">Title</label>
-          <input type="text" v-model="content.title" :name="`${namePrefix}[${index}][title]`" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm py-1">
-        </div>
-          <div class="mb-4">
-            <textarea v-model="content.content" :id="`${namePrefix}-${content.id}`" :name="`${namePrefix}[${index}][content]`" class="tinymce"></textarea>
-          </div>
-          <div v-if="content.error" class="text-red-500 text-sm mt-2">{{ content.error }}</div>
+        <div class="mt-4 pt-4 border-t border-gray-200">
+          <button @click.prevent="addContentAfter(index)" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium text-xs py-1.5 px-3 rounded-lg flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+            </svg>
+            Add Section Below
+          </button>
         </div>
       </div>
       <button @click.prevent="addContent" class="bg-black/70 hover:bg-black text-white font-semibold text-sm py-1 px-3 rounded-lg flex items-center">
@@ -115,6 +125,13 @@
   
   const addContent = async () => {
     contents.value.push({ id: idCounter++, file: null, content: '', imagePosition: 'left', showImage: true, error: null });
+    updateContents();
+    await nextTick();
+    initializeTinyMCEForNew();
+  };
+  
+  const addContentAfter = async (index) => {
+    contents.value.splice(index + 1, 0, { id: idCounter++, file: null, content: '', imagePosition: 'left', showImage: true, error: null });
     updateContents();
     await nextTick();
     initializeTinyMCEForNew();
